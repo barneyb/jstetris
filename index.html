@@ -66,6 +66,7 @@
             [0, 0, 1, 0, 2, 0, 1, 1], // purple T
             [0, 0, 1, 0, 1, 1, 2, 1] // red Z
     ];
+    activePiece = null;
     for (var r = 0; r < ROWS; r++) {
         board[r] = [];
         for (var c = 0; c < COLS; c++) {
@@ -84,6 +85,9 @@
         boardEl.innerHTML = content;
     }
     setInterval(function() {
+        if (activePiece == null) {
+            activePiece = pieces[Math.floor(Math.random() * pieces.length)];
+        }
         paint();
     }, 500);
     paint();
