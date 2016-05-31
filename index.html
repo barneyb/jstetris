@@ -3,14 +3,50 @@
 <title>Tetris!</title>
 <style type="text/css">
     .row {
-        border: 1px solid red;
         height: 30px;
     }
+    /*noinspection CssUnusedSymbol*/
     .cell {
-        border: 3px outset green;
+        display: inline-block;
         width: 24px;
         height: 24px;
-        display: inline-block;
+        background-color: black;
+        border: 3px outset black;
+    }
+    /*noinspection CssUnusedSymbol*/
+    .cell-1 {
+        background-color: red;
+        border-color: red;
+    }
+    /*noinspection CssUnusedSymbol*/
+    .cell-2 {
+        background-color: yellow;
+        border-color: yellow;
+    }
+    /*noinspection CssUnusedSymbol*/
+    .cell-3 {
+        background-color: purple;
+        border-color: purple;
+    }
+    /*noinspection CssUnusedSymbol*/
+    .cell-4 {
+        background-color: grey;
+        border-color: grey;
+    }
+    /*noinspection CssUnusedSymbol*/
+    .cell-5 {
+        background-color: blue;
+        border-color: blue;
+    }
+    /*noinspection CssUnusedSymbol*/
+    .cell-6 {
+        background-color: red;
+        border-color: red;
+    }
+    /*noinspection CssUnusedSymbol*/
+    .cell-7 {
+        background-color: green;
+        border-color: green;
     }
 </style>
 </head>
@@ -23,7 +59,7 @@
         for (var r = 0; r < 20; r++) {
             content += '<div class="row">';
             for (var c = 0; c < 10; c++) {
-                content += '<div class="cell"></div>';
+                content += '<div class="cell cell-' + Math.floor(Math.random() * 8) + '"></div>';
             }
             content += "</div>";
         }
