@@ -104,20 +104,41 @@
             piece[i] += i % 2 ? dy : dx;
         }
     }
+    function canMove(piece, dx, dy) {
+        move(piece, dx, dy);
+        var result = true;
+        for (var i = 0; i < piece.length; i += 2) {
+            var x = piece[i],
+                y = piece[i + 1];
+            if (x < 0 || x >= COLS) {
+                result = false;
+                break;
+            }
+            if (y < 0 || y >= ROWS) {
+                result = false;
+                break;
+            }
+        }
+        move(piece, -dx, -dy);
+        return result;
+    }
     function tick() {
         if (activePiece == null) {
             var activeIndex = Math.floor(Math.random() * pieces.length);
             activePiece = pieces[activeIndex].slice();
             activeColor = activeIndex + 1;
             move(activePiece, 3, 0);
-        } else {
+            draw(activePiece, activeColor);
+        } else if (canMove(activePiece, 0, 1)) {
             draw(activePiece, BLACK); // erase
             move(activePiece, 0, 1); // move
+            draw(activePiece, activeColor);
+        } else {
+            activePiece = null;
         }
-        draw(activePiece, activeColor);
         paint();
     }
-    setInterval(tick, 500);
+    setInterval(tick, 200);
     tick();
 </script>
 </body>
