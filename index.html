@@ -55,6 +55,7 @@
 <script type="application/javascript">
     ROWS = 20;
     COLS = 10;
+    BLACK = 0;
     boardEl = document.getElementById("board");
     board = [];
     pieces = [
@@ -67,11 +68,11 @@
             [0, 0, 1, 0, 1, 1, 2, 1] // red Z
     ];
     activePiece = null;
-    activeColor = 0;
+    activeColor = BLACK;
     for (var r = 0; r < ROWS; r++) {
         board[r] = [];
         for (var c = 0; c < COLS; c++) {
-            board[r][c] = 0;
+            board[r][c] = BLACK;
         }
     }
     function paint() {
@@ -102,7 +103,7 @@
             activeColor = activeIndex + 1;
             move(activePiece, 3, 0);
         } else {
-            draw(activePiece, 0); // erase
+            draw(activePiece, BLACK); // erase
             move(activePiece, 0, 1); // move
         }
         draw(activePiece, activeColor);
