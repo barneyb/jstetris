@@ -53,19 +53,21 @@
 <body>
 <div id="board"></div>
 <script type="application/javascript">
+    ROWS = 20;
+    COLS = 10;
     boardEl = document.getElementById("board");
     board = [];
-    for (var r = 0; r < 20; r++) {
+    for (var r = 0; r < ROWS; r++) {
         board[r] = [];
-        for (var c = 0; c < 10; c++) {
+        for (var c = 0; c < COLS; c++) {
             board[r][c] = Math.floor(Math.random() * 8);
         }
     }
     function paint() {
         var content = "";
-        for (var r = 0; r < 20; r++) {
+        for (var r = 0; r < ROWS; r++) {
             content += '<div class="row">';
-            for (var c = 0; c < 10; c++) {
+            for (var c = 0; c < COLS; c++) {
                 content += '<div class="cell cell-' + board[r][c] + '"></div>';
             }
             content += "</div>";
