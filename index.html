@@ -85,9 +85,9 @@
         }
         boardEl.innerHTML = content;
     }
-    function draw(piece) {
+    function draw(piece, color) {
         for (var i = 0; i < piece.length; i += 2) {
-            board[piece[i + 1]][piece[i]] = activeColor;
+            board[piece[i + 1]][piece[i]] = color;
         }
     }
     function tick() {
@@ -96,7 +96,7 @@
             activePiece = pieces[activeIndex];
             activeColor = activeIndex + 1;
         }
-        draw(activePiece);
+        draw(activePiece, activeColor);
         paint();
     }
     setInterval(tick, 500);
