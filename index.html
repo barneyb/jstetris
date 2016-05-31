@@ -95,6 +95,10 @@
             var activeIndex = Math.floor(Math.random() * pieces.length);
             activePiece = pieces[activeIndex];
             activeColor = activeIndex + 1;
+            for (var i = 0; i < activePiece.length; i += 2) {
+                activePiece[i] += 3;
+            }
+        } else {
         }
         draw(activePiece, activeColor);
         paint();
