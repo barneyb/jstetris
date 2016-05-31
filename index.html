@@ -67,6 +67,7 @@
             [0, 0, 1, 0, 1, 1, 2, 1] // red Z
     ];
     activePiece = null;
+    activeColor = 0;
     for (var r = 0; r < ROWS; r++) {
         board[r] = [];
         for (var c = 0; c < COLS; c++) {
@@ -86,12 +87,14 @@
     }
     function draw(piece) {
         for (var i = 0; i < piece.length; i += 2) {
-            board[piece[i]][piece[i + 1]] = 2;
+            board[piece[i]][piece[i + 1]] = activeColor;
         }
     }
     function tick() {
         if (activePiece == null) {
-            activePiece = pieces[Math.floor(Math.random() * pieces.length)];
+            var activeIndex = Math.floor(Math.random() * pieces.length);
+            activePiece = pieces[activeIndex];
+            activeColor = activeIndex + 1;
         }
         draw(activePiece);
         paint();
