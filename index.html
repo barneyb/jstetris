@@ -135,7 +135,7 @@
             activeColor = activeIndex + 1;
             move(curr, 3, 0);
             if (! canMove(curr, 0, 0)) {
-                alert('game over!');
+                boardEl.innerHTML = '<h2>Game Over!</h2>';
                 clearInterval(interval);
                 return;
             }
