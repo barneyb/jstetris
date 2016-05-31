@@ -84,13 +84,16 @@
         }
         boardEl.innerHTML = content;
     }
+    function draw(piece) {
+        for (var i = 0; i < piece.length; i += 2) {
+            board[piece[i]][piece[i + 1]] = 2;
+        }
+    }
     setInterval(function() {
         if (activePiece == null) {
             activePiece = pieces[Math.floor(Math.random() * pieces.length)];
         }
-        for (var i = 0; i < activePiece.length; i += 2) {
-            board[activePiece[i]][activePiece[i + 1]] = 2;
-        }
+        draw(activePiece);
         paint();
     }, 500);
     paint();
