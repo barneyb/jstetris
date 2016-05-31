@@ -70,7 +70,7 @@
     for (var r = 0; r < ROWS; r++) {
         board[r] = [];
         for (var c = 0; c < COLS; c++) {
-            board[r][c] = Math.floor(Math.random() * 8);
+            board[r][c] = 0;
         }
     }
     function paint() {
@@ -87,6 +87,9 @@
     setInterval(function() {
         if (activePiece == null) {
             activePiece = pieces[Math.floor(Math.random() * pieces.length)];
+        }
+        for (var i = 0; i < activePiece.length; i += 2) {
+            board[activePiece[i]][activePiece[i + 1]] = 2;
         }
         paint();
     }, 500);
