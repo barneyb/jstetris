@@ -87,7 +87,7 @@
     }
     function draw(piece) {
         for (var i = 0; i < piece.length; i += 2) {
-            board[piece[i]][piece[i + 1]] = activeColor;
+            board[piece[i + 1]][piece[i]] = activeColor;
         }
     }
     function tick() {
