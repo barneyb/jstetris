@@ -102,6 +102,8 @@
             activeColor = activeIndex + 1;
             move(activePiece, 3, 0);
         } else {
+            draw(activePiece, 0); // erase
+            move(activePiece, 0, 1); // move
         }
         draw(activePiece, activeColor);
         paint();
