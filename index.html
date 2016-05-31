@@ -1,7 +1,18 @@
 <html>
 <head>
 <title>Tetris!</title>
-<style type="text/css"></style>
+<style type="text/css">
+    .row {
+        border: 1px solid red;
+        height: 30px;
+    }
+    .cell {
+        border: 3px outset green;
+        width: 24px;
+        height: 24px;
+        display: inline-block;
+    }
+</style>
 </head>
 <body>
 <div id="board"></div>
@@ -9,9 +20,9 @@
     boardEl = document.getElementById("board");
     content = "";
     for (var r = 0; r < 20; r++) {
-        content += "<div>";
+        content += '<div class="row">';
         for (var c = 0; c < 10; c++) {
-            content += "<div></div>";
+            content += '<div class="cell"></div>';
         }
         content += "</div>";
     }
