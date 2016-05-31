@@ -18,15 +18,21 @@
 <div id="board"></div>
 <script type="application/javascript">
     boardEl = document.getElementById("board");
-    content = "";
-    for (var r = 0; r < 20; r++) {
-        content += '<div class="row">';
-        for (var c = 0; c < 10; c++) {
-            content += '<div class="cell"></div>';
+    function paint() {
+        content = "";
+        for (var r = 0; r < 20; r++) {
+            content += '<div class="row">';
+            for (var c = 0; c < 10; c++) {
+                content += '<div class="cell"></div>';
+            }
+            content += "</div>";
         }
-        content += "</div>";
+        boardEl.innerHTML = content;
     }
-    boardEl.innerHTML = content;
+    setInterval(function() {
+        paint();
+    }, 500);
+    paint();
 </script>
 </body>
 </html>
