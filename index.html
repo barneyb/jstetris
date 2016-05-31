@@ -118,6 +118,10 @@
                 result = false;
                 break;
             }
+            if (board[y][x] != BLACK) {
+                result = false;
+                break;
+            }
         }
         move(piece, -dx, -dy);
         return result;
