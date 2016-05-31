@@ -57,6 +57,15 @@
     COLS = 10;
     boardEl = document.getElementById("board");
     board = [];
+    pieces = [
+            [0, 0, 1, 0, 2, 0, 3, 0], // cyan line
+            [0, 0, 1, 0, 2, 0, 2, 1], // blue reverse L
+            [0, 1, 1, 1, 2, 1, 2, 0], // orange L
+            [0, 0, 0, 1, 1, 0, 1, 1], // yellow square
+            [0, 1, 1, 1, 1, 0, 2, 0], // lime S
+            [0, 0, 1, 0, 2, 0, 1, 1], // purple T
+            [0, 0, 1, 0, 1, 1, 2, 1] // red Z
+    ];
     for (var r = 0; r < ROWS; r++) {
         board[r] = [];
         for (var c = 0; c < COLS; c++) {
