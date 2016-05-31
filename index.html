@@ -93,7 +93,7 @@
     function tick() {
         if (activePiece == null) {
             var activeIndex = Math.floor(Math.random() * pieces.length);
-            activePiece = pieces[activeIndex];
+            activePiece = pieces[activeIndex].slice();
             activeColor = activeIndex + 1;
             for (var i = 0; i < activePiece.length; i += 2) {
                 activePiece[i] += 3;
