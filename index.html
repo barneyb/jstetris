@@ -150,6 +150,26 @@
         draw(curr, activeColor);
         paint();
     }
+    document.addEventListener('keydown', function(event) {
+        switch (event.code) {
+            case 'ArrowLeft':
+                console.log("left?");
+                if (canMove(activePiece, -1, 0)) {
+                    console.log("left");
+                    move(activePiece, -1, 0)
+                }
+                break;
+            case 'ArrowRight':
+                console.log("right?");
+                if (canMove(activePiece, 1, 0)) {
+                    console.log("right");
+                    move(activePiece, 1, 0)
+                }
+                break;
+            default:
+                console && console.log && console.log(event.code, "is ignored");
+        }
+    });
     interval = setInterval(tick, 200);
     tick();
 </script>
