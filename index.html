@@ -90,14 +90,17 @@
             board[piece[i + 1]][piece[i]] = color;
         }
     }
+    function move(piece, dx, dy) {
+        for (var i = 0; i < piece.length; i++) {
+            piece[i] += i % 2 ? dy : dx;
+        }
+    }
     function tick() {
         if (activePiece == null) {
             var activeIndex = Math.floor(Math.random() * pieces.length);
             activePiece = pieces[activeIndex].slice();
             activeColor = activeIndex + 1;
-            for (var i = 0; i < activePiece.length; i += 2) {
-                activePiece[i] += 3;
-            }
+            move(activePiece, 3, 0);
         } else {
         }
         draw(activePiece, activeColor);
