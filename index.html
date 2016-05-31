@@ -89,14 +89,15 @@
             board[piece[i]][piece[i + 1]] = 2;
         }
     }
-    setInterval(function() {
+    function tick() {
         if (activePiece == null) {
             activePiece = pieces[Math.floor(Math.random() * pieces.length)];
         }
         draw(activePiece);
         paint();
-    }, 500);
-    paint();
+    }
+    setInterval(tick, 500);
+    tick();
 </script>
 </body>
 </html>
