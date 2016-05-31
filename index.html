@@ -123,19 +123,21 @@
         return result;
     }
     function tick() {
+        var curr = activePiece;
         if (activePiece == null) {
             var activeIndex = Math.floor(Math.random() * pieces.length);
-            activePiece = pieces[activeIndex].slice();
+            curr = activePiece = pieces[activeIndex].slice();
             activeColor = activeIndex + 1;
-            move(activePiece, 3, 0);
-            draw(activePiece, activeColor);
-        } else if (canMove(activePiece, 0, 1)) {
-            draw(activePiece, BLACK); // erase
-            move(activePiece, 0, 1); // move
-            draw(activePiece, activeColor);
+            move(curr, 3, 0);
         } else {
-            activePiece = null;
+            draw(curr, BLACK); // erase
+            if (canMove(curr, 0, 1)) {
+                move(curr, 0, 1); // move
+            } else {
+                activePiece = null;
+            }
         }
+        draw(curr, activeColor);
         paint();
     }
     setInterval(tick, 200);
