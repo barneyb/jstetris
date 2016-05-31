@@ -77,6 +77,7 @@
     ];
     activePiece = null;
     activeColor = BLACK;
+    interval = null;
     for (var r = 0; r < ROWS; r++) {
         board[r] = [];
         for (var c = 0; c < COLS; c++) {
@@ -133,6 +134,11 @@
             curr = activePiece = pieces[activeIndex].slice();
             activeColor = activeIndex + 1;
             move(curr, 3, 0);
+            if (! canMove(curr, 0, 0)) {
+                alert('game over!');
+                clearInterval(interval);
+                return;
+            }
         } else {
             draw(curr, BLACK); // erase
             if (canMove(curr, 0, 1)) {
@@ -144,7 +150,7 @@
         draw(curr, activeColor);
         paint();
     }
-    setInterval(tick, 200);
+    interval = setInterval(tick, 200);
     tick();
 </script>
 </body>
