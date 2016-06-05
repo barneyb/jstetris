@@ -100,14 +100,14 @@ document.addEventListener('keydown', function(event) {
     switch (event.code) {
         case 'ArrowLeft':
             console.log("left?");
-            if (canMove(activePiece, -1, 0)) {
+            if (activePiece && canMove(activePiece, -1, 0)) {
                 console.log("left");
                 move(activePiece, -1, 0)
             }
             break;
         case 'ArrowRight':
             console.log("right?");
-            if (canMove(activePiece, 1, 0)) {
+            if (activePiece && canMove(activePiece, 1, 0)) {
                 console.log("right");
                 move(activePiece, 1, 0)
             }
