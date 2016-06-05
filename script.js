@@ -69,22 +69,21 @@ function canMove(piece, dx, dy) {
     return true;
 }
 function tick() {
-    var curr = activePiece;
     if (activePiece == null) {
         var activeIndex = Math.floor(Math.random() * pieces.length);
-        curr = activePiece = pieces[activeIndex].slice();
+        activePiece = pieces[activeIndex].slice();
         activeColor = activeIndex + 1;
-        move(curr, 3, 0);
-        if (! canMove(curr, 0, 0)) {
+        move(activePiece, 3, 0);
+        if (! canMove(activePiece, 0, 0)) {
             boardEl.innerHTML = '<h2>Game Over!</h2>';
             clearInterval(interval);
             return;
         }
     } else {
-        if (canMove(curr, 0, 1)) {
-            move(curr, 0, 1); // move
+        if (canMove(activePiece, 0, 1)) {
+            move(activePiece, 0, 1); // move
         } else {
-            lock(curr, activeColor);
+            lock(activePiece, activeColor);
             activePiece = null;
         }
     }
