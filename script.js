@@ -21,12 +21,15 @@ for (var r = 0; r < ROWS; r++) {
         board[r][c] = BLACK;
     }
 }
+function getCellColor(r, c) {
+    return board[r][c];
+}
 function paint() {
     var content = "";
     for (var r = 0; r < ROWS; r++) {
         content += '<div class="row">';
         for (var c = 0; c < COLS; c++) {
-            content += '<div class="cell cell-' + board[r][c] + '"></div>';
+            content += '<div class="cell cell-' + getCellColor(r, c) + '"></div>';
         }
         content += "</div>";
     }
