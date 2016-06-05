@@ -53,26 +53,20 @@ function move(piece, dx, dy) {
     }
 }
 function canMove(piece, dx, dy) {
-    move(piece, dx, dy);
-    var result = true;
     for (var i = 0; i < piece.length; i += 2) {
-        var x = piece[i],
-            y = piece[i + 1];
+        var x = piece[i] + dx,
+            y = piece[i + 1] + dy;
         if (x < 0 || x >= COLS) {
-            result = false;
-            break;
+            return false;
         }
         if (y < 0 || y >= ROWS) {
-            result = false;
-            break;
+            return false;
         }
         if (board[y][x] != BLACK) {
-            result = false;
-            break;
+            return false;
         }
     }
-    move(piece, -dx, -dy);
-    return result;
+    return true;
 }
 function tick() {
     var curr = activePiece;
