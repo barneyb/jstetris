@@ -22,6 +22,13 @@ for (var r = 0; r < ROWS; r++) {
     }
 }
 function getCellColor(r, c) {
+    if (activePiece != null) {
+        for (var i = 0; i < activePiece.length; i += 2) {
+            if (activePiece[i + 1] == r && activePiece[i] == c) {
+                return activeColor;
+            }
+        }
+    }
     return board[r][c];
 }
 function paint() {
@@ -35,7 +42,7 @@ function paint() {
     }
     boardEl.innerHTML = content;
 }
-function draw(piece, color) {
+function lock(piece, color) {
     for (var i = 0; i < piece.length; i += 2) {
         board[piece[i + 1]][piece[i]] = color;
     }
@@ -80,14 +87,13 @@ function tick() {
             return;
         }
     } else {
-        draw(curr, BLACK); // erase
         if (canMove(curr, 0, 1)) {
             move(curr, 0, 1); // move
         } else {
+            lock(curr, activeColor);
             activePiece = null;
         }
     }
-    draw(curr, activeColor);
     paint();
 }
 document.addEventListener('keydown', function(event) {
