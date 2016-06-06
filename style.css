@@ -1,3 +1,16 @@
+#container {
+    width: 300px;
+    margin: auto;
+}
+
+#lineCount {
+    float: right;
+}
+
+#board {
+    clear: right;
+}
+
 .row {
     height: 30px;
 }
