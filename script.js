@@ -42,6 +42,7 @@ pieces = [
 ];
 activePiece = null;
 activeColor = BLACK;
+activeRotation = 0;
 interval = null;
 for (var r = 0; r < ROWS; r++) {
     board[r] = [];
@@ -119,6 +120,7 @@ function tick() {
         var activeIndex = Math.floor(Math.random() * pieces.length);
         activePiece = pieces[activeIndex].slice();
         activeColor = activeIndex + 1;
+        activeRotation = Math.floor(Math.random() * 4);
         move(activePiece, 3, 0);
         if (! canMove(activePiece, 0, 0)) {
             boardEl.innerHTML = '<h2>Game Over!</h2>' + boardEl.innerHTML;
