@@ -1,24 +1,27 @@
 ROWS = 20;
 COLS = 10;
 BLACK = 0;
-boardEl = document.getElementById("board");
-board = [];
-lineCountEl = document.getElementById("lineCount");
-lineCount = 0;
+
 function randN(n) {
     return Math.floor(Math.random() * n);
 }
 function randBool() {
     return randN(2) == 0;
 }
+
+lineCountEl = document.getElementById("lineCount");
+lineCount = 0;
 activePiece = null;
 interval = null;
+boardEl = document.getElementById("board");
+board = [];
 for (var r = 0; r < ROWS; r++) {
     board[r] = [];
     for (var c = 0; c < COLS; c++) {
         board[r][c] = BLACK;
     }
 }
+
 function getCellColor(r, c) {
     if (activePiece != null && activePiece.isAt(r, c)) {
         return activePiece.color;
@@ -77,6 +80,7 @@ function tick() {
     }
     paint();
 }
+
 document.addEventListener('keydown', function(event) {
     switch (event.code) {
         case 'ArrowUp':
