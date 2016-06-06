@@ -3,7 +3,8 @@ COLS = 10;
 BLACK = 0;
 boardEl = document.getElementById("board");
 board = [];
-function Piece(layoutTemplate) {
+function Piece(color, layoutTemplate) {
+    this.color = color;
     this.layout = layoutTemplate.slice(0);
 }
 Piece.prototype.move = function move(dr, dc) {
@@ -35,9 +36,9 @@ Piece.prototype.isAt = function isAt(r, c) {
     }
     return false;
 };
-Piece.prototype.lock = function lock(board, color) {
+Piece.prototype.lock = function lock(board) {
     for (var i = 0; i < this.layout.length; i += 2) {
-        board[this.layout[i]][this.layout[i + 1]] = color;
+        board[this.layout[i]][this.layout[i + 1]] = this.color;
     }
 };
 pieceLayoutTemplates = [
@@ -78,7 +79,6 @@ pieceLayoutTemplates = [
     [0,0, 0,1, 1,1, 1,2] // red Z
 ];
 activePiece = null;
-activeColor = BLACK;
 activeRotation = 0;
 interval = null;
 for (var r = 0; r < ROWS; r++) {
@@ -89,7 +89,7 @@ for (var r = 0; r < ROWS; r++) {
 }
 function getCellColor(r, c) {
     if (activePiece != null && activePiece.isAt(r, c)) {
-        return activeColor;
+        return activePiece.color;
     }
     return board[r][c];
 }
@@ -130,8 +130,7 @@ function randN(n) {
 function tick() {
     if (activePiece == null) {
         var activeIndex = randN(pieceLayoutTemplates.length);
-        activePiece = new Piece(pieceLayoutTemplates[activeIndex]);
-        activeColor = activeIndex + 1;
+        activePiece = new Piece(activeIndex + 1, pieceLayoutTemplates[activeIndex]);
         activeRotation = randN(4);
         activePiece.move(0, 3);
         if (! activePiece.canMove(0, 0)) {
@@ -143,7 +142,7 @@ function tick() {
         if (activePiece.canMove(1, 0)) {
             activePiece.move(1, 0); // move
         } else {
-            activePiece.lock(board, activeColor);
+            activePiece.lock(board);
             activePiece = null;
             processLines();
         }
