@@ -102,8 +102,6 @@ document.addEventListener('keydown', function(event) {
                 paint();
             }
             break;
-        //default:
-        //    console && console.log && console.log(event.code, "is ignored");
     }
 });
 interval = setInterval(tick, 300);
