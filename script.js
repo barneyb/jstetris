@@ -115,12 +115,15 @@ function processLines() {
         }
     }
 }
+function randN(n) {
+    return Math.floor(Math.random() * n);
+}
 function tick() {
     if (activePiece == null) {
-        var activeIndex = Math.floor(Math.random() * pieces.length);
+        var activeIndex = randN(pieces.length);
         activePiece = pieces[activeIndex].slice();
         activeColor = activeIndex + 1;
-        activeRotation = Math.floor(Math.random() * 4);
+        activeRotation = randN(4);
         move(activePiece, 3, 0);
         if (! canMove(activePiece, 0, 0)) {
             boardEl.innerHTML = '<h2>Game Over!</h2>' + boardEl.innerHTML;
