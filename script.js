@@ -8,37 +8,37 @@ pieces = [
     // x x x x   - - x -   - - - -   - x - -
     // - - - -   - - x -   x x x x   - x - -
     // - - - -   - - x -   - - - -   - x - -
-    [0,1, 1,1, 2,1, 3,1], // cyan I
+    [1,0, 1,1, 1,2, 1,3], // cyan I
     // - - - -   - - x -   - - - -   - - - -
     // x x x -   - - x -   - x - -   - x x -
     // - - x -   - x x -   - x x x   - x - -
     // - - - -   - - - -   - - - -   - x - -
-    [0,1, 1,1, 2,1, 2,2], // blue J
+    [1,0, 1,1, 1,2, 2,2], // blue J
     // - - - -   - x - -   - - - -   - - - -
     // - - x -   - x - -   - x x x   - x x -
     // x x x -   - x x -   - x - -   - - x -
     // - - - -   - - - -   - - - -   - - x -
-    [0,2, 1,2, 2,2, 2,1], // orange L
+    [2,0, 2,1, 2,2, 1,2], // orange L
     // x x - -   x x - -   x x - -   x x - -
     // x x - -   x x - -   x x - -   x x - -
     // - - - -   - - - -   - - - -   - - - -
     // - - - -   - - - -   - - - -   - - - -
-    [0,0, 0,1, 1,1, 1,0], // yellow O
+    [0,0, 1,0, 1,1, 0,1], // yellow O
     // - x x -   - x - -   - x x -   - x - -
     // x x - -   - x x -   x x - -   - x x -
     // - - - -   - - x -   - - - -   - - x -
     // - - - -   - - - -   - - - -   - - - -
-    [0,1, 1,1, 1,0, 2,1], // lime S
+    [1,0, 1,1, 0,1, 0,2], // lime S
     // - - - -   - x - -   - x - -   - x - -
     // x x x -   x x - -   x x x -   - x x -
     // - x - -   - x - -   - - - -   - x - -
     // - - - -   - - - -   - - - -   - - - -
-    [0,1, 1,1, 1,2, 2,1], // purple T
+    [1,0, 1,1, 2,1, 1,2], // purple T
     // x x - -   - - x -   x x - -   - - x -
     // - x x -   - x x -   - x x -   - x x -
     // - - - -   - x - -   - - - -   - x - -
     // - - - -   - - - -   - - - -   - - - -
-    [0,0, 1,0, 1,1, 2,1] // red Z
+    [0,0, 0,1, 1,1, 1,2] // red Z
 ];
 activePiece = null;
 activeColor = BLACK;
@@ -53,7 +53,7 @@ for (var r = 0; r < ROWS; r++) {
 function getCellColor(r, c) {
     if (activePiece != null) {
         for (var i = 0; i < activePiece.length; i += 2) {
-            if (activePiece[i + 1] == r && activePiece[i] == c) {
+            if (activePiece[i] == r && activePiece[i + 1] == c) {
                 return activeColor;
             }
         }
@@ -73,25 +73,25 @@ function paint() {
 }
 function lock(piece, color) {
     for (var i = 0; i < piece.length; i += 2) {
-        board[piece[i + 1]][piece[i]] = color;
+        board[piece[i]][piece[i + 1]] = color;
     }
 }
-function move(piece, dx, dy) {
+function move(piece, dr, dc) {
     for (var i = 0; i < piece.length; i++) {
-        piece[i] += i % 2 ? dy : dx;
+        piece[i] += i % 2 ? dc : dr;
     }
 }
-function canMove(piece, dx, dy) {
+function canMove(piece, dr, dc) {
     for (var i = 0; i < piece.length; i += 2) {
-        var x = piece[i] + dx,
-            y = piece[i + 1] + dy;
-        if (x < 0 || x >= COLS) {
+        var r = piece[i] + dr,
+            c = piece[i + 1] + dc;
+        if (c < 0 || c >= COLS) {
             return false;
         }
-        if (y < 0 || y >= ROWS) {
+        if (r < 0 || r >= ROWS) {
             return false;
         }
-        if (board[y][x] != BLACK) {
+        if (board[r][c] != BLACK) {
             return false;
         }
     }
@@ -124,15 +124,15 @@ function tick() {
         activePiece = pieces[activeIndex].slice();
         activeColor = activeIndex + 1;
         activeRotation = randN(4);
-        move(activePiece, 3, 0);
+        move(activePiece, 0, 3);
         if (! canMove(activePiece, 0, 0)) {
             boardEl.innerHTML = '<h2>Game Over!</h2>' + boardEl.innerHTML;
             clearInterval(interval);
             return;
         }
     } else {
-        if (canMove(activePiece, 0, 1)) {
-            move(activePiece, 0, 1); // move
+        if (canMove(activePiece, 1, 0)) {
+            move(activePiece, 1, 0); // move
         } else {
             lock(activePiece, activeColor);
             activePiece = null;
@@ -145,16 +145,16 @@ document.addEventListener('keydown', function(event) {
     switch (event.code) {
         case 'ArrowLeft':
             console.log("left?");
-            if (activePiece && canMove(activePiece, -1, 0)) {
+            if (activePiece && canMove(activePiece, 0, -1)) {
                 console.log("left");
-                move(activePiece, -1, 0)
+                move(activePiece, 0, -1)
             }
             break;
         case 'ArrowRight':
             console.log("right?");
-            if (activePiece && canMove(activePiece, 1, 0)) {
+            if (activePiece && canMove(activePiece, 0, 1)) {
                 console.log("right");
-                move(activePiece, 1, 0)
+                move(activePiece, 0, 1)
             }
             break;
         default:
