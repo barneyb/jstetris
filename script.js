@@ -12,8 +12,11 @@ function Piece(color, layoutTemplates) {
     this.layout = this.layouts[0];
 }
 Piece.prototype.move = function move(dr, dc) {
-    for (var i = 0; i < this.layout.length; i++) {
-        this.layout[i] += i % 2 ? dc : dr;
+    for (var i = 0; i < this.layouts.length; i++) {
+        var layout = this.layouts[i];
+        for (var j = 0; j < layout.length; j++) {
+            layout[j] += j % 2 ? dc : dr
+        }
     }
 };
 Piece.prototype.canMove = function canMove(dr, dc) {
