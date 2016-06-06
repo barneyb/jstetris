@@ -93,7 +93,7 @@ function tick() {
         activeColor = activeIndex + 1;
         move(activePiece, 3, 0);
         if (! canMove(activePiece, 0, 0)) {
-            boardEl.innerHTML = '<h2>Game Over!</h2>';
+            boardEl.innerHTML = '<h2>Game Over!</h2>' + boardEl.innerHTML;
             clearInterval(interval);
             return;
         }
