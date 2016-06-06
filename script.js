@@ -39,7 +39,7 @@ function paint() {
         content += "</div>";
     }
     boardEl.innerHTML = content;
-    lineCountEl.innerHTML = lineCount + " line(s)";
+    lineCountEl.innerHTML = lineCount == 1 ? "1 line" : (lineCount + " lines");
 }
 function processLines() {
     rowLoop:
