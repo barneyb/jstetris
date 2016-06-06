@@ -5,7 +5,11 @@ boardEl = document.getElementById("board");
 board = [];
 function Piece(color, layoutTemplates) {
     this.color = color;
-    this.layout = layoutTemplates[0].slice(0);
+    this.layoutTemplates = [];
+    for (var i = 0; i < layoutTemplates.length; i++) {
+        this.layoutTemplates[i] = layoutTemplates[i].slice(0)
+    }
+    this.layout = this.layoutTemplates[0];
 }
 Piece.prototype.move = function move(dr, dc) {
     for (var i = 0; i < this.layout.length; i++) {
