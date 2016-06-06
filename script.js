@@ -79,7 +79,6 @@ pieceLayoutTemplates = [
     [0,0, 0,1, 1,1, 1,2] // red Z
 ];
 activePiece = null;
-activeRotation = 0;
 interval = null;
 for (var r = 0; r < ROWS; r++) {
     board[r] = [];
@@ -131,7 +130,6 @@ function tick() {
     if (activePiece == null) {
         var activeIndex = randN(pieceLayoutTemplates.length);
         activePiece = new Piece(activeIndex + 1, pieceLayoutTemplates[activeIndex]);
-        activeRotation = randN(4);
         activePiece.move(0, 3);
         if (! activePiece.canMove(0, 0)) {
             boardEl.innerHTML = '<h2>Game Over!</h2>' + boardEl.innerHTML;
