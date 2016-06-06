@@ -115,8 +115,10 @@ function processLines() {
         }
     }
 }
+__NEXT_RAND = 0;
 function randN(n) {
-    return Math.floor(Math.random() * n);
+    return __NEXT_RAND++ % n;
+    //return Math.floor(Math.random() * n);
 }
 function tick() {
     if (activePiece == null) {
