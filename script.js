@@ -3,13 +3,18 @@ COLS = 10;
 BLACK = 0;
 boardEl = document.getElementById("board");
 board = [];
+__NEXT_RAND = 0;
+function randN(n) {
+    return __NEXT_RAND++ % n;
+    //return Math.floor(Math.random() * n);
+}
 function Piece(color, layoutTemplates) {
     this.color = color;
     this.layouts = [];
     for (var i = 0; i < layoutTemplates.length; i++) {
         this.layouts[i] = layoutTemplates[i].slice(0)
     }
-    this.layout = this.layouts[0];
+    this.layout = this.layouts[randN(this.layouts.length)];
 }
 Piece.prototype.move = function move(dr, dc) {
     for (var i = 0; i < this.layouts.length; i++) {
@@ -169,11 +174,6 @@ function processLines() {
             board[0][cz] = BLACK;
         }
     }
-}
-__NEXT_RAND = 0;
-function randN(n) {
-    return __NEXT_RAND++ % n;
-    //return Math.floor(Math.random() * n);
 }
 function tick() {
     if (activePiece == null) {
