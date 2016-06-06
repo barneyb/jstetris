@@ -17,7 +17,8 @@ function Piece(color, layoutTemplates) {
     for (var i = 0; i < layoutTemplates.length; i++) {
         this.layouts[i] = layoutTemplates[i].slice(0)
     }
-    this.layout = this.layouts[randN(this.layouts.length)];
+    this.rotation = randN(this.layouts.length);
+    this.layout = this.layouts[this.rotation];
 }
 Piece.prototype.centerAndRaise = function centerAndRaise() {
     var minRow = ROWS, minCol = COLS, maxCol = 0;
@@ -36,6 +37,30 @@ Piece.prototype.centerAndRaise = function centerAndRaise() {
         dc = Math.ceil(dc);
     }
     this.move(dr, dc);
+};
+Piece.prototype.rotate = function rotate(dr) {
+    this.rotation += dr;
+    this.rotation %= this.layouts.length;
+    this.layout = this.layouts[this.rotation];
+};
+Piece.prototype.canRotate = function canRotate(dr) {
+    var rot = this.rotation + dr;
+    rot %= this.layouts.length;
+    var layout = this.layouts[rot];
+    for (var i = 0; i < layout.length; i += 2) {
+        var r = layout[i],
+            c = layout[i + 1];
+        if (c < 0 || c >= COLS) {
+            return false;
+        }
+        if (r < 0 || r >= ROWS) {
+            return false;
+        }
+        if (board[r][c] != BLACK) {
+            return false;
+        }
+    }
+    return true;
 };
 Piece.prototype.move = function move(dr, dc) {
     for (var i = 0; i < this.layouts.length; i++) {
@@ -219,6 +244,11 @@ function tick() {
 }
 document.addEventListener('keydown', function(event) {
     switch (event.code) {
+        case 'ArrowUp':
+            if (activePiece && activePiece.canRotate(1)) {
+                activePiece.rotate(1);
+            }
+            break;
         case 'ArrowLeft':
             if (activePiece && activePiece.canMove(0, -1)) {
                 activePiece.move(0, -1);
