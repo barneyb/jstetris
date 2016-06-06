@@ -3,7 +3,31 @@ COLS = 10;
 BLACK = 0;
 boardEl = document.getElementById("board");
 board = [];
-pieces = [
+function Piece(layoutTemplate) {
+    this.layout = layoutTemplate.slice(0);
+}
+Piece.prototype.move = function move(dr, dc) {
+    for (var i = 0; i < this.layout.length; i++) {
+        this.layout[i] += i % 2 ? dc : dr;
+    }
+};
+Piece.prototype.canMove = function canMove(dr, dc) {
+    for (var i = 0; i < this.layout.length; i += 2) {
+        var r = this.layout[i] + dr,
+            c = this.layout[i + 1] + dc;
+        if (c < 0 || c >= COLS) {
+            return false;
+        }
+        if (r < 0 || r >= ROWS) {
+            return false;
+        }
+        if (board[r][c] != BLACK) {
+            return false;
+        }
+    }
+    return true;
+};
+pieceLayoutTemplates = [
     // - - - -   - - x -   - - - -   - x - -
     // x x x x   - - x -   - - - -   - x - -
     // - - - -   - - x -   x x x x   - x - -
@@ -52,8 +76,8 @@ for (var r = 0; r < ROWS; r++) {
 }
 function getCellColor(r, c) {
     if (activePiece != null) {
-        for (var i = 0; i < activePiece.length; i += 2) {
-            if (activePiece[i] == r && activePiece[i + 1] == c) {
+        for (var i = 0; i < activePiece.layout.length; i += 2) {
+            if (activePiece.layout[i] == r && activePiece.layout[i + 1] == c) {
                 return activeColor;
             }
         }
@@ -72,30 +96,9 @@ function paint() {
     boardEl.innerHTML = content;
 }
 function lock(piece, color) {
-    for (var i = 0; i < piece.length; i += 2) {
-        board[piece[i]][piece[i + 1]] = color;
+    for (var i = 0; i < piece.layout.length; i += 2) {
+        board[piece.layout[i]][piece.layout[i + 1]] = color;
     }
-}
-function move(piece, dr, dc) {
-    for (var i = 0; i < piece.length; i++) {
-        piece[i] += i % 2 ? dc : dr;
-    }
-}
-function canMove(piece, dr, dc) {
-    for (var i = 0; i < piece.length; i += 2) {
-        var r = piece[i] + dr,
-            c = piece[i + 1] + dc;
-        if (c < 0 || c >= COLS) {
-            return false;
-        }
-        if (r < 0 || r >= ROWS) {
-            return false;
-        }
-        if (board[r][c] != BLACK) {
-            return false;
-        }
-    }
-    return true;
 }
 function processLines() {
     rowLoop:
@@ -122,19 +125,19 @@ function randN(n) {
 }
 function tick() {
     if (activePiece == null) {
-        var activeIndex = randN(pieces.length);
-        activePiece = pieces[activeIndex].slice();
+        var activeIndex = randN(pieceLayoutTemplates.length);
+        activePiece = new Piece(pieceLayoutTemplates[activeIndex]);
         activeColor = activeIndex + 1;
         activeRotation = randN(4);
-        move(activePiece, 0, 3);
-        if (! canMove(activePiece, 0, 0)) {
+        activePiece.move(0, 3);
+        if (! activePiece.canMove(0, 0)) {
             boardEl.innerHTML = '<h2>Game Over!</h2>' + boardEl.innerHTML;
             clearInterval(interval);
             return;
         }
     } else {
-        if (canMove(activePiece, 1, 0)) {
-            move(activePiece, 1, 0); // move
+        if (activePiece.canMove(1, 0)) {
+            activePiece.move(1, 0); // move
         } else {
             lock(activePiece, activeColor);
             activePiece = null;
@@ -146,13 +149,13 @@ function tick() {
 document.addEventListener('keydown', function(event) {
     switch (event.code) {
         case 'ArrowLeft':
-            if (activePiece && canMove(activePiece, 0, -1)) {
-                move(activePiece, 0, -1);
+            if (activePiece && activePiece.canMove(0, -1)) {
+                activePiece.move(0, -1);
             }
             break;
         case 'ArrowRight':
-            if (activePiece && canMove(activePiece, 0, 1)) {
-                move(activePiece, 0, 1);
+            if (activePiece && activePiece.canMove(0, 1)) {
+                activePiece.move(0, 1);
             }
             break;
         //default:
