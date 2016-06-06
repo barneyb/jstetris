@@ -27,6 +27,19 @@ Piece.prototype.canMove = function canMove(dr, dc) {
     }
     return true;
 };
+Piece.prototype.isAt = function isAt(r, c) {
+    for (var i = 0; i < this.layout.length; i += 2) {
+        if (this.layout[i] == r && this.layout[i + 1] == c) {
+            return true;
+        }
+    }
+    return false;
+};
+Piece.prototype.lock = function lock(board, color) {
+    for (var i = 0; i < this.layout.length; i += 2) {
+        board[this.layout[i]][this.layout[i + 1]] = color;
+    }
+};
 pieceLayoutTemplates = [
     // - - - -   - - x -   - - - -   - x - -
     // x x x x   - - x -   - - - -   - x - -
@@ -75,12 +88,8 @@ for (var r = 0; r < ROWS; r++) {
     }
 }
 function getCellColor(r, c) {
-    if (activePiece != null) {
-        for (var i = 0; i < activePiece.layout.length; i += 2) {
-            if (activePiece.layout[i] == r && activePiece.layout[i + 1] == c) {
-                return activeColor;
-            }
-        }
+    if (activePiece != null && activePiece.isAt(r, c)) {
+        return activeColor;
     }
     return board[r][c];
 }
@@ -94,11 +103,6 @@ function paint() {
         content += "</div>";
     }
     boardEl.innerHTML = content;
-}
-function lock(piece, color) {
-    for (var i = 0; i < piece.layout.length; i += 2) {
-        board[piece.layout[i]][piece.layout[i + 1]] = color;
-    }
 }
 function processLines() {
     rowLoop:
@@ -139,7 +143,7 @@ function tick() {
         if (activePiece.canMove(1, 0)) {
             activePiece.move(1, 0); // move
         } else {
-            lock(activePiece, activeColor);
+            activePiece.lock(board, activeColor);
             activePiece = null;
             processLines();
         }
@@ -162,5 +166,5 @@ document.addEventListener('keydown', function(event) {
         //    console && console.log && console.log(event.code, "is ignored");
     }
 });
-interval = setInterval(tick, 200);
+interval = setInterval(tick, 100);
 tick();
