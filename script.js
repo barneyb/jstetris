@@ -5,10 +5,8 @@ boardEl = document.getElementById("board");
 board = [];
 lineCountEl = document.getElementById("lineCount");
 lineCount = 0;
-__NEXT_RAND = 1;
 function randN(n) {
-    return __NEXT_RAND++ % n;
-    //return Math.floor(Math.random() * n);
+    return Math.floor(Math.random() * n);
 }
 function randBool() {
     return randN(2) == 0;
@@ -103,5 +101,5 @@ document.addEventListener('keydown', function(event) {
         //    console && console.log && console.log(event.code, "is ignored");
     }
 });
-interval = setInterval(tick, 500);
+interval = setInterval(tick, 300);
 tick();
