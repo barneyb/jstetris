@@ -68,6 +68,24 @@ function canMove(piece, dx, dy) {
     }
     return true;
 }
+function processLines() {
+    rowLoop:
+    for (var r = 0; r < ROWS; r++) {
+        for (var c = 0; c < COLS; c++) {
+            if (board[r][c] == BLACK) {
+                continue rowLoop;
+            }
+        }
+        for (var rr = r; rr > 0; rr--) {
+            for (var cc = 0; cc < COLS; cc++) {
+                board[rr][cc] = board[rr - 1][cc];
+            }
+        }
+        for (var cz = 0; cz < COLS; cz++) {
+            board[0][cz] = BLACK;
+        }
+    }
+}
 function tick() {
     if (activePiece == null) {
         var activeIndex = Math.floor(Math.random() * pieces.length);
@@ -85,6 +103,7 @@ function tick() {
         } else {
             lock(activePiece, activeColor);
             activePiece = null;
+            processLines();
         }
     }
     paint();
