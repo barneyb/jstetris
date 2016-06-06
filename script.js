@@ -10,6 +10,7 @@ function randBool() {
 }
 
 lineCountEl = document.getElementById("lineCount");
+statusEl = document.getElementById("status");
 lineCount = 0;
 activePiece = null;
 interval = null;
@@ -65,7 +66,7 @@ function tick() {
         activePiece = new Piece(activeIndex + 1, pieceLayoutTemplates[activeIndex]);
         activePiece.centerAndRaise();
         if (! activePiece.canMove(0, 0)) {
-            boardEl.innerHTML = '<h2>Game Over!</h2>' + boardEl.innerHTML;
+            statusEl.innerHTML = "Game Over!";
             clearInterval(interval);
             return;
         }
