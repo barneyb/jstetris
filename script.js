@@ -3,9 +3,9 @@ COLS = 10;
 BLACK = 0;
 boardEl = document.getElementById("board");
 board = [];
-function Piece(color, layoutTemplate) {
+function Piece(color, layoutTemplates) {
     this.color = color;
-    this.layout = layoutTemplate.slice(0);
+    this.layout = layoutTemplates[0].slice(0);
 }
 Piece.prototype.move = function move(dr, dc) {
     for (var i = 0; i < this.layout.length; i++) {
@@ -42,41 +42,83 @@ Piece.prototype.lock = function lock() {
     }
 };
 pieceLayoutTemplates = [
+    // cyan I
     // - - - -   - - x -   - - - -   - x - -
     // x x x x   - - x -   - - - -   - x - -
     // - - - -   - - x -   x x x x   - x - -
     // - - - -   - - x -   - - - -   - x - -
-    [1,0, 1,1, 1,2, 1,3], // cyan I
+    [
+        [1,0, 1,1, 1,2, 1,3],
+        [],
+        [],
+        []
+    ],
+    // blue J
     // - - - -   - - x -   - - - -   - - - -
     // x x x -   - - x -   - x - -   - x x -
     // - - x -   - x x -   - x x x   - x - -
     // - - - -   - - - -   - - - -   - x - -
-    [1,0, 1,1, 1,2, 2,2], // blue J
+    [
+        [1,0, 1,1, 1,2, 2,2],
+        [],
+        [],
+        []
+    ],
+    // orange L
     // - - - -   - x - -   - - - -   - - - -
     // - - x -   - x - -   - x x x   - x x -
     // x x x -   - x x -   - x - -   - - x -
     // - - - -   - - - -   - - - -   - - x -
-    [2,0, 2,1, 2,2, 1,2], // orange L
+    [
+        [2,0, 2,1, 2,2, 1,2],
+        [],
+        [],
+        []
+    ],
+    // yellow O
     // x x - -   x x - -   x x - -   x x - -
     // x x - -   x x - -   x x - -   x x - -
     // - - - -   - - - -   - - - -   - - - -
     // - - - -   - - - -   - - - -   - - - -
-    [0,0, 1,0, 1,1, 0,1], // yellow O
+    [
+        [0,0, 1,0, 1,1, 0,1],
+        [],
+        [],
+        []
+    ],
+    // lime S
     // - x x -   - x - -   - x x -   - x - -
     // x x - -   - x x -   x x - -   - x x -
     // - - - -   - - x -   - - - -   - - x -
     // - - - -   - - - -   - - - -   - - - -
-    [1,0, 1,1, 0,1, 0,2], // lime S
+    [
+        [1,0, 1,1, 0,1, 0,2],
+        [],
+        [],
+        []
+    ],
+    // purple T
     // - - - -   - x - -   - x - -   - x - -
     // x x x -   x x - -   x x x -   - x x -
     // - x - -   - x - -   - - - -   - x - -
     // - - - -   - - - -   - - - -   - - - -
-    [1,0, 1,1, 2,1, 1,2], // purple T
+    [
+        [1,0, 1,1, 2,1, 1,2],
+        [],
+        [],
+        []
+    ],
+    // red Z
     // x x - -   - - x -   x x - -   - - x -
     // - x x -   - x x -   - x x -   - x x -
     // - - - -   - x - -   - - - -   - x - -
     // - - - -   - - - -   - - - -   - - - -
-    [0,0, 0,1, 1,1, 1,2] // red Z
+    [
+        [0,0, 0,1, 1,1, 1,2],
+        [],
+        [],
+        []
+    ]
 ];
 activePiece = null;
 interval = null;
