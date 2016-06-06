@@ -3,6 +3,8 @@ COLS = 10;
 BLACK = 0;
 boardEl = document.getElementById("board");
 board = [];
+lineCountEl = document.getElementById("lineCount");
+lineCount = 0;
 __NEXT_RAND = 1;
 function randN(n) {
     return __NEXT_RAND++ % n;
@@ -208,6 +210,7 @@ function paint() {
         content += "</div>";
     }
     boardEl.innerHTML = content;
+    lineCountEl.innerHTML = lineCount + " line(s)";
 }
 function processLines() {
     rowLoop:
@@ -217,6 +220,7 @@ function processLines() {
                 continue rowLoop;
             }
         }
+        lineCount += 1;
         for (var rr = r; rr > 0; rr--) {
             for (var cc = 0; cc < COLS; cc++) {
                 board[rr][cc] = board[rr - 1][cc];
