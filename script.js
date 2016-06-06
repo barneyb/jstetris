@@ -3,7 +3,7 @@ COLS = 10;
 BLACK = 0;
 boardEl = document.getElementById("board");
 board = [];
-__NEXT_RAND = 0;
+__NEXT_RAND = 1;
 function randN(n) {
     return __NEXT_RAND++ % n;
     //return Math.floor(Math.random() * n);
@@ -53,7 +53,10 @@ Piece.prototype.canRotate = function canRotate(dr) {
         if (c < 0 || c >= COLS) {
             return false;
         }
-        if (r < 0 || r >= ROWS) {
+        if (r < 0) {
+            continue; // allow rotating off the top of the board
+        }
+        if (r >= ROWS) {
             return false;
         }
         if (board[r][c] != BLACK) {
@@ -77,7 +80,10 @@ Piece.prototype.canMove = function canMove(dr, dc) {
         if (c < 0 || c >= COLS) {
             return false;
         }
-        if (r < 0 || r >= ROWS) {
+        if (r < 0) {
+            continue; // allow rotating off the top of the board
+        }
+        if (r >= ROWS) {
             return false;
         }
         if (board[r][c] != BLACK) {
@@ -263,5 +269,5 @@ document.addEventListener('keydown', function(event) {
         //    console && console.log && console.log(event.code, "is ignored");
     }
 });
-interval = setInterval(tick, 100);
+interval = setInterval(tick, 500);
 tick();
