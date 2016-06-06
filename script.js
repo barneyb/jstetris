@@ -36,7 +36,7 @@ Piece.prototype.isAt = function isAt(r, c) {
     }
     return false;
 };
-Piece.prototype.lock = function lock(board) {
+Piece.prototype.lock = function lock() {
     for (var i = 0; i < this.layout.length; i += 2) {
         board[this.layout[i]][this.layout[i + 1]] = this.color;
     }
@@ -140,7 +140,7 @@ function tick() {
         if (activePiece.canMove(1, 0)) {
             activePiece.move(1, 0); // move
         } else {
-            activePiece.lock(board);
+            activePiece.lock();
             activePiece = null;
             processLines();
         }
