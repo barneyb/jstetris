@@ -5,10 +5,10 @@
 /*noinspection CssUnusedSymbol*/
 .cell {
     display: inline-block;
-    width: 24px;
-    height: 24px;
+    width: 22px;
+    height: 22px;
     background-color: black;
-    border: 3px outset black;
+    border: 4px outset black;
 }
 
 /*noinspection CssUnusedSymbol*/
