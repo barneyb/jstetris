@@ -146,21 +146,17 @@ function tick() {
 document.addEventListener('keydown', function(event) {
     switch (event.code) {
         case 'ArrowLeft':
-            console.log("left?");
             if (activePiece && canMove(activePiece, 0, -1)) {
-                console.log("left");
-                move(activePiece, 0, -1)
+                move(activePiece, 0, -1);
             }
             break;
         case 'ArrowRight':
-            console.log("right?");
             if (activePiece && canMove(activePiece, 0, 1)) {
-                console.log("right");
-                move(activePiece, 0, 1)
+                move(activePiece, 0, 1);
             }
             break;
-        default:
-            console && console.log && console.log(event.code, "is ignored");
+        //default:
+        //    console && console.log && console.log(event.code, "is ignored");
     }
 });
 interval = setInterval(tick, 200);
