@@ -253,16 +253,19 @@ document.addEventListener('keydown', function(event) {
         case 'ArrowUp':
             if (activePiece && activePiece.canRotate(1)) {
                 activePiece.rotate(1);
+                paint();
             }
             break;
         case 'ArrowLeft':
             if (activePiece && activePiece.canMove(0, -1)) {
                 activePiece.move(0, -1);
+                paint();
             }
             break;
         case 'ArrowRight':
             if (activePiece && activePiece.canMove(0, 1)) {
                 activePiece.move(0, 1);
+                paint();
             }
             break;
         //default:
