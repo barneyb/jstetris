@@ -8,6 +8,9 @@ function randN(n) {
     return __NEXT_RAND++ % n;
     //return Math.floor(Math.random() * n);
 }
+function randBool() {
+    return randN(2) == 0;
+}
 function Piece(color, layoutTemplates) {
     this.color = color;
     this.layouts = [];
@@ -16,6 +19,24 @@ function Piece(color, layoutTemplates) {
     }
     this.layout = this.layouts[randN(this.layouts.length)];
 }
+Piece.prototype.centerAndRaise = function centerAndRaise() {
+    var minRow = ROWS, minCol = COLS, maxCol = 0;
+    for (var i = 0; i < this.layout.length; i += 2) {
+        var r = this.layout[i],
+            c = this.layout[i + 1];
+        minRow = Math.min(minRow, r);
+        minCol = Math.min(minCol, c);
+        maxCol = Math.max(maxCol, c);
+    }
+    var dr = -minRow;
+    var dc = (COLS - (maxCol - minCol + 1)) / 2 - minCol;
+    if (randBool()) {
+        dc = Math.floor(dc);
+    } else {
+        dc = Math.ceil(dc);
+    }
+    this.move(dr, dc);
+};
 Piece.prototype.move = function move(dr, dc) {
     for (var i = 0; i < this.layouts.length; i++) {
         var layout = this.layouts[i];
@@ -179,7 +200,7 @@ function tick() {
     if (activePiece == null) {
         var activeIndex = randN(pieceLayoutTemplates.length);
         activePiece = new Piece(activeIndex + 1, pieceLayoutTemplates[activeIndex]);
-        activePiece.move(0, 3);
+        activePiece.centerAndRaise();
         if (! activePiece.canMove(0, 0)) {
             boardEl.innerHTML = '<h2>Game Over!</h2>' + boardEl.innerHTML;
             clearInterval(interval);
