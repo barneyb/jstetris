@@ -40,7 +40,7 @@ function paint() {
     for (var r = 0; r < ROWS; r++) {
         content += '<div class="row">';
         for (var c = 0; c < COLS; c++) {
-            content += '<div class="cell cell-' + getCellColor(r, c) + '"></div>';
+            content += '<div class="cell cell-' + (gameState == GAME_PAUSED ? 0 : getCellColor(r, c)) + '"></div>';
         }
         content += "</div>";
     }
@@ -96,6 +96,7 @@ document.addEventListener('keydown', function(event) {
             case 'KeyP':
                 interval = setInterval(tick, TICK_INTERVAL);
                 gameState = GAME_IN_PROGRESS;
+                paint();
                 break;
         }
     } else if (gameState == GAME_IN_PROGRESS) {
@@ -122,6 +123,7 @@ document.addEventListener('keydown', function(event) {
                 clearInterval(interval);
                 interval = null;
                 gameState = GAME_PAUSED;
+                paint();
                 break;
         }
     }
