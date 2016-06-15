@@ -83,35 +83,37 @@ function tick() {
 }
 
 document.addEventListener('keydown', function(event) {
-    switch (event.code) {
-        case 'ArrowUp':
-            if (activePiece && activePiece.canRotate(1)) {
-                activePiece.rotate(1);
-                paint();
-            }
-            break;
-        case 'ArrowLeft':
-            if (activePiece && activePiece.canMove(0, -1)) {
-                activePiece.move(0, -1);
-                paint();
-            }
-            break;
-        case 'ArrowRight':
-            if (activePiece && activePiece.canMove(0, 1)) {
-                activePiece.move(0, 1);
-                paint();
-            }
-            break;
-        case 'KeyP':
-            if (interval == null) {
+    if (interval == null) {
+        switch (event.code) {
+            case 'KeyP':
                 interval = setInterval(tick, 300);
-            } else {
+                break;
+        }
+    } else {
+        switch (event.code) {
+            case 'ArrowUp':
+                if (activePiece && activePiece.canRotate(1)) {
+                    activePiece.rotate(1);
+                    paint();
+                }
+                break;
+            case 'ArrowLeft':
+                if (activePiece && activePiece.canMove(0, -1)) {
+                    activePiece.move(0, -1);
+                    paint();
+                }
+                break;
+            case 'ArrowRight':
+                if (activePiece && activePiece.canMove(0, 1)) {
+                    activePiece.move(0, 1);
+                    paint();
+                }
+                break;
+            case 'KeyP':
                 clearInterval(interval);
                 interval = null;
-            }
-            break;
-        default:
-            console.log(event.code)
+                break;
+        }
     }
 });
 interval = setInterval(tick, 300);
