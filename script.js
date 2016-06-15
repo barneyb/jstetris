@@ -1,6 +1,7 @@
 ROWS = 20;
 COLS = 10;
 BLACK = 0;
+TICK_INTERVAL = 300;
 
 function randN(n) {
     return Math.floor(Math.random() * n);
@@ -86,7 +87,7 @@ document.addEventListener('keydown', function(event) {
     if (interval == null) {
         switch (event.code) {
             case 'KeyP':
-                interval = setInterval(tick, 300);
+                interval = setInterval(tick, TICK_INTERVAL);
                 break;
         }
     } else {
@@ -116,5 +117,5 @@ document.addEventListener('keydown', function(event) {
         }
     }
 });
-interval = setInterval(tick, 300);
+interval = setInterval(tick, TICK_INTERVAL);
 tick();
