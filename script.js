@@ -102,6 +102,16 @@ document.addEventListener('keydown', function(event) {
                 paint();
             }
             break;
+        case 'KeyP':
+            if (interval == null) {
+                interval = setInterval(tick, 300);
+            } else {
+                clearInterval(interval);
+                interval = null;
+            }
+            break;
+        default:
+            console.log(event.code)
     }
 });
 interval = setInterval(tick, 300);
