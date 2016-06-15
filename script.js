@@ -2,6 +2,10 @@ ROWS = 20;
 COLS = 10;
 BLACK = 0;
 TICK_INTERVAL = 300;
+GAME_NOT_STARTED = 0;
+GAME_IN_PROGRESS = 1;
+GAME_PAUSED = 2;
+GAME_OVER = 3;
 
 function randN(n) {
     return Math.floor(Math.random() * n);
@@ -14,6 +18,7 @@ lineCountEl = document.getElementById("lineCount");
 statusEl = document.getElementById("status");
 lineCount = 0;
 activePiece = null;
+gameState = GAME_NOT_STARTED;
 interval = null;
 boardEl = document.getElementById("board");
 board = [];
@@ -70,6 +75,7 @@ function tick() {
             statusEl.innerHTML = "Game Over!";
             clearInterval(interval);
             interval = null;
+            gameState = GAME_OVER;
             return;
         }
     } else {
@@ -85,13 +91,14 @@ function tick() {
 }
 
 document.addEventListener('keydown', function(event) {
-    if (interval == null) {
+    if (gameState == GAME_PAUSED) {
         switch (event.code) {
             case 'KeyP':
                 interval = setInterval(tick, TICK_INTERVAL);
+                gameState = GAME_IN_PROGRESS;
                 break;
         }
-    } else {
+    } else if (gameState == GAME_IN_PROGRESS) {
         switch (event.code) {
             case 'ArrowUp':
                 if (activePiece && activePiece.canRotate(1)) {
@@ -114,9 +121,11 @@ document.addEventListener('keydown', function(event) {
             case 'KeyP':
                 clearInterval(interval);
                 interval = null;
+                gameState = GAME_PAUSED;
                 break;
         }
     }
 });
 interval = setInterval(tick, TICK_INTERVAL);
+gameState = GAME_IN_PROGRESS;
 tick();
