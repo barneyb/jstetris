@@ -28,3 +28,4 @@ It's ready to play at http://barneyb.github.io/jstetris/
 * Levels (speed)
 * Time elapsed
 * Piece preview
+* High score table
