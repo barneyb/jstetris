@@ -69,6 +69,7 @@ function tick() {
         if (! activePiece.canMove(0, 0)) {
             statusEl.innerHTML = "Game Over!";
             clearInterval(interval);
+            interval = null;
             return;
         }
     } else {
