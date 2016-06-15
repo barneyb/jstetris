@@ -70,14 +70,12 @@ function tick() {
             clearInterval(interval);
             return;
         }
+    } else  if (activePiece.canMove(1, 0)) {
+        activePiece.move(1, 0); // move
     } else {
-        if (activePiece.canMove(1, 0)) {
-            activePiece.move(1, 0); // move
-        } else {
-            activePiece.lock();
-            activePiece = null;
-            processLines();
-        }
+        activePiece.lock();
+        activePiece = null;
+        processLines();
     }
     paint();
 }
