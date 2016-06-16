@@ -29,25 +29,21 @@ Piece.prototype.rotate = function rotate(dr) {
     this.rotation += dr;
     this.rotation %= this.layouts.length;
     this.layout = this.layouts[this.rotation];
-    var dc = 0;
     kickLoop:
         while (true) {
             for (var i = 0; i < this.layout.length; i += 2) {
-                var c = this.layout[i + 1] + dc;
+                var c = this.layout[i + 1];
                 if (c < 0) {
-                    dc += 1;
+                    this.move(0, 1);
                     continue kickLoop;
                 }
                 if (c >= COLS) {
-                    dc -= 1;
+                    this.move(0, -1);
                     continue kickLoop;
                 }
             }
             break;
         }
-    if (dc != 0) {
-        this.move(0, dc);
-    }
 };
 Piece.prototype.canRotate = function canRotate(dr) {
     var rot = this.rotation + dr;
