@@ -18,12 +18,11 @@ It's ready to play at http://barneyb.github.io/jstetris/
 ## Extra Features
 
 * Pause game
+* Wall kick
 
 ## Unsupported Features
 
-* Pause
 * Hard/Soft Drop
-* Wall kick
 * Row clearing visual feedback
 * Scoring
   * per piece placed
