@@ -1,5 +1,5 @@
 #container {
-    width: 300px;
+    width: 320px;
     margin: auto;
 }
 
@@ -9,10 +9,12 @@
 
 #board {
     clear: right;
+    background-color: #222;
+    border: 5px inset #999;
 }
 
 .row {
-    height: 30px;
+    height: 31px;
 }
 
 .cell {
@@ -21,6 +23,7 @@
     height: 22px;
     background-color: black;
     border: 4px outset black;
+    margin: 1px 1px 0 0;
 }
 
 .cell-1 {
@@ -49,8 +52,8 @@
 }
 
 .cell-6 {
-    background-color: purple;
-    border-color: purple;
+    background-color: #990099;
+    border-color: #990099;
 }
 
 .cell-7 {
