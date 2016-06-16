@@ -1,6 +1,11 @@
 ROWS = 20;
 COLS = 10;
 BLACK = 0;
+TICK_INTERVAL = 300;
+GAME_NOT_STARTED = 0;
+GAME_IN_PROGRESS = 1;
+GAME_PAUSED = 2;
+GAME_OVER = 3;
 
 function randN(n) {
     return Math.floor(Math.random() * n);
@@ -13,6 +18,7 @@ lineCountEl = document.getElementById("lineCount");
 statusEl = document.getElementById("status");
 lineCount = 0;
 activePiece = null;
+gameState = GAME_NOT_STARTED;
 interval = null;
 boardEl = document.getElementById("board");
 board = [];
@@ -34,9 +40,14 @@ function paint() {
     for (var r = 0; r < ROWS; r++) {
         content += '<div class="row">';
         for (var c = 0; c < COLS; c++) {
-            content += '<div class="cell cell-' + getCellColor(r, c) + '"></div>';
+            content += '<div class="cell cell-' + (gameState == GAME_PAUSED ? 0 : getCellColor(r, c)) + '"></div>';
         }
         content += "</div>";
+    }
+    if (gameState == GAME_PAUSED) {
+        statusEl.innerHTML = "Paused";
+    } else {
+        statusEl.innerHTML = "";
     }
     boardEl.innerHTML = content;
     lineCountEl.innerHTML = lineCount == 1 ? "1 line" : (lineCount + " lines");
@@ -68,6 +79,8 @@ function tick() {
         if (! activePiece.canMove(0, 0)) {
             statusEl.innerHTML = "Game Over!";
             clearInterval(interval);
+            interval = null;
+            gameState = GAME_OVER;
             return;
         }
     } else  if (activePiece.canMove(1, 0)) {
@@ -81,26 +94,43 @@ function tick() {
 }
 
 document.addEventListener('keydown', function(event) {
-    switch (event.code) {
-        case 'ArrowUp':
-            if (activePiece && activePiece.canRotate(1)) {
-                activePiece.rotate(1);
+    if (gameState == GAME_PAUSED) {
+        switch (event.code) {
+            case 'KeyP':
+                interval = setInterval(tick, TICK_INTERVAL);
+                gameState = GAME_IN_PROGRESS;
                 paint();
-            }
-            break;
-        case 'ArrowLeft':
-            if (activePiece && activePiece.canMove(0, -1)) {
-                activePiece.move(0, -1);
+                break;
+        }
+    } else if (gameState == GAME_IN_PROGRESS) {
+        switch (event.code) {
+            case 'ArrowUp':
+                if (activePiece && activePiece.canRotate(1)) {
+                    activePiece.rotate(1);
+                    paint();
+                }
+                break;
+            case 'ArrowLeft':
+                if (activePiece && activePiece.canMove(0, -1)) {
+                    activePiece.move(0, -1);
+                    paint();
+                }
+                break;
+            case 'ArrowRight':
+                if (activePiece && activePiece.canMove(0, 1)) {
+                    activePiece.move(0, 1);
+                    paint();
+                }
+                break;
+            case 'KeyP':
+                clearInterval(interval);
+                interval = null;
+                gameState = GAME_PAUSED;
                 paint();
-            }
-            break;
-        case 'ArrowRight':
-            if (activePiece && activePiece.canMove(0, 1)) {
-                activePiece.move(0, 1);
-                paint();
-            }
-            break;
+                break;
+        }
     }
 });
-interval = setInterval(tick, 300);
+interval = setInterval(tick, TICK_INTERVAL);
+gameState = GAME_IN_PROGRESS;
 tick();

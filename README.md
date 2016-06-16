@@ -6,7 +6,7 @@ The intent is NOT to be a good tetris implementation, but rather to slowly build
 
 It's ready to play at http://barneyb.github.io/jstetris/
 
-## Supported Features
+## Core Features
 
 * Piece rotation (up arrow)
 * Piece movement (left/right arrows)
@@ -14,6 +14,10 @@ It's ready to play at http://barneyb.github.io/jstetris/
 * Line counting
 * Restart game (refresh the page)
 * End-of-game detection
+
+## Extra Features
+
+* Pause game
 
 ## Unsupported Features
 
