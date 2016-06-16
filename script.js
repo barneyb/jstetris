@@ -44,6 +44,11 @@ function paint() {
         }
         content += "</div>";
     }
+    if (gameState == GAME_PAUSED) {
+        statusEl.innerHTML = "Paused";
+    } else {
+        statusEl.innerHTML = "";
+    }
     boardEl.innerHTML = content;
     lineCountEl.innerHTML = lineCount == 1 ? "1 line" : (lineCount + " lines");
 }
