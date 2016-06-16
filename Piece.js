@@ -37,7 +37,10 @@ Piece.prototype.canRotate = function canRotate(dr) {
     for (var i = 0; i < layout.length; i += 2) {
         var r = layout[i],
             c = layout[i + 1];
-        if (c < 0 || c >= COLS) {
+        if (c < 0) {
+            return false;
+        }
+        if (c >= COLS) {
             return false;
         }
         if (r < 0) {
