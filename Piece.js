@@ -29,30 +29,56 @@ Piece.prototype.rotate = function rotate(dr) {
     this.rotation += dr;
     this.rotation %= this.layouts.length;
     this.layout = this.layouts[this.rotation];
+    var dc = 0;
+    kickLoop:
+        while (true) {
+            for (var i = 0; i < this.layout.length; i += 2) {
+                var c = this.layout[i + 1] + dc;
+                if (c < 0) {
+                    dc += 1;
+                    continue kickLoop;
+                }
+                if (c >= COLS) {
+                    dc -= 1;
+                    continue kickLoop;
+                }
+            }
+            break;
+        }
+    if (dc != 0) {
+        this.move(0, dc);
+    }
 };
 Piece.prototype.canRotate = function canRotate(dr) {
     var rot = this.rotation + dr;
     rot %= this.layouts.length;
     var layout = this.layouts[rot];
-    for (var i = 0; i < layout.length; i += 2) {
-        var r = layout[i],
-            c = layout[i + 1];
-        if (c < 0) {
-            return false;
+    var dc = 0;
+    kickLoop:
+        while (true) {
+            for (var i = 0; i < layout.length; i += 2) {
+                var r = layout[i],
+                    c = layout[i + 1] + dc;
+                if (c < 0) {
+                    dc += 1;
+                    continue kickLoop;
+                }
+                if (c >= COLS) {
+                    dc -= 1;
+                    continue kickLoop;
+                }
+                if (r < 0) {
+                    continue; // allow rotating off the top of the board
+                }
+                if (r >= ROWS) {
+                    return false;
+                }
+                if (board[r][c] != BLACK) {
+                    return false;
+                }
+            }
+            break;
         }
-        if (c >= COLS) {
-            return false;
-        }
-        if (r < 0) {
-            continue; // allow rotating off the top of the board
-        }
-        if (r >= ROWS) {
-            return false;
-        }
-        if (board[r][c] != BLACK) {
-            return false;
-        }
-    }
     return true;
 };
 Piece.prototype.move = function move(dr, dc) {
