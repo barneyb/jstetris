@@ -2,10 +2,12 @@ ROWS = 20;
 COLS = 10;
 BLACK = 0;
 TICK_INTERVAL = 300;
-GAME_NOT_STARTED = 0;
-GAME_IN_PROGRESS = 1;
-GAME_PAUSED = 2;
-GAME_OVER = 3;
+STATE = {
+    NOT_STARTED: 0,
+    IN_PROGRESS: 1,
+    PAUSED: 2,
+    OVER: 3
+};
 
 function randN(n) {
     return Math.floor(Math.random() * n);
@@ -18,7 +20,7 @@ lineCountEl = document.getElementById("lineCount");
 statusEl = document.getElementById("status");
 lineCount = 0;
 activePiece = null;
-gameState = GAME_NOT_STARTED;
+gameState = STATE.NOT_STARTED;
 interval = null;
 boardEl = document.getElementById("board");
 board = [];
@@ -40,11 +42,11 @@ function paint() {
     for (var r = 0; r < ROWS; r++) {
         content += '<div class="row">';
         for (var c = 0; c < COLS; c++) {
-            content += '<div class="cell cell-' + (gameState == GAME_PAUSED ? 0 : getCellColor(r, c)) + '"></div>';
+            content += '<div class="cell cell-' + (gameState == STATE.PAUSED ? 0 : getCellColor(r, c)) + '"></div>';
         }
         content += "</div>";
     }
-    if (gameState == GAME_PAUSED) {
+    if (gameState == STATE.PAUSED) {
         statusEl.innerHTML = "Paused";
     } else {
         statusEl.innerHTML = "";
@@ -80,7 +82,7 @@ function tick() {
             statusEl.innerHTML = "Game Over!";
             clearInterval(interval);
             interval = null;
-            gameState = GAME_OVER;
+            gameState = STATE.OVER;
             return;
         }
     } else  if (activePiece.canMove(1, 0)) {
@@ -94,15 +96,15 @@ function tick() {
 }
 
 document.addEventListener('keydown', function(event) {
-    if (gameState == GAME_PAUSED) {
+    if (gameState == STATE.PAUSED) {
         switch (event.code) {
             case 'KeyP':
                 interval = setInterval(tick, TICK_INTERVAL);
-                gameState = GAME_IN_PROGRESS;
+                gameState = STATE.IN_PROGRESS;
                 paint();
                 break;
         }
-    } else if (gameState == GAME_IN_PROGRESS) {
+    } else if (gameState == STATE.IN_PROGRESS) {
         switch (event.code) {
             case 'ArrowUp':
                 if (activePiece && activePiece.canRotate(1)) {
@@ -125,12 +127,12 @@ document.addEventListener('keydown', function(event) {
             case 'KeyP':
                 clearInterval(interval);
                 interval = null;
-                gameState = GAME_PAUSED;
+                gameState = STATE.PAUSED;
                 paint();
                 break;
         }
     }
 });
 interval = setInterval(tick, TICK_INTERVAL);
-gameState = GAME_IN_PROGRESS;
+gameState = STATE.IN_PROGRESS;
 tick();
