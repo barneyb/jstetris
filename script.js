@@ -73,6 +73,11 @@ function processLines() {
         }
     }
 }
+function lockActivePiece() {
+    activePiece.lock();
+    activePiece = null;
+    processLines();
+}
 function tick() {
     if (activePiece == null) {
         var activeIndex = randN(pieceLayoutTemplates.length);
@@ -88,9 +93,7 @@ function tick() {
     } else  if (activePiece.canMove(1, 0)) {
         activePiece.move(1, 0); // move
     } else {
-        activePiece.lock();
-        activePiece = null;
-        processLines();
+        lockActivePiece();
     }
     paint();
 }
@@ -117,9 +120,7 @@ document.addEventListener('keydown', function(event) {
                     while (activePiece.canMove(1, 0)) {
                         activePiece.move(1, 0);
                     }
-                    activePiece.lock();
-                    activePiece = null;
-                    processLines();
+                    lockActivePiece();
                     paint();
                 }
                 break;
