@@ -19,10 +19,11 @@ It's ready to play at http://barneyb.github.io/jstetris/
 
 * Pause game
 * Wall kick
+* Hard drop
 
 ## Unsupported Features
 
-* Hard/Soft Drop
+* Soft Drop
 * Row clearing visual feedback
 * Scoring
   * per piece placed
