@@ -112,6 +112,17 @@ document.addEventListener('keydown', function(event) {
                     paint();
                 }
                 break;
+            case 'ArrowDown':
+                if (activePiece) {
+                    while (activePiece.canMove(1, 0)) {
+                        activePiece.move(1, 0);
+                    }
+                    activePiece.lock();
+                    activePiece = null;
+                    processLines();
+                    paint();
+                }
+                break;
             case 'ArrowLeft':
                 if (activePiece && activePiece.canMove(0, -1)) {
                     activePiece.move(0, -1);
