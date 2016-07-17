@@ -69,7 +69,7 @@ Piece.prototype.canRotate = function canRotate(dr) {
                 if (r >= ROWS) {
                     return false;
                 }
-                if (board[r][c] != BLACK) {
+                if (model.board[r][c] != BLACK) {
                     return false;
                 }
             }
@@ -98,7 +98,7 @@ Piece.prototype.canMove = function canMove(dr, dc) {
         if (r >= ROWS) {
             return false;
         }
-        if (board[r][c] != BLACK) {
+        if (model.board[r][c] != BLACK) {
             return false;
         }
     }
@@ -114,6 +114,6 @@ Piece.prototype.isAt = function isAt(r, c) {
 };
 Piece.prototype.lock = function lock() {
     for (var i = 0; i < this.layout.length; i += 2) {
-        board[this.layout[i]][this.layout[i + 1]] = this.color;
+        model.board[this.layout[i]][this.layout[i + 1]] = this.color;
     }
 };
