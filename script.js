@@ -2,8 +2,9 @@ BLACK = 0;
 STATE = {
     NOT_STARTED: 0,
     IN_PROGRESS: 1,
-    PAUSED: 2,
-    OVER: 3
+    LINE_CLEARING: 2,
+    PAUSED: 3,
+    OVER: 4
 };
 
 Math.randN = function randN(n) {
@@ -35,13 +36,16 @@ function paint() {
     ui.lineCount.innerHTML = model.lineCount;
     var content = "";
     for (r = 0; r < Model.ROWS; r++) {
-        content += '<div class="row">';
+        content += '<div id="row-' + r + '" class="row">';
         for (c = 0; c < Model.COLS; c++) {
             content += '<div class="cell cell-' + model.getCellColor(r, c) + '"></div>';
         }
         content += "</div>";
     }
     ui.board.innerHTML = content;
+    for (var i = 0; i < model.completeLines.length; i++) {
+        document.getElementById('row-' + model.completeLines[i]).className += " complete";
+    }
     if (model.isPieceQueued()) {
         var piece = model.queuedPiece;
         content = "";

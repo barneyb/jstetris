@@ -43,6 +43,12 @@ fieldset {
     height: 31px;
 }
 
+.row.complete {
+    opacity: 0.5;
+    -webkit-filter: brightness(200%);
+    filter: brightness(200%);
+}
+
 .cell {
     display: inline-block;
     width: 22px;
