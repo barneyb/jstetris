@@ -48,6 +48,8 @@ function paint() {
     }
     if (gameState == STATE.PAUSED) {
         statusEl.innerHTML = "Paused";
+    } else if (gameState == STATE.OVER) {
+        statusEl.innerHTML = "Game Over!";
     } else {
         statusEl.innerHTML = "";
     }
@@ -84,11 +86,10 @@ function tick() {
         activePiece = new Piece(activeIndex + 1, pieceLayoutTemplates[activeIndex]);
         activePiece.centerAndRaise();
         if (! activePiece.canMove(0, 0)) {
-            statusEl.innerHTML = "Game Over!";
             clearInterval(interval);
             interval = null;
+            activePiece = null;
             gameState = STATE.OVER;
-            return;
         }
     } else  if (activePiece.canMove(1, 0)) {
         activePiece.move(1, 0); // move
