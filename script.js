@@ -17,10 +17,12 @@ model = new Model();
 ui = {
     lineCount: document.getElementById("lineCount"),
     status: document.getElementById("status"),
+    piecePreview: document.getElementById("piecePreview"),
     board: document.getElementById("board")
 };
 
 function paint() {
+    var r, c;
     if (model.isGamePaused()) {
         ui.status.innerHTML = "Paused";
         ui.status.className = "show";
@@ -32,14 +34,26 @@ function paint() {
     }
     ui.lineCount.innerHTML = model.lineCount;
     var content = "";
-    for (var r = 0; r < Model.ROWS; r++) {
+    for (r = 0; r < Model.ROWS; r++) {
         content += '<div class="row">';
-        for (var c = 0; c < Model.COLS; c++) {
+        for (c = 0; c < Model.COLS; c++) {
             content += '<div class="cell cell-' + model.getCellColor(r, c) + '"></div>';
         }
         content += "</div>";
     }
     ui.board.innerHTML = content;
+    if (model.isPieceQueued()) {
+        var piece = model.queuedPiece;
+        content = "";
+        for (r = 0; r < 4; r++) {
+            content += '<div class="row">';
+            for (c = 3; c < 7; c++) {
+                content += '<div class="cell cell-' + (piece.isAt(r, c) ? piece.color : BLACK) + '"></div>';
+            }
+            content += "</div>";
+        }
+        ui.piecePreview.innerHTML = content;
+    }
 }
 
 document.addEventListener('keydown', function(event) {

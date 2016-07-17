@@ -52,6 +52,31 @@ fieldset {
     margin: 1px 1px 0 0;
 }
 
+#piecePreview {
+    margin: auto;
+    padding: 5px;
+    width: 84px;
+    height: 84px;
+    background-color: #ccc;
+}
+#piecePreview .row {
+    height: 21px;
+}
+#piecePreview .cell {
+    width: 20px;
+    height: 20px;
+    border-style: none;
+}
+#piecePreview .cell-0 {
+    background-color: #ccc;
+    border-color: #ccc;
+}
+
+.cell-0 {
+    background-color: black;
+    border-color: black;
+}
+
 .cell-1 {
     background-color: cyan;
     border-color: cyan;
