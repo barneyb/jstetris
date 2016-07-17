@@ -3,6 +3,7 @@ function Model() {
     this.state = STATE.NOT_STARTED;
     this.lineCount = 0;
     this.activePiece = null;
+    this.nextPiece = null;
     this.interval = null;
     this.board = [];
     this.initializeBoard();
@@ -38,12 +39,17 @@ Model.prototype.unpause = function unpause() {
 
 Model.prototype.startGame = function startGame() {
     var self = this;
+    function getPiece() {
+        var activeIndex = Math.randN(pieceLayoutTemplates.length);
+        return new Piece(activeIndex + 1, pieceLayoutTemplates[activeIndex]);
+    }
+    self.nextPiece = getPiece();
     function tick() {
         if (self.isGamePaused()) {
             return;
         } else if (! self.isPieceActive()) {
-            var activeIndex = Math.randN(pieceLayoutTemplates.length);
-            self.activePiece = new Piece(activeIndex + 1, pieceLayoutTemplates[activeIndex]);
+            self.activePiece = self.nextPiece;
+            self.nextPiece = getPiece();
             self.activePiece.centerAndRaise();
             if (! self.activePiece.canMove(0, 0)) {
                 self.gameOver();
