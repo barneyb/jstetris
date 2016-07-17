@@ -86,8 +86,7 @@ document.addEventListener('keydown', function(event) {
     if (model.isGamePaused()) {
         switch (event.code) {
             case 'KeyP':
-                model.interval = setInterval(tick, TICK_DELTA);
-                model.state = STATE.IN_PROGRESS;
+                model.unpause();
                 paint();
                 break;
         }
@@ -121,9 +120,7 @@ document.addEventListener('keydown', function(event) {
                 }
                 break;
             case 'KeyP':
-                clearInterval(model.interval);
-                model.interval = null;
-                model.state = STATE.PAUSED;
+                model.pause();
                 paint();
                 break;
         }

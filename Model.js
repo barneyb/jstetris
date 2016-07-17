@@ -27,6 +27,15 @@ Model.prototype.isGamePaused = function() {
 Model.prototype.isGameOver = function() {
     return model.state == STATE.OVER;
 };
+Model.prototype.pause = function() {
+    clearInterval(this.interval);
+    this.interval = null;
+    this.state = STATE.PAUSED;
+};
+Model.prototype.unpause = function() {
+    this.interval = setInterval(tick, this.tickDelta);
+    this.state = STATE.IN_PROGRESS;
+};
 Model.prototype.gameOver = function() {
     this.state = STATE.OVER;
     clearInterval(this.interval);
