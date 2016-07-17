@@ -1,4 +1,5 @@
-function Model() {
+function Model(tickDelta) {
+    this.tickDelta = tickDelta;
     this.state = STATE.NOT_STARTED;
     this.lineCount = 0;
     this.activePiece = null;
@@ -33,7 +34,7 @@ Model.prototype.gameOver = function() {
     this.activePiece = null;
 };
 Model.prototype.startGame = function(tick) {
-    this.interval = setInterval(tick, TICK_INTERVAL);
+    this.interval = setInterval(tick, this.tickDelta);
     this.state = STATE.IN_PROGRESS;
     tick();
 };

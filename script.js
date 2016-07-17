@@ -1,7 +1,7 @@
 ROWS = 20;
 COLS = 10;
 BLACK = 0;
-TICK_INTERVAL = 300;
+TICK_DELTA = 300;
 STATE = {
     NOT_STARTED: 0,
     IN_PROGRESS: 1,
@@ -16,7 +16,7 @@ function randBool() {
     return randN(2) == 0;
 }
 
-model = new Model();
+model = new Model(TICK_DELTA);
 ui = {
     lineCount: document.getElementById("lineCount"),
     status: document.getElementById("status"),
@@ -86,7 +86,7 @@ document.addEventListener('keydown', function(event) {
     if (model.isGamePaused()) {
         switch (event.code) {
             case 'KeyP':
-                model.interval = setInterval(tick, TICK_INTERVAL);
+                model.interval = setInterval(tick, TICK_DELTA);
                 model.state = STATE.IN_PROGRESS;
                 paint();
                 break;
