@@ -20,6 +20,7 @@ It's ready to play at http://barneyb.github.io/jstetris/
 * Pause game
 * Wall kick
 * Hard drop
+* Piece preview
 
 ## Unsupported Features
 
@@ -32,6 +33,5 @@ It's ready to play at http://barneyb.github.io/jstetris/
   * drop bonus
 * Levels (speed)
 * Time elapsed
-* Piece preview
 * High score table
 * Save/load game
