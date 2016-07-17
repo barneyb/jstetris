@@ -100,9 +100,24 @@ Model.prototype.processLines = function() {
         }
     }
 };
-Model.prototype.dropActivePiece = function() {
-    while (this.activePiece.canMove(1, 0)) {
-        this.activePiece.move(1, 0);
+Model.prototype.drop = function() {
+    if (this.isPieceActive()) {
+        while (this.activePiece.canMove(1, 0)) {
+            this.activePiece.move(1, 0);
+        }
+        this.lockActivePiece();
+        this.paintCallback();
     }
-    this.lockActivePiece();
+};
+Model.prototype.rotate = function() {
+    if (this.isPieceActive() && this.activePiece.canRotate(1)) {
+        this.activePiece.rotate(1);
+        this.paintCallback();
+    }
+};
+Model.prototype.move = function(r, c) {
+    if (this.isPieceActive() && this.activePiece.canMove(r, c)) {
+        this.activePiece.move(r, c);
+        this.paintCallback();
+    }
 };

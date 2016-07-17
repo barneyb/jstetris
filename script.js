@@ -51,28 +51,16 @@ document.addEventListener('keydown', function(event) {
     } else if (model.isGameInProgress()) {
         switch (event.code) {
             case 'ArrowUp':
-                if (model.isPieceActive() && model.activePiece.canRotate(1)) {
-                    model.activePiece.rotate(1);
-                    paint();
-                }
+                model.rotate();
                 break;
             case 'ArrowDown':
-                if (model.isPieceActive()) {
-                    model.dropActivePiece();
-                    paint();
-                }
+                model.drop();
                 break;
             case 'ArrowLeft':
-                if (model.isPieceActive() && model.activePiece.canMove(0, -1)) {
-                    model.activePiece.move(0, -1);
-                    paint();
-                }
+                model.move(0, -1);
                 break;
             case 'ArrowRight':
-                if (model.isPieceActive() && model.activePiece.canMove(0, 1)) {
-                    model.activePiece.move(0, 1);
-                    paint();
-                }
+                model.move(0, 1);
                 break;
             case 'KeyP':
                 model.pause();
