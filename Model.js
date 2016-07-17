@@ -104,7 +104,10 @@ Model.prototype.move = function move(r, c) {
     }
 };
 Model.prototype.lockActivePiece = function lockActivePiece() {
-    this.activePiece.lock();
+    var layout = this.activePiece.getCurrentLayout();
+    for (var i = 0; i < layout.length; i += 2) {
+        this.board[layout[i]][layout[i + 1]] = this.activePiece.color;
+    }
     this.activePiece = null;
     this.processLines();
 };

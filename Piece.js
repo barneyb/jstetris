@@ -112,8 +112,6 @@ Piece.prototype.isAt = function isAt(r, c) {
     }
     return false;
 };
-Piece.prototype.lock = function lock() {
-    for (var i = 0; i < this.layout.length; i += 2) {
-        model.board[this.layout[i]][this.layout[i + 1]] = this.color;
-    }
+Piece.prototype.getCurrentLayout = function getCurrentLayout() {
+    return this.layout.slice(0);
 };
