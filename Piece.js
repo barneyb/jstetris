@@ -7,17 +7,27 @@ function Piece(color, layoutTemplates) {
     this.rotation = Math.randN(this.layouts.length);
     this.layout = this.layouts[this.rotation];
 }
-Piece.prototype.centerAndRaise = function centerAndRaise() {
-    var minRow = Model.ROWS, minCol = Model.COLS, maxCol = 0;
+Piece.prototype.getBounds = function getBounds() {
+    var bounds = {
+        minRow: Model.ROWS,
+        maxRow: 0,
+        minCol: Model.COLS,
+        maxCol: 0
+    };
     for (var i = 0; i < this.layout.length; i += 2) {
         var r = this.layout[i],
             c = this.layout[i + 1];
-        minRow = Math.min(minRow, r);
-        minCol = Math.min(minCol, c);
-        maxCol = Math.max(maxCol, c);
+        bounds.minRow = Math.min(bounds.minRow, r);
+        bounds.maxRow = Math.max(bounds.maxRow, r);
+        bounds.minCol = Math.min(bounds.minCol, c);
+        bounds.maxCol = Math.max(bounds.maxCol, c);
     }
-    var dr = -minRow;
-    var dc = (Model.COLS - (maxCol - minCol + 1)) / 2 - minCol;
+    return bounds;
+};
+Piece.prototype.centerAndRaise = function centerAndRaise() {
+    var bounds = this.getBounds();
+    var dr = -bounds.minRow;
+    var dc = (Model.COLS - (bounds.maxCol - bounds.minCol + 1)) / 2 - bounds.minCol;
     if (Math.randBool()) {
         dc = Math.floor(dc);
     } else {
