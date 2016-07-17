@@ -6,12 +6,12 @@ STATE = {
     OVER: 3
 };
 
-function randN(n) {
+Math.randN = function randN(n) {
     return Math.floor(Math.random() * n);
-}
-function randBool() {
-    return randN(2) == 0;
-}
+};
+Math.randBool = function randBool() {
+    return Math.randN(2) == 0;
+};
 
 model = new Model();
 ui = {

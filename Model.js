@@ -47,7 +47,7 @@ Model.prototype.startGame = function() {
         if (self.isGamePaused()) {
             return;
         } else if (! self.isPieceActive()) {
-            var activeIndex = randN(pieceLayoutTemplates.length);
+            var activeIndex = Math.randN(pieceLayoutTemplates.length);
             self.activePiece = new Piece(activeIndex + 1, pieceLayoutTemplates[activeIndex]);
             self.activePiece.centerAndRaise();
             if (! self.activePiece.canMove(0, 0)) {

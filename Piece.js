@@ -4,7 +4,7 @@ function Piece(color, layoutTemplates) {
     for (var i = 0; i < layoutTemplates.length; i++) {
         this.layouts[i] = layoutTemplates[i].slice(0)
     }
-    this.rotation = randN(this.layouts.length);
+    this.rotation = Math.randN(this.layouts.length);
     this.layout = this.layouts[this.rotation];
 }
 Piece.prototype.centerAndRaise = function centerAndRaise() {
@@ -18,7 +18,7 @@ Piece.prototype.centerAndRaise = function centerAndRaise() {
     }
     var dr = -minRow;
     var dc = (Model.COLS - (maxCol - minCol + 1)) / 2 - minCol;
-    if (randBool()) {
+    if (Math.randBool()) {
         dc = Math.floor(dc);
     } else {
         dc = Math.ceil(dc);
