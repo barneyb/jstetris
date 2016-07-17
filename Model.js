@@ -3,7 +3,7 @@ function Model() {
     this.state = STATE.NOT_STARTED;
     this.lineCount = 0;
     this.activePiece = null;
-    this.nextPiece = null;
+    this.queuedPiece = null;
     this.interval = null;
     this.board = [];
     this.initializeBoard();
@@ -43,13 +43,13 @@ Model.prototype.startGame = function startGame() {
         var activeIndex = Math.randN(pieceLayoutTemplates.length);
         return new Piece(activeIndex + 1, pieceLayoutTemplates[activeIndex]);
     }
-    self.nextPiece = getPiece();
+    self.queuedPiece = getPiece();
     function tick() {
         if (self.isGamePaused()) {
             return;
         } else if (! self.isPieceActive()) {
-            self.activePiece = self.nextPiece;
-            self.nextPiece = getPiece();
+            self.activePiece = self.queuedPiece;
+            self.queuedPiece = getPiece();
             self.activePiece.centerAndRaise();
             if (! self.activePiece.canMove(0, 0)) {
                 self.gameOver();
@@ -87,6 +87,9 @@ Model.prototype.getCellColor = function getCellColor(r, c) {
 
 Model.prototype.isPieceActive = function isPieceActive() {
     return this.activePiece != null;
+};
+Model.prototype.isPieceQueued = function isPieceQueued() {
+    return this.queuedPiece != null;
 };
 Model.prototype.drop = function drop() {
     if (this.isPieceActive()) {
