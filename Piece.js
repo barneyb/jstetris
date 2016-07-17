@@ -69,7 +69,7 @@ Piece.prototype.canRotate = function canRotate(dr) {
                 if (r >= Model.ROWS) {
                     return false;
                 }
-                if (model.board[r][c] != BLACK) {
+                if (! model.isCellEmpty(r, c)) {
                     return false;
                 }
             }
@@ -98,7 +98,7 @@ Piece.prototype.canMove = function canMove(dr, dc) {
         if (r >= Model.ROWS) {
             return false;
         }
-        if (model.board[r][c] != BLACK) {
+        if (! model.isCellEmpty(r, c)) {
             return false;
         }
     }
