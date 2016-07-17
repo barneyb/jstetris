@@ -39,30 +39,6 @@ function paint() {
     }
     ui.board.innerHTML = content;
 }
-function processLines() {
-    rowLoop:
-    for (var r = 0; r < Model.ROWS; r++) {
-        for (var c = 0; c < Model.COLS; c++) {
-            if (model.isCellEmpty(r, c)) {
-                continue rowLoop;
-            }
-        }
-        model.lineCount += 1;
-        for (var rr = r; rr > 0; rr--) {
-            for (var cc = 0; cc < Model.COLS; cc++) {
-                model.board[rr][cc] = model.board[rr - 1][cc];
-            }
-        }
-        for (var cz = 0; cz < Model.COLS; cz++) {
-            model.board[0][cz] = BLACK;
-        }
-    }
-}
-function lockActivePiece() {
-    model.activePiece.lock();
-    model.activePiece = null;
-    processLines();
-}
 function tick() {
     if (! model.isPieceActive()) {
         var activeIndex = randN(pieceLayoutTemplates.length);
@@ -74,7 +50,7 @@ function tick() {
     } else  if (model.activePiece.canMove(1, 0)) {
         model.activePiece.move(1, 0); // move
     } else {
-        lockActivePiece();
+        model.lockActivePiece();
     }
     paint();
 }
@@ -97,10 +73,7 @@ document.addEventListener('keydown', function(event) {
                 break;
             case 'ArrowDown':
                 if (model.isPieceActive()) {
-                    while (model.activePiece.canMove(1, 0)) {
-                        model.activePiece.move(1, 0);
-                    }
-                    lockActivePiece();
+                    model.dropActivePiece();
                     paint();
                 }
                 break;

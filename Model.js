@@ -61,3 +61,33 @@ Model.prototype.getCellColor = function(r, c) {
     }
     return this.board[r][c];
 };
+Model.prototype.lockActivePiece = function() {
+    this.activePiece.lock();
+    this.activePiece = null;
+    this.processLines();
+};
+Model.prototype.processLines = function() {
+    rowLoop:
+    for (var r = 0; r < Model.ROWS; r++) {
+        for (var c = 0; c < Model.COLS; c++) {
+            if (this.isCellEmpty(r, c)) {
+                continue rowLoop;
+            }
+        }
+        this.lineCount += 1;
+        for (var rr = r; rr > 0; rr--) {
+            for (var cc = 0; cc < Model.COLS; cc++) {
+                this.board[rr][cc] = this.board[rr - 1][cc];
+            }
+        }
+        for (var cz = 0; cz < Model.COLS; cz++) {
+            this.board[0][cz] = BLACK;
+        }
+    }
+};
+Model.prototype.dropActivePiece = function() {
+    while (this.activePiece.canMove(1, 0)) {
+        this.activePiece.move(1, 0);
+    }
+    this.lockActivePiece();
+};
