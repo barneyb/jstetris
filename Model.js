@@ -10,7 +10,7 @@ function Model() {
 Model.ROWS = 20;
 Model.COLS = 10;
 Model.INITIAL_TICK_DELTA = 300;
-Model.prototype.initializeBoard = function() {
+Model.prototype.initializeBoard = function initializeBoard() {
     for (var r = 0; r < Model.ROWS; r++) {
         this.board[r] = [];
         for (var c = 0; c < Model.COLS; c++) {
@@ -18,31 +18,25 @@ Model.prototype.initializeBoard = function() {
         }
     }
 };
-Model.prototype.isPieceActive = function() {
-    return this.activePiece != null;
-};
-Model.prototype.isGameInProgress = function() {
+
+Model.prototype.isGameInProgress = function isGameInProgress() {
     return model.state == STATE.IN_PROGRESS;
 };
-Model.prototype.isGamePaused = function() {
+Model.prototype.isGamePaused = function isGamePaused() {
     return model.state == STATE.PAUSED;
 };
-Model.prototype.isGameOver = function() {
+Model.prototype.isGameOver = function isGameOver() {
     return model.state == STATE.OVER;
 };
-Model.prototype.pause = function() {
+
+Model.prototype.pause = function pause() {
     this.state = STATE.PAUSED;
 };
-Model.prototype.unpause = function() {
+Model.prototype.unpause = function unpause() {
     this.state = STATE.IN_PROGRESS;
 };
-Model.prototype.gameOver = function() {
-    this.state = STATE.OVER;
-    clearInterval(this.interval);
-    this.interval = null;
-    this.activePiece = null;
-};
-Model.prototype.startGame = function() {
+
+Model.prototype.startGame = function startGame() {
     var self = this;
     function tick() {
         if (self.isGamePaused()) {
@@ -65,10 +59,17 @@ Model.prototype.startGame = function() {
     this.state = STATE.IN_PROGRESS;
     tick();
 };
-Model.prototype.isCellEmpty = function(r, c) {
+Model.prototype.gameOver = function gameOver() {
+    this.state = STATE.OVER;
+    clearInterval(this.interval);
+    this.interval = null;
+    this.activePiece = null;
+};
+
+Model.prototype.isCellEmpty = function isCellEmpty(r, c) {
     return this.board[r][c] == BLACK;
 };
-Model.prototype.getCellColor = function(r, c) {
+Model.prototype.getCellColor = function getCellColor(r, c) {
     if (this.state == STATE.PAUSED) {
         return BLACK;
     }
@@ -77,12 +78,37 @@ Model.prototype.getCellColor = function(r, c) {
     }
     return this.board[r][c];
 };
-Model.prototype.lockActivePiece = function() {
+
+Model.prototype.isPieceActive = function isPieceActive() {
+    return this.activePiece != null;
+};
+Model.prototype.drop = function drop() {
+    if (this.isPieceActive()) {
+        while (this.activePiece.canMove(1, 0)) {
+            this.activePiece.move(1, 0);
+        }
+        this.lockActivePiece();
+        this.paintCallback();
+    }
+};
+Model.prototype.rotate = function rotate() {
+    if (this.isPieceActive() && this.activePiece.canRotate(1)) {
+        this.activePiece.rotate(1);
+        this.paintCallback();
+    }
+};
+Model.prototype.move = function move(r, c) {
+    if (this.isPieceActive() && this.activePiece.canMove(r, c)) {
+        this.activePiece.move(r, c);
+        this.paintCallback();
+    }
+};
+Model.prototype.lockActivePiece = function lockActivePiece() {
     this.activePiece.lock();
     this.activePiece = null;
     this.processLines();
 };
-Model.prototype.processLines = function() {
+Model.prototype.processLines = function processLines() {
     rowLoop:
     for (var r = 0; r < Model.ROWS; r++) {
         for (var c = 0; c < Model.COLS; c++) {
@@ -99,26 +125,5 @@ Model.prototype.processLines = function() {
         for (var cz = 0; cz < Model.COLS; cz++) {
             this.board[0][cz] = BLACK;
         }
-    }
-};
-Model.prototype.drop = function() {
-    if (this.isPieceActive()) {
-        while (this.activePiece.canMove(1, 0)) {
-            this.activePiece.move(1, 0);
-        }
-        this.lockActivePiece();
-        this.paintCallback();
-    }
-};
-Model.prototype.rotate = function() {
-    if (this.isPieceActive() && this.activePiece.canRotate(1)) {
-        this.activePiece.rotate(1);
-        this.paintCallback();
-    }
-};
-Model.prototype.move = function(r, c) {
-    if (this.isPieceActive() && this.activePiece.canMove(r, c)) {
-        this.activePiece.move(r, c);
-        this.paintCallback();
     }
 };
