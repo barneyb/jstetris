@@ -41,17 +41,19 @@ Model.prototype.startGame = function startGame() {
     var self = this;
     function getPiece() {
         var activeIndex = Math.randN(pieceLayoutTemplates.length);
-        return new Piece(activeIndex + 1, pieceLayoutTemplates[activeIndex]);
+        var p = new Piece(activeIndex + 1, pieceLayoutTemplates[activeIndex]);
+        p.centerAndRaise();
+        return p;
     }
     self.queuedPiece = getPiece();
     function tick() {
         if (self.isGamePaused()) {
             return;
         } else if (! self.isPieceActive()) {
-            self.activePiece = self.queuedPiece;
-            self.queuedPiece = getPiece();
-            self.activePiece.centerAndRaise();
-            if (! self.activePiece.canMove(0, 0)) {
+            if (self.queuedPiece.canMove(0, 0)) {
+                self.activePiece = self.queuedPiece;
+                self.queuedPiece = getPiece();
+            } else {
                 self.gameOver();
             }
         } else  if (self.activePiece.canMove(1, 0)) {
