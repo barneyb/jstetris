@@ -24,9 +24,9 @@ ui = {
 };
 
 function paint() {
-    if (model.state == STATE.PAUSED) {
+    if (model.isGamePaused()) {
         ui.status.innerHTML = "Paused";
-    } else if (model.state == STATE.OVER) {
+    } else if (model.isGameOver()) {
         ui.status.innerHTML = "Game Over!";
     } else {
         ui.status.innerHTML = "";
@@ -72,10 +72,7 @@ function tick() {
         model.activePiece = new Piece(activeIndex + 1, pieceLayoutTemplates[activeIndex]);
         model.activePiece.centerAndRaise();
         if (! model.activePiece.canMove(0, 0)) {
-            clearInterval(model.interval);
-            model.interval = null;
-            model.activePiece = null;
-            model.state = STATE.OVER;
+            model.gameOver();
         }
     } else  if (model.activePiece.canMove(1, 0)) {
         model.activePiece.move(1, 0); // move
@@ -86,7 +83,7 @@ function tick() {
 }
 
 document.addEventListener('keydown', function(event) {
-    if (model.state == STATE.PAUSED) {
+    if (model.isGamePaused()) {
         switch (event.code) {
             case 'KeyP':
                 model.interval = setInterval(tick, TICK_INTERVAL);
@@ -94,7 +91,7 @@ document.addEventListener('keydown', function(event) {
                 paint();
                 break;
         }
-    } else if (model.state == STATE.IN_PROGRESS) {
+    } else if (model.isGameInProgress()) {
         switch (event.code) {
             case 'ArrowUp':
                 if (model.isPieceActive() && model.activePiece.canRotate(1)) {
@@ -132,6 +129,4 @@ document.addEventListener('keydown', function(event) {
         }
     }
 });
-model.interval = setInterval(tick, TICK_INTERVAL);
-model.state = STATE.IN_PROGRESS;
-tick();
+model.startGame(tick);

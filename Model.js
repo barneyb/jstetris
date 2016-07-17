@@ -17,6 +17,26 @@ Model.prototype.initializeBoard = function() {
 Model.prototype.isPieceActive = function() {
     return this.activePiece != null;
 };
+Model.prototype.isGameInProgress = function() {
+    return model.state == STATE.IN_PROGRESS;
+};
+Model.prototype.isGamePaused = function() {
+    return model.state == STATE.PAUSED;
+};
+Model.prototype.isGameOver = function() {
+    return model.state == STATE.OVER;
+};
+Model.prototype.gameOver = function() {
+    this.state = STATE.OVER;
+    clearInterval(this.interval);
+    this.interval = null;
+    this.activePiece = null;
+};
+Model.prototype.startGame = function(tick) {
+    this.interval = setInterval(tick, TICK_INTERVAL);
+    this.state = STATE.IN_PROGRESS;
+    tick();
+};
 Model.prototype.isCellEmpty = function(r, c) {
     return this.board[r][c] == BLACK;
 };
