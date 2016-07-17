@@ -30,12 +30,9 @@ Model.prototype.isGameOver = function() {
     return model.state == STATE.OVER;
 };
 Model.prototype.pause = function() {
-    clearInterval(this.interval);
-    this.interval = null;
     this.state = STATE.PAUSED;
 };
 Model.prototype.unpause = function() {
-    this.interval = setInterval(tick, this.tickDelta);
     this.state = STATE.IN_PROGRESS;
 };
 Model.prototype.gameOver = function() {
@@ -44,7 +41,25 @@ Model.prototype.gameOver = function() {
     this.interval = null;
     this.activePiece = null;
 };
-Model.prototype.startGame = function(tick) {
+Model.prototype.startGame = function() {
+    var self = this;
+    function tick() {
+        if (self.isGamePaused()) {
+            return;
+        } else if (! self.isPieceActive()) {
+            var activeIndex = randN(pieceLayoutTemplates.length);
+            self.activePiece = new Piece(activeIndex + 1, pieceLayoutTemplates[activeIndex]);
+            self.activePiece.centerAndRaise();
+            if (! self.activePiece.canMove(0, 0)) {
+                self.gameOver();
+            }
+        } else  if (self.activePiece.canMove(1, 0)) {
+            self.activePiece.move(1, 0); // move
+        } else {
+            self.lockActivePiece();
+        }
+        self.paintCallback();
+    }
     this.interval = setInterval(tick, this.tickDelta);
     this.state = STATE.IN_PROGRESS;
     tick();

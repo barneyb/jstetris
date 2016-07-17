@@ -39,21 +39,6 @@ function paint() {
     }
     ui.board.innerHTML = content;
 }
-function tick() {
-    if (! model.isPieceActive()) {
-        var activeIndex = randN(pieceLayoutTemplates.length);
-        model.activePiece = new Piece(activeIndex + 1, pieceLayoutTemplates[activeIndex]);
-        model.activePiece.centerAndRaise();
-        if (! model.activePiece.canMove(0, 0)) {
-            model.gameOver();
-        }
-    } else  if (model.activePiece.canMove(1, 0)) {
-        model.activePiece.move(1, 0); // move
-    } else {
-        model.lockActivePiece();
-    }
-    paint();
-}
 
 document.addEventListener('keydown', function(event) {
     if (model.isGamePaused()) {
@@ -96,4 +81,5 @@ document.addEventListener('keydown', function(event) {
         }
     }
 });
-model.startGame(tick);
+model.paintCallback = paint;
+model.startGame();
