@@ -8,7 +8,7 @@ function Piece(color, layoutTemplates) {
     this.layout = this.layouts[this.rotation];
 }
 Piece.prototype.centerAndRaise = function centerAndRaise() {
-    var minRow = ROWS, minCol = COLS, maxCol = 0;
+    var minRow = Model.ROWS, minCol = Model.COLS, maxCol = 0;
     for (var i = 0; i < this.layout.length; i += 2) {
         var r = this.layout[i],
             c = this.layout[i + 1];
@@ -17,7 +17,7 @@ Piece.prototype.centerAndRaise = function centerAndRaise() {
         maxCol = Math.max(maxCol, c);
     }
     var dr = -minRow;
-    var dc = (COLS - (maxCol - minCol + 1)) / 2 - minCol;
+    var dc = (Model.COLS - (maxCol - minCol + 1)) / 2 - minCol;
     if (randBool()) {
         dc = Math.floor(dc);
     } else {
@@ -37,7 +37,7 @@ Piece.prototype.rotate = function rotate(dr) {
                     this.move(0, 1);
                     continue kickLoop;
                 }
-                if (c >= COLS) {
+                if (c >= Model.COLS) {
                     this.move(0, -1);
                     continue kickLoop;
                 }
@@ -59,14 +59,14 @@ Piece.prototype.canRotate = function canRotate(dr) {
                     dc += 1;
                     continue kickLoop;
                 }
-                if (c >= COLS) {
+                if (c >= Model.COLS) {
                     dc -= 1;
                     continue kickLoop;
                 }
                 if (r < 0) {
                     continue; // allow rotating off the top of the board
                 }
-                if (r >= ROWS) {
+                if (r >= Model.ROWS) {
                     return false;
                 }
                 if (model.board[r][c] != BLACK) {
@@ -89,13 +89,13 @@ Piece.prototype.canMove = function canMove(dr, dc) {
     for (var i = 0; i < this.layout.length; i += 2) {
         var r = this.layout[i] + dr,
             c = this.layout[i + 1] + dc;
-        if (c < 0 || c >= COLS) {
+        if (c < 0 || c >= Model.COLS) {
             return false;
         }
         if (r < 0) {
             continue; // allow rotating off the top of the board
         }
-        if (r >= ROWS) {
+        if (r >= Model.ROWS) {
             return false;
         }
         if (model.board[r][c] != BLACK) {

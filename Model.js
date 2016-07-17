@@ -1,5 +1,5 @@
-function Model(tickDelta) {
-    this.tickDelta = tickDelta;
+function Model() {
+    this.tickDelta = 300;
     this.state = STATE.NOT_STARTED;
     this.lineCount = 0;
     this.activePiece = null;
@@ -7,10 +7,12 @@ function Model(tickDelta) {
     this.board = [];
     this.initializeBoard();
 }
+Model.ROWS = 20;
+Model.COLS = 10;
 Model.prototype.initializeBoard = function() {
-    for (var r = 0; r < ROWS; r++) {
+    for (var r = 0; r < Model.ROWS; r++) {
         this.board[r] = [];
-        for (var c = 0; c < COLS; c++) {
+        for (var c = 0; c < Model.COLS; c++) {
             this.board[r][c] = BLACK;
         }
     }

@@ -1,7 +1,4 @@
-ROWS = 20;
-COLS = 10;
 BLACK = 0;
-TICK_DELTA = 300;
 STATE = {
     NOT_STARTED: 0,
     IN_PROGRESS: 1,
@@ -16,7 +13,7 @@ function randBool() {
     return randN(2) == 0;
 }
 
-model = new Model(TICK_DELTA);
+model = new Model();
 ui = {
     lineCount: document.getElementById("lineCount"),
     status: document.getElementById("status"),
@@ -33,9 +30,9 @@ function paint() {
     }
     ui.lineCount.innerHTML = model.lineCount == 1 ? "1 line" : (model.lineCount + " lines");
     var content = "";
-    for (var r = 0; r < ROWS; r++) {
+    for (var r = 0; r < Model.ROWS; r++) {
         content += '<div class="row">';
-        for (var c = 0; c < COLS; c++) {
+        for (var c = 0; c < Model.COLS; c++) {
             content += '<div class="cell cell-' + model.getCellColor(r, c) + '"></div>';
         }
         content += "</div>";
@@ -44,19 +41,19 @@ function paint() {
 }
 function processLines() {
     rowLoop:
-    for (var r = 0; r < ROWS; r++) {
-        for (var c = 0; c < COLS; c++) {
+    for (var r = 0; r < Model.ROWS; r++) {
+        for (var c = 0; c < Model.COLS; c++) {
             if (model.isCellEmpty(r, c)) {
                 continue rowLoop;
             }
         }
         model.lineCount += 1;
         for (var rr = r; rr > 0; rr--) {
-            for (var cc = 0; cc < COLS; cc++) {
+            for (var cc = 0; cc < Model.COLS; cc++) {
                 model.board[rr][cc] = model.board[rr - 1][cc];
             }
         }
-        for (var cz = 0; cz < COLS; cz++) {
+        for (var cz = 0; cz < Model.COLS; cz++) {
             model.board[0][cz] = BLACK;
         }
     }
