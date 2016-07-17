@@ -6,19 +6,16 @@ function Model() {
     this.queuedPiece = null;
     this.interval = null;
     this.board = [];
-    this.initializeBoard();
-}
-Model.ROWS = 20;
-Model.COLS = 10;
-Model.INITIAL_TICK_DELTA = 300;
-Model.prototype.initializeBoard = function initializeBoard() {
     for (var r = 0; r < Model.ROWS; r++) {
         this.board[r] = [];
         for (var c = 0; c < Model.COLS; c++) {
             this.board[r][c] = BLACK;
         }
     }
-};
+}
+Model.ROWS = 20;
+Model.COLS = 10;
+Model.INITIAL_TICK_DELTA = 300;
 
 Model.prototype.isGameInProgress = function isGameInProgress() {
     return model.state == STATE.IN_PROGRESS;
