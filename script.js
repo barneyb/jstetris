@@ -23,12 +23,14 @@ ui = {
 function paint() {
     if (model.isGamePaused()) {
         ui.status.innerHTML = "Paused";
+        ui.status.className = "show";
     } else if (model.isGameOver()) {
         ui.status.innerHTML = "Game Over!";
+        ui.status.className = "show";
     } else {
-        ui.status.innerHTML = "";
+        ui.status.className = "hide";
     }
-    ui.lineCount.innerHTML = model.lineCount == 1 ? "1 line" : (model.lineCount + " lines");
+    ui.lineCount.innerHTML = model.lineCount;
     var content = "";
     for (var r = 0; r < Model.ROWS; r++) {
         content += '<div class="row">';

@@ -1,16 +1,42 @@
 #container {
-    width: 320px;
+    width: 520px;
     margin: auto;
+    position: relative;
 }
 
-#lineCount {
+#sidebar {
     float: right;
+    width: 190px;
+    margin-left: 10px;
+}
+
+fieldset {
+    text-align: center;
+    margin: 10px 0;
+}
+
+#status {
+    position: absolute;
+    top: 250px;
+    left: 30px;
+    width: 230px;
+    border: 5px outset #999;
+    padding: 5px 10px;
+    background-color: #ccc;
+    font-weight: bold;
+    text-align: center;
+}
+.hide {
+    display: none;
+}
+.show {
+    display: inherit;
 }
 
 #board {
-    clear: right;
     background-color: #222;
     border: 5px inset #999;
+    width: 310px;
 }
 
 .row {
