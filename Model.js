@@ -1,5 +1,5 @@
 function Model() {
-    this.tickDelta = 300;
+    this.tickDelta = Model.INITIAL_TICK_DELTA;
     this.state = STATE.NOT_STARTED;
     this.lineCount = 0;
     this.activePiece = null;
@@ -9,6 +9,7 @@ function Model() {
 }
 Model.ROWS = 20;
 Model.COLS = 10;
+Model.INITIAL_TICK_DELTA = 300;
 Model.prototype.initializeBoard = function() {
     for (var r = 0; r < Model.ROWS; r++) {
         this.board[r] = [];
