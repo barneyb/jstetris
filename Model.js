@@ -90,15 +90,6 @@ Model.prototype.gameOver = function gameOver() {
 Model.prototype.isCellEmpty = function isCellEmpty(r, c) {
     return this.board[r][c] == BLACK;
 };
-Model.prototype.getCellColor = function getCellColor(r, c) {
-    if (this.state == STATE.PAUSED) {
-        return BLACK;
-    }
-    if (this.activePiece != null && this.activePiece.isAt(r, c)) {
-        return this.activePiece.color;
-    }
-    return this.board[r][c];
-};
 
 Model.prototype.isPieceActive = function isPieceActive() {
     return this.activePiece != null;

@@ -34,11 +34,20 @@ function paint() {
         ui.status.className = "hide";
     }
     ui.lineCount.innerHTML = model.lineCount;
+    var piece = model.activePiece;
     var content = "";
     for (r = 0; r < Model.ROWS; r++) {
         content += '<div id="row-' + r + '" class="row">';
         for (c = 0; c < Model.COLS; c++) {
-            content += '<div class="cell cell-' + model.getCellColor(r, c) + '"></div>';
+            var cls;
+            if (model.isGamePaused()) {
+                cls = "cell-" + BLACK;
+            } else if (piece && piece.isAt(r, c)) {
+                cls = "cell-" + piece.color;
+            } else {
+                cls = "cell-" + model.board[r][c];
+            }
+            content += '<div class="cell ' + cls + '"></div>';
         }
         content += "</div>";
     }
@@ -47,7 +56,7 @@ function paint() {
         document.getElementById('row-' + model.completeLines[i]).className += " complete";
     }
     if (model.isPieceQueued()) {
-        var piece = model.queuedPiece;
+        piece = model.queuedPiece;
         content = "";
         for (r = 0; r < 4; r++) {
             content += '<div class="row">';
