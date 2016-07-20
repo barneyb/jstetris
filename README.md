@@ -36,3 +36,4 @@ It's ready to play at http://barneyb.github.io/jstetris/
 * Time elapsed
 * High score table
 * Save/load game
+* Preferences
