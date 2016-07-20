@@ -7,6 +7,12 @@ function Piece(color, layoutTemplates) {
     this.rotation = Math.randN(this.layouts.length);
     this.layout = this.layouts[this.rotation];
 }
+Piece.prototype.clone = function clone() {
+    var p = new Piece(this.color, this.layouts);
+    p.rotation = this.rotation;
+    p.layout = p.layouts[p.rotation];
+    return p;
+};
 Piece.prototype.getBounds = function getBounds() {
     var bounds = {
         minRow: Model.ROWS,
