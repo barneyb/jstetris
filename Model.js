@@ -15,6 +15,43 @@ function Model() {
         }
     }
     this.completeLines = [];
+
+    this._getPiece = function _getPiece() {
+        var activeIndex = 0; // Math.randN(pieceLayoutTemplates.length);
+        var p = new Piece(activeIndex + 1, pieceLayoutTemplates[activeIndex]);
+        p.centerAndRaise();
+        return p;
+    };
+    this._tick = (function _tick() {
+        if (this.isGamePaused()) {
+            return;
+        } else if (this.isLineClearing()) {
+            for (var i = 0; i < this.completeLines.length; i++) {
+                for (var rr = this.completeLines[i]; rr > 0; rr--) {
+                    for (var cc = 0; cc < Model.COLS; cc++) {
+                        this.board[rr][cc] = this.board[rr - 1][cc];
+                    }
+                }
+                for (var cz = 0; cz < Model.COLS; cz++) {
+                    this.board[0][cz] = BLACK;
+                }
+            }
+            this.completeLines = [];
+            this.state = STATE.IN_PROGRESS
+        } else if (! this.isPieceActive()) {
+            if (this.queuedPiece.canMove(0, 0)) {
+                this.activePiece = this.queuedPiece;
+                this.queuedPiece = this._getPiece();
+            } else {
+                this.gameOver();
+            }
+        } else  if (this.activePiece.canMove(1, 0)) {
+            this.activePiece.move(1, 0); // move
+        } else {
+            this.lockActivePiece();
+        }
+        this.paintCallback();
+    }).bind(this);
 }
 Model.ROWS = 20;
 Model.COLS = 10;
@@ -41,46 +78,10 @@ Model.prototype.unpause = function unpause() {
 };
 
 Model.prototype.startGame = function startGame() {
-    function getPiece() {
-        var activeIndex = Math.randN(pieceLayoutTemplates.length);
-        var p = new Piece(activeIndex + 1, pieceLayoutTemplates[activeIndex]);
-        p.centerAndRaise();
-        return p;
-    }
-    this.queuedPiece = getPiece();
-    var tick = (function() {
-        if (this.isGamePaused()) {
-            return;
-        } else if (this.isLineClearing()) {
-            for (var i = 0; i < this.completeLines.length; i++) {
-                for (var rr = this.completeLines[i]; rr > 0; rr--) {
-                    for (var cc = 0; cc < Model.COLS; cc++) {
-                        this.board[rr][cc] = this.board[rr - 1][cc];
-                    }
-                }
-                for (var cz = 0; cz < Model.COLS; cz++) {
-                    this.board[0][cz] = BLACK;
-                }
-            }
-            this.completeLines = [];
-            this.state = STATE.IN_PROGRESS
-        } else if (! this.isPieceActive()) {
-            if (this.queuedPiece.canMove(0, 0)) {
-                this.activePiece = this.queuedPiece;
-                this.queuedPiece = getPiece();
-            } else {
-                this.gameOver();
-            }
-        } else  if (this.activePiece.canMove(1, 0)) {
-            this.activePiece.move(1, 0); // move
-        } else {
-            this.lockActivePiece();
-        }
-        this.paintCallback();
-    }).bind(this);
-    this.interval = setInterval(tick, this.tickDelta);
+    this.queuedPiece = this._getPiece();
+    this.interval = setInterval(this._tick, this.tickDelta);
     this.state = STATE.IN_PROGRESS;
-    tick();
+    this._tick();
 };
 Model.prototype.gameOver = function gameOver() {
     this.state = STATE.OVER;
