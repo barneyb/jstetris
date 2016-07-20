@@ -58,6 +58,11 @@ fieldset {
     margin: 1px 1px 0 0;
 }
 
+.cell.ghost {
+    opacity: 0.2;
+    border-style: solid;
+}
+
 #piecePreview {
     margin: auto;
     padding: 5px;

@@ -34,7 +34,14 @@ function paint() {
         ui.status.className = "hide";
     }
     ui.lineCount.innerHTML = model.lineCount;
+    var ghost = null;
     var piece = model.activePiece;
+    if (model.isPieceActive()) {
+        ghost = piece.clone();
+        while (ghost.canMove(1, 0)) {
+            ghost.move(1, 0);
+        }
+    }
     var content = "";
     for (r = 0; r < Model.ROWS; r++) {
         content += '<div id="row-' + r + '" class="row">';
@@ -44,6 +51,8 @@ function paint() {
                 cls = "cell-" + BLACK;
             } else if (piece && piece.isAt(r, c)) {
                 cls = "cell-" + piece.color;
+            } else if (ghost && ghost.isAt(r, c)) {
+                cls = "ghost cell-" + ghost.color;
             } else {
                 cls = "cell-" + model.board[r][c];
             }
