@@ -134,6 +134,7 @@ Model.prototype.lockActivePiece = function lockActivePiece() {
         this.board[layout[i]][layout[i + 1]] = this.activePiece.color;
     }
     this.activePiece = null;
+    this.score += 10;
     this.processLines();
 };
 Model.prototype.processLines = function processLines() {
