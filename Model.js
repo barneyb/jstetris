@@ -156,7 +156,7 @@ Model.prototype.processLines = function processLines() {
     }
     if (this.completeLines.length) {
         this.score += 100 * Math.pow(2, this.completeLines.length - 1);
-        var newLevel = Math.floor(this.lineCount / Model.LINES_PER_LEVEL) + 1
+        var newLevel = Math.floor(this.lineCount / Model.LINES_PER_LEVEL) + 1;
         if (this.level != newLevel) {
             this.level = newLevel;
             this.tickDelta = Model.INITIAL_TICK_DELTA * Math.pow(0.94, this.level - 1);
