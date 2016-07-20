@@ -111,6 +111,7 @@ Model.prototype.drop = function drop() {
     if (this.isPieceActive()) {
         while (this.activePiece.canMove(1, 0)) {
             this.activePiece.move(1, 0);
+            this.score += 2;
         }
         this.lockActivePiece();
         this.paintCallback();
