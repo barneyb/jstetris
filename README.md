@@ -22,11 +22,11 @@ It's ready to play at http://barneyb.github.io/jstetris/
 * Hard drop
 * Piece preview
 * Row clearing visual feedback
+* Drop ghosting
 
 ## Unsupported Features
 
 * Soft Drop
-* Drop ghosting
 * Scoring
   * per piece placed
   * per line cleared
