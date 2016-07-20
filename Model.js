@@ -3,6 +3,7 @@ function Model() {
     this.state = STATE.NOT_STARTED;
     this.lineCount = 0;
     this.activePiece = null;
+    this.ghostPiece = null;
     this.queuedPiece = null;
     this.interval = null;
     this.board = [];
@@ -66,6 +67,8 @@ Model.prototype.startGame = function startGame() {
             if (this.queuedPiece.canMove(0, 0)) {
                 this.activePiece = this.queuedPiece;
                 this.queuedPiece = getPiece();
+                this.ghostPiece = this.activePiece.clone();
+                this.ghostPiece.drop();
             } else {
                 this.gameOver();
             }
@@ -85,6 +88,7 @@ Model.prototype.gameOver = function gameOver() {
     clearInterval(this.interval);
     this.interval = null;
     this.activePiece = null;
+    this.ghostPiece = null;
 };
 
 Model.prototype.isCellEmpty = function isCellEmpty(r, c) {
@@ -94,8 +98,12 @@ Model.prototype.getCellColor = function getCellColor(r, c) {
     if (this.state == STATE.PAUSED) {
         return BLACK;
     }
-    if (this.activePiece != null && this.activePiece.isAt(r, c)) {
-        return this.activePiece.color;
+    if (this.activePiece != null) {
+        if (this.activePiece.isAt(r, c)) {
+            return this.activePiece.color;
+        } else if (this.ghostPiece.isAt(r, c)) {
+            return this.ghostPiece.color + GHOST_MODIFIER;
+        }
     }
     return this.board[r][c];
 };
@@ -116,12 +124,16 @@ Model.prototype.drop = function drop() {
 Model.prototype.rotate = function rotate() {
     if (this.isPieceActive() && this.activePiece.canRotate(1)) {
         this.activePiece.rotate(1);
+        this.ghostPiece = this.activePiece.clone();
+        this.ghostPiece.drop();
         this.paintCallback();
     }
 };
 Model.prototype.move = function move(r, c) {
     if (this.isPieceActive() && this.activePiece.canMove(r, c)) {
         this.activePiece.move(r, c);
+        this.ghostPiece = this.activePiece.clone();
+        this.ghostPiece.drop();
         this.paintCallback();
     }
 };
@@ -131,6 +143,7 @@ Model.prototype.lockActivePiece = function lockActivePiece() {
         this.board[layout[i]][layout[i + 1]] = this.activePiece.color;
     }
     this.activePiece = null;
+    this.ghostPiece = null;
     this.processLines();
 };
 Model.prototype.processLines = function processLines() {

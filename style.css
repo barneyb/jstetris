@@ -83,37 +83,54 @@ fieldset {
     border-color: black;
 }
 
-.cell-1 {
+.cell-1,
+.cell-11 {
     background-color: cyan;
     border-color: cyan;
 }
 
-.cell-2 {
+.cell-2,
+.cell-12 {
     background-color: blue;
     border-color: blue;
 }
 
-.cell-3 {
+.cell-3,
+.cell-13 {
     background-color: orange;
     border-color: orange;
 }
 
-.cell-4 {
+.cell-4,
+.cell-14 {
     background-color: yellow;
     border-color: yellow;
 }
 
-.cell-5 {
+.cell-5,
+.cell-15 {
     background-color: lime;
     border-color: lime;
 }
 
-.cell-6 {
+.cell-6,
+.cell-16 {
     background-color: #990099;
     border-color: #990099;
 }
 
-.cell-7 {
+.cell-7,
+.cell-17 {
     background-color: red;
     border-color: red;
+}
+.cell-11,
+.cell-12,
+.cell-13,
+.cell-14,
+.cell-15,
+.cell-16,
+.cell-17 {
+    opacity: 0.2;
+    border-style: solid;
 }
