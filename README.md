@@ -19,6 +19,7 @@ It's ready to play at http://barneyb.github.io/jstetris/
 
 * Pause
 * Hard/Soft Drop
+* Drop ghosting
 * Wall kick
 * Row clearing visual feedback
 * Scoring
