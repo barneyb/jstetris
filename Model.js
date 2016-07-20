@@ -108,9 +108,7 @@ Model.prototype.isPieceQueued = function isPieceQueued() {
 };
 Model.prototype.drop = function drop() {
     if (this.isPieceActive()) {
-        while (this.activePiece.canMove(1, 0)) {
-            this.activePiece.move(1, 0);
-        }
+        this.activePiece.drop();
         this.lockActivePiece();
         this.paintCallback();
     }

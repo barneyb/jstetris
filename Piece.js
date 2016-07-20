@@ -120,6 +120,11 @@ Piece.prototype.canMove = function canMove(dr, dc) {
     }
     return true;
 };
+Piece.prototype.drop = function drop() {
+    while (this.canMove(1, 0)) {
+        this.move(1, 0);
+    }
+};
 Piece.prototype.isAt = function isAt(r, c) {
     for (var i = 0; i < this.layout.length; i += 2) {
         if (this.layout[i] == r && this.layout[i + 1] == c) {
