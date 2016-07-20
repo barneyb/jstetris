@@ -157,6 +157,9 @@ Model.prototype.processLines = function processLines() {
         this.score += 100 * Math.pow(2, this.completeLines.length - 1);
         if (this.lineCount % Model.LINES_PER_LEVEL == 0) {
             this.level = this.lineCount / Model.LINES_PER_LEVEL + 1;
+            this.tickDelta = Model.INITIAL_TICK_DELTA * Math.pow(0.94, this.level - 1);
+            clearInterval(this.interval);
+            this.interval = setInterval(this._tick, this.tickDelta);
         }
     }
 };
