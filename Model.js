@@ -18,7 +18,7 @@ function Model() {
     this.paintCallback = function() {};
 
     this._getPiece = function _getPiece() {
-        var activeIndex = 0; // Math.randN(pieceLayoutTemplates.length);
+        var activeIndex = Math.randN(pieceLayoutTemplates.length);
         var p = new Piece(activeIndex + 1, pieceLayoutTemplates[activeIndex]);
         p.centerAndRaise();
         return p;
