@@ -16,6 +16,7 @@ Math.randBool = function randBool() {
 
 model = new Model();
 ui = {
+    level: document.getElementById("level"),
     lineCount: document.getElementById("lineCount"),
     score: document.getElementById("score"),
     status: document.getElementById("status"),
@@ -34,6 +35,7 @@ function paint() {
     } else {
         ui.status.className = "hide";
     }
+    ui.level.innerHTML = model.level;
     ui.lineCount.innerHTML = model.lineCount;
     ui.score.innerHTML = model.score;
     var content = "";

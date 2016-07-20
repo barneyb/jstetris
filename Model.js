@@ -3,6 +3,7 @@ function Model() {
     this.state = STATE.NOT_STARTED;
     this.lineCount = 0;
     this.score = 0;
+    this.level = 1;
     this.activePiece = null;
     this.queuedPiece = null;
     this.interval = null;
