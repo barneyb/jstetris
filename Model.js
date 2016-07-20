@@ -15,6 +15,7 @@ function Model() {
         }
     }
     this.completeLines = [];
+    this.paintCallback = function() {};
 
     this._getPiece = function _getPiece() {
         var activeIndex = 0; // Math.randN(pieceLayoutTemplates.length);
