@@ -32,3 +32,5 @@ It's ready to play at http://barneyb.github.io/jstetris/
 * Piece preview
 * High score table
 * Multi-browser support
+* Save/load game
+* Preferences
