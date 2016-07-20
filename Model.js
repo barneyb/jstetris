@@ -153,5 +153,8 @@ Model.prototype.processLines = function processLines() {
     }
     if (this.completeLines.length) {
         this.score += 100 * Math.pow(2, this.completeLines.length - 1);
+        if (this.lineCount % 10 == 0) {
+           this.level = this.lineCount / 10 + 1;
+        }
     }
 };
