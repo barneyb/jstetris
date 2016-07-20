@@ -2,6 +2,7 @@ function Model() {
     this.tickDelta = Model.INITIAL_TICK_DELTA;
     this.state = STATE.NOT_STARTED;
     this.lineCount = 0;
+    this.score = 0;
     this.activePiece = null;
     this.queuedPiece = null;
     this.interval = null;
@@ -110,6 +111,7 @@ Model.prototype.drop = function drop() {
     if (this.isPieceActive()) {
         while (this.activePiece.canMove(1, 0)) {
             this.activePiece.move(1, 0);
+            this.score += 2;
         }
         this.lockActivePiece();
         this.paintCallback();
@@ -133,6 +135,7 @@ Model.prototype.lockActivePiece = function lockActivePiece() {
         this.board[layout[i]][layout[i + 1]] = this.activePiece.color;
     }
     this.activePiece = null;
+    this.score += 10;
     this.processLines();
 };
 Model.prototype.processLines = function processLines() {
@@ -146,5 +149,8 @@ Model.prototype.processLines = function processLines() {
         this.state = STATE.LINE_CLEARING;
         this.lineCount += 1;
         this.completeLines.push(r);
+    }
+    if (this.completeLines.length) {
+        this.score += 100 * Math.pow(2, this.completeLines.length - 1);
     }
 };

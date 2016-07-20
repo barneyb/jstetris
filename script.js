@@ -17,6 +17,7 @@ Math.randBool = function randBool() {
 model = new Model();
 ui = {
     lineCount: document.getElementById("lineCount"),
+    score: document.getElementById("score"),
     status: document.getElementById("status"),
     piecePreview: document.getElementById("piecePreview"),
     board: document.getElementById("board")
@@ -34,6 +35,7 @@ function paint() {
         ui.status.className = "hide";
     }
     ui.lineCount.innerHTML = model.lineCount;
+    ui.score.innerHTML = model.score;
     var content = "";
     for (r = 0; r < Model.ROWS; r++) {
         content += '<div id="row-' + r + '" class="row">';
