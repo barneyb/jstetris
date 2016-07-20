@@ -2,6 +2,7 @@ function Model() {
     this.tickDelta = Model.INITIAL_TICK_DELTA;
     this.state = STATE.NOT_STARTED;
     this.lineCount = 0;
+    this.score = 0;
     this.activePiece = null;
     this.queuedPiece = null;
     this.interval = null;
