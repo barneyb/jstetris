@@ -26,6 +26,7 @@ It's ready to play at http://barneyb.github.io/jstetris/
 ## Unsupported Features
 
 * Soft Drop
+* Drop ghosting
 * Scoring
   * per piece placed
   * per line cleared
