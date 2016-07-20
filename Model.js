@@ -148,5 +148,6 @@ Model.prototype.processLines = function processLines() {
         this.state = STATE.LINE_CLEARING;
         this.lineCount += 1;
         this.completeLines.push(r);
+        this.score += 100;
     }
 };
