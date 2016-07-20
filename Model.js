@@ -148,6 +148,8 @@ Model.prototype.processLines = function processLines() {
         this.state = STATE.LINE_CLEARING;
         this.lineCount += 1;
         this.completeLines.push(r);
-        this.score += 100;
+    }
+    if (this.completeLines.length) {
+        this.score += 100 * Math.pow(2, this.completeLines.length - 1);
     }
 };
