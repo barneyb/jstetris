@@ -23,7 +23,7 @@ function Model() {
         p.centerAndRaise();
         return p;
     };
-    this._tick = (function _tick() {
+    this._tick = (function() {
         if (this.isGamePaused()) {
             return;
         } else if (this.isLineClearing()) {
