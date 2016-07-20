@@ -56,6 +56,7 @@ function Model() {
 Model.ROWS = 20;
 Model.COLS = 10;
 Model.INITIAL_TICK_DELTA = 300;
+Model.LINES_PER_LEVEL = 10;
 
 Model.prototype.isGameInProgress = function isGameInProgress() {
     return model.state == STATE.IN_PROGRESS;
@@ -154,8 +155,8 @@ Model.prototype.processLines = function processLines() {
     }
     if (this.completeLines.length) {
         this.score += 100 * Math.pow(2, this.completeLines.length - 1);
-        if (this.lineCount % 10 == 0) {
-           this.level = this.lineCount / 10 + 1;
+        if (this.lineCount % Model.LINES_PER_LEVEL == 0) {
+            this.level = this.lineCount / Model.LINES_PER_LEVEL + 1;
         }
     }
 };
