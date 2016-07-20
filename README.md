@@ -24,7 +24,7 @@ It's ready to play at http://barneyb.github.io/jstetris/
 * Row clearing visual feedback
 * Scoring
   * per piece placed (10 pts)
-  * per line cleared (100 pts)
+  * ~~per line cleared (100 pts)~~
   * multi-line bonus (100 for 1, 200 for 2, 400 for 3, 800 for 4)
   * drop bonus (2 pts / line)
 
