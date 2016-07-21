@@ -1,5 +1,7 @@
 function Model(templates) {
     this.tickDelta = Model.INITIAL_TICK_DELTA;
+    this.ROWS = 20;
+    this.COLS = 10;
     this.state = Model.STATE.NOT_STARTED;
     this.lineCount = 0;
     this.score = 0;
@@ -8,9 +10,9 @@ function Model(templates) {
     this.queuedPiece = null;
     this.interval = null;
     this.board = [];
-    for (var r = 0; r < Model.ROWS; r++) {
+    for (var r = 0; r < this.ROWS; r++) {
         this.board[r] = [];
-        for (var c = 0; c < Model.COLS; c++) {
+        for (var c = 0; c < this.COLS; c++) {
             this.board[r][c] = BLACK;
         }
     }
@@ -19,7 +21,7 @@ function Model(templates) {
 
     this._getPiece = function _getPiece() {
         var activeIndex = Math.randN(templates.length);
-        var p = new Piece(activeIndex + 1, templates[activeIndex]);
+        var p = new Piece(this, activeIndex + 1, templates[activeIndex]);
         p.centerAndRaise();
         return p;
     };
@@ -29,24 +31,24 @@ function Model(templates) {
         } else if (this.isLineClearing()) {
             for (var i = 0; i < this.completeLines.length; i++) {
                 for (var rr = this.completeLines[i]; rr > 0; rr--) {
-                    for (var cc = 0; cc < Model.COLS; cc++) {
+                    for (var cc = 0; cc < this.COLS; cc++) {
                         this.board[rr][cc] = this.board[rr - 1][cc];
                     }
                 }
-                for (var cz = 0; cz < Model.COLS; cz++) {
+                for (var cz = 0; cz < this.COLS; cz++) {
                     this.board[0][cz] = BLACK;
                 }
             }
             this.completeLines = [];
             this.state = Model.STATE.IN_PROGRESS
         } else if (! this.isPieceActive()) {
-            if (this.queuedPiece.canMove(this, 0, 0)) {
+            if (this.queuedPiece.canMove(0, 0)) {
                 this.activePiece = this.queuedPiece;
                 this.queuedPiece = this._getPiece();
             } else {
                 this.gameOver();
             }
-        } else  if (this.activePiece.canMove(this, 1, 0)) {
+        } else  if (this.activePiece.canMove(1, 0)) {
             this.activePiece.move(1, 0); // move
         } else {
             this.lockActivePiece();
@@ -61,8 +63,6 @@ Model.STATE = {
     PAUSED: 3,
     OVER: 4
 };
-Model.ROWS = 20;
-Model.COLS = 10;
 Model.INITIAL_TICK_DELTA = 300;
 Model.LINES_PER_LEVEL = 10;
 
@@ -120,7 +120,7 @@ Model.prototype.isPieceQueued = function isPieceQueued() {
 };
 Model.prototype.drop = function drop() {
     if (this.isPieceActive()) {
-        while (this.activePiece.canMove(this, 1, 0)) {
+        while (this.activePiece.canMove(1, 0)) {
             this.activePiece.move(1, 0);
             this.score += 2;
         }
@@ -129,13 +129,13 @@ Model.prototype.drop = function drop() {
     }
 };
 Model.prototype.rotate = function rotate() {
-    if (this.isPieceActive() && this.activePiece.canRotate(this, 1)) {
+    if (this.isPieceActive() && this.activePiece.canRotate(1)) {
         this.activePiece.rotate(1);
         this.paintCallback();
     }
 };
 Model.prototype.move = function move(r, c) {
-    if (this.isPieceActive() && this.activePiece.canMove(this, r, c)) {
+    if (this.isPieceActive() && this.activePiece.canMove(r, c)) {
         this.activePiece.move(r, c);
         this.paintCallback();
     }
@@ -151,8 +151,8 @@ Model.prototype.lockActivePiece = function lockActivePiece() {
 };
 Model.prototype.processLines = function processLines() {
     rowLoop:
-    for (var r = 0; r < Model.ROWS; r++) {
-        for (var c = 0; c < Model.COLS; c++) {
+    for (var r = 0; r < this.ROWS; r++) {
+        for (var c = 0; c < this.COLS; c++) {
             if (this.isCellEmpty(r, c)) {
                 continue rowLoop;
             }

@@ -32,9 +32,9 @@ function paint() {
     ui.lineCount.innerHTML = model.lineCount;
     ui.score.innerHTML = model.score;
     var content = "";
-    for (r = 0; r < Model.ROWS; r++) {
+    for (r = 0; r < model.ROWS; r++) {
         content += '<div id="row-' + r + '" class="row">';
-        for (c = 0; c < Model.COLS; c++) {
+        for (c = 0; c < model.COLS; c++) {
             content += '<div class="cell cell-' + model.getCellColor(r, c) + '"></div>';
         }
         content += "</div>";

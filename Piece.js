@@ -1,4 +1,5 @@
-function Piece(color, layoutTemplates) {
+function Piece(model, color, layoutTemplates) {
+    this.model = model;
     this.color = color;
     this.layouts = [];
     for (var i = 0; i < layoutTemplates.length; i++) {
@@ -9,9 +10,9 @@ function Piece(color, layoutTemplates) {
 }
 Piece.prototype.getBounds = function getBounds() {
     var bounds = {
-        minRow: Model.ROWS,
+        minRow: this.model.ROWS,
         maxRow: 0,
-        minCol: Model.COLS,
+        minCol: this.model.COLS,
         maxCol: 0
     };
     for (var i = 0; i < this.layout.length; i += 2) {
@@ -27,7 +28,7 @@ Piece.prototype.getBounds = function getBounds() {
 Piece.prototype.centerAndRaise = function centerAndRaise() {
     var bounds = this.getBounds();
     var dr = -bounds.minRow;
-    var dc = (Model.COLS - (bounds.maxCol - bounds.minCol + 1)) / 2 - bounds.minCol;
+    var dc = (this.model.COLS - (bounds.maxCol - bounds.minCol + 1)) / 2 - bounds.minCol;
     if (Math.randBool()) {
         dc = Math.floor(dc);
     } else {
@@ -47,7 +48,7 @@ Piece.prototype.rotate = function rotate(dr) {
                     this.move(0, 1);
                     continue kickLoop;
                 }
-                if (c >= Model.COLS) {
+                if (c >= this.model.COLS) {
                     this.move(0, -1);
                     continue kickLoop;
                 }
@@ -55,7 +56,7 @@ Piece.prototype.rotate = function rotate(dr) {
             break;
         }
 };
-Piece.prototype.canRotate = function canRotate(model, dr) {
+Piece.prototype.canRotate = function canRotate(dr) {
     var rot = this.rotation + dr;
     rot %= this.layouts.length;
     var layout = this.layouts[rot];
@@ -69,17 +70,17 @@ Piece.prototype.canRotate = function canRotate(model, dr) {
                     dc += 1;
                     continue kickLoop;
                 }
-                if (c >= Model.COLS) {
+                if (c >= this.model.COLS) {
                     dc -= 1;
                     continue kickLoop;
                 }
                 if (r < 0) {
                     continue; // allow rotating off the top of the board
                 }
-                if (r >= Model.ROWS) {
+                if (r >= this.model.ROWS) {
                     return false;
                 }
-                if (! model.isCellEmpty(r, c)) {
+                if (! this.model.isCellEmpty(r, c)) {
                     return false;
                 }
             }
@@ -95,20 +96,20 @@ Piece.prototype.move = function move(dr, dc) {
         }
     }
 };
-Piece.prototype.canMove = function canMove(model, dr, dc) {
+Piece.prototype.canMove = function canMove(dr, dc) {
     for (var i = 0; i < this.layout.length; i += 2) {
         var r = this.layout[i] + dr,
             c = this.layout[i + 1] + dc;
-        if (c < 0 || c >= Model.COLS) {
+        if (c < 0 || c >= this.model.COLS) {
             return false;
         }
         if (r < 0) {
             continue; // allow rotating off the top of the board
         }
-        if (r >= Model.ROWS) {
+        if (r >= this.model.ROWS) {
             return false;
         }
-        if (! model.isCellEmpty(r, c)) {
+        if (! this.model.isCellEmpty(r, c)) {
             return false;
         }
     }
