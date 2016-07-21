@@ -28,9 +28,7 @@ function Model(config) {
         return p;
     };
     this._tick = (function() {
-        if (this.isGamePaused()) {
-            return;
-        } else if (this.isLineClearing()) {
+        if (this.isLineClearing()) {
             for (var i = 0; i < this.completeLines.length; i++) {
                 for (var rr = this.completeLines[i]; rr > 0; rr--) {
                     for (var cc = 0; cc < this.COLS; cc++) {
@@ -86,10 +84,18 @@ Model.prototype.isGameOver = function isGameOver() {
 
 Model.prototype.pause = function pause() {
     this.state = Model.STATE.PAUSED;
+    if (this.interval != null) {
+        clearInterval(this.interval);
+    }
+    this.interval = null;
     this.trigger('pause-game');
 };
 Model.prototype.unpause = function unpause() {
     this.state = Model.STATE.IN_PROGRESS;
+    if (this.interval != null) {
+        clearInterval(this.interval);
+    }
+    this.interval = setInterval(this._tick, this.tickDelta);
     this.trigger('unpause-game');
 };
 
