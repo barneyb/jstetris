@@ -97,6 +97,7 @@ model.on('game-over', function() {
     document.removeEventListener('keydown', inProgressKeyListener);
     clearInterval(scoreInterval);
     scoreInterval = null;
+    ui.score.innerHTML = actualScore;
 });
 model.on('change:level', function(l) {
     ui.level.innerHTML = l;
