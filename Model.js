@@ -123,11 +123,12 @@ Model.prototype.isPieceActive = function isPieceActive() {
 Model.prototype.isPieceQueued = function isPieceQueued() {
     return this.queuedPiece != null;
 };
+
 Model.prototype.drop = function drop() {
     if (this.isPieceActive()) {
         while (this.activePiece.canMove(1, 0)) {
             this.activePiece.move(1, 0);
-            this.score += 2;
+            this.addPoints(2);
         }
         this.lockActivePiece();
         this.paintCallback();
@@ -151,8 +152,12 @@ Model.prototype.lockActivePiece = function lockActivePiece() {
         this.board[layout[i]][layout[i + 1]] = this.activePiece.color;
     }
     this.activePiece = null;
-    this.score += 10;
+    this.addPoints(10);
     this.processLines();
+};
+
+Model.prototype.addPoints = function addPoints(p) {
+    this.score += p;
 };
 Model.prototype.processLines = function processLines() {
     rowLoop:
@@ -167,7 +172,7 @@ Model.prototype.processLines = function processLines() {
         this.completeLines.push(r);
     }
     if (this.completeLines.length) {
-        this.score += 100 * Math.pow(2, this.completeLines.length - 1);
+        this.addPoints(100 * Math.pow(2, this.completeLines.length - 1));
         var newLevel = Math.floor(this.lineCount / this.LINES_PER_LEVEL) + 1;
         if (this.level != newLevel) {
             this.level = newLevel;
