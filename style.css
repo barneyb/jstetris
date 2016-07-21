@@ -1,5 +1,5 @@
 #container {
-    width: 520px;
+    width: 520px; /* #board.width + 210 */
     margin: auto;
     position: relative;
 }
@@ -61,7 +61,7 @@ fieldset {
 #piecePreview {
     margin: auto;
     padding: 5px;
-    width: 84px;
+    width: 84px; /* 4 * (20 + 1) */
     height: 84px;
     background-color: #ccc;
 }
