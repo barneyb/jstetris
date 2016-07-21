@@ -24,81 +24,104 @@ ui.container.style.width = (boardWidth + 210) + "px";
 ui.board.style.width = boardWidth + "px";
 ui.piecePreview.style.width = ((model.COLS % 2 == 0 ? 4 : 5) * (20 + 1)) + "px";
 
-function paint() {
-    var r, c;
-    if (model.isGamePaused()) {
-        ui.status.innerHTML = "Paused";
-        ui.status.className = "show";
-    } else if (model.isGameOver()) {
-        ui.status.innerHTML = "Game Over!";
-        ui.status.className = "show";
-    } else {
-        ui.status.className = "hide";
+function pausedKeyListener(event) {
+    switch (event.code) {
+        case 'KeyP':
+            model.unpause();
+            break;
     }
-    ui.level.innerHTML = model.level;
-    ui.lineCount.innerHTML = model.lineCount;
-    ui.score.innerHTML = model.score;
+}
+function inProgressKeyListener(event) {
+    switch (event.code) {
+        case 'ArrowUp':
+            model.rotate();
+            break;
+        case 'ArrowDown':
+            model.drop();
+            break;
+        case 'ArrowLeft':
+            model.move(0, -1);
+            break;
+        case 'ArrowRight':
+            model.move(0, 1);
+            break;
+        case 'KeyP':
+            model.pause();
+            break;
+    }
+}
+function clearBoard() {
+    drawBoard(BLACK);
+}
+function drawBoard(color) {
     var content = "";
-    for (r = 0; r < model.ROWS; r++) {
+    for (var r = 0, rl = model.board.length; r < rl; r++) {
         content += '<div id="row-' + r + '" class="row">';
-        for (c = 0; c < model.COLS; c++) {
-            content += '<div class="cell cell-' + model.getCellColor(r, c) + '"></div>';
+        for (var c = 0, cl = model.board[r].length; c < cl; c++) {
+            content += '<div id="cell-' + r + '-' + c + '" class="cell cell-' + (color == null ? (model.isPieceActive() && model.activePiece.isAt(r, c) ? model.activePiece.color : model.board[r][c]) : color) + '"></div>';
         }
         content += "</div>";
     }
     ui.board.innerHTML = content;
-    for (var i = 0; i < model.completeLines.length; i++) {
-        document.getElementById('row-' + model.completeLines[i]).className += " complete";
-    }
-    if (model.isPieceQueued()) {
-        var piece = model.queuedPiece;
-        var bounds = piece.getBounds();
-        var rows = Math.max(4, bounds.maxRow - bounds.minRow + 1);
-        var cols = Math.max(4, bounds.maxCol - bounds.minCol + 1);
-        if (model.COLS % 2 != cols % 2) {
-            cols += 1;
-        }
-        var firstCol = Math.floor((model.COLS - cols) / 2);
-        content = "";
-        for (r = 0; r < rows; r++) {
-            content += '<div class="row">';
-            for (c = firstCol; c < firstCol + cols; c++) {
-                content += '<div class="cell cell-' + (piece.isAt(r, c) ? piece.color : BLACK) + '"></div>';
-            }
-            content += "</div>";
-        }
-        ui.piecePreview.innerHTML = content;
-    }
 }
-
-document.addEventListener('keydown', function(event) {
-    if (model.isGamePaused()) {
-        switch (event.code) {
-            case 'KeyP':
-                model.unpause();
-                paint();
-                break;
-        }
-    } else if (model.isGameInProgress()) {
-        switch (event.code) {
-            case 'ArrowUp':
-                model.rotate();
-                break;
-            case 'ArrowDown':
-                model.drop();
-                break;
-            case 'ArrowLeft':
-                model.move(0, -1);
-                break;
-            case 'ArrowRight':
-                model.move(0, 1);
-                break;
-            case 'KeyP':
-                model.pause();
-                paint();
-                break;
-        }
-    }
+model.on('start-game', function() {
+    ui.container.style.display = 'block';
+    ui.status.className = "hide";
+    document.addEventListener('keydown', inProgressKeyListener);
 });
-model.paintCallback = paint;
+model.on('pause-game', function() {
+    ui.status.innerHTML = "Paused";
+    ui.status.className = "show";
+    document.removeEventListener('keydown', inProgressKeyListener);
+    document.addEventListener('keydown', pausedKeyListener);
+    clearBoard();
+});
+model.on('unpause-game', function() {
+    ui.status.className = "hide";
+    document.removeEventListener('keydown', pausedKeyListener);
+    document.addEventListener('keydown', inProgressKeyListener);
+    drawBoard();
+});
+model.on('game-over', function() {
+    ui.status.innerHTML = "Game Over!";
+    ui.status.className = "show";
+    document.removeEventListener('keydown', inProgressKeyListener);
+});
+model.on('change:level', function(l) {
+    ui.level.innerHTML = l;
+});
+model.on('change:line-count', function(lc) {
+    ui.lineCount.innerHTML = lc;
+});
+model.on('change:score', function(s) {
+    ui.score.innerHTML = s;
+});
+model.on('change:board', function() { drawBoard(); });
+model.on('change:active-piece', function() { drawBoard(); });
+model.on('change:queued-piece', function(piece) {
+    var rows, cols;
+    if (piece == null) {
+        rows = cols = 4;
+    } else {
+        var bounds = piece.getBounds();
+        rows = Math.max(4, bounds.maxRow - bounds.minRow + 1);
+        cols = Math.max(4, bounds.maxCol - bounds.minCol + 1);
+    }
+    if (model.COLS % 2 != cols % 2) {
+        cols += 1;
+    }
+    var firstCol = Math.floor((model.COLS - cols) / 2);
+    content = "";
+    for (r = 0; r < rows; r++) {
+        content += '<div class="row">';
+        for (c = firstCol; c < firstCol + cols; c++) {
+            content += '<div class="cell cell-' + (piece && piece.isAt(r, c) ? piece.color : BLACK) + '"></div>';
+        }
+        content += "</div>";
+    }
+    ui.piecePreview.innerHTML = content;
+});
+model.on('row-completed', function(r) {
+    document.getElementById('row-' + r).className += " complete";
+});
 model.startGame();

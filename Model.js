@@ -20,21 +20,6 @@ function Model(config) {
     // variables
     this.tickDelta = this.INITIAL_TICK_DELTA;
     this.state = Model.STATE.NOT_STARTED;
-    this.lineCount = 0;
-    this.score = 0;
-    this.level = 1;
-    this.activePiece = null;
-    this.queuedPiece = null;
-    this.interval = null;
-    this.board = [];
-    for (var r = 0; r < this.ROWS; r++) {
-        this.board[r] = [];
-        for (var c = 0; c < this.COLS; c++) {
-            this.board[r][c] = BLACK;
-        }
-    }
-    this.completeLines = [];
-    this.paintCallback = function() {};
 
     this._getPiece = function _getPiece() {
         var activeIndex = Math.randN(this.PIECE_TEMPLATES.length);
@@ -57,20 +42,23 @@ function Model(config) {
                 }
             }
             this.completeLines = [];
-            this.state = Model.STATE.IN_PROGRESS
+            this.state = Model.STATE.IN_PROGRESS;
+            this.trigger('change:board', this.board);
         } else if (! this.isPieceActive()) {
             if (this.queuedPiece.canMove(0, 0)) {
                 this.activePiece = this.queuedPiece;
+                this.trigger('change:active-piece', this.activePiece);
                 this.queuedPiece = this._getPiece();
+                this.trigger('change:queued-piece', this.queuedPiece);
             } else {
                 this.gameOver();
             }
         } else  if (this.activePiece.canMove(1, 0)) {
             this.activePiece.move(1, 0); // move
+            this.trigger('change:active-piece', this.activePiece);
         } else {
             this.lockActivePiece();
         }
-        this.paintCallback();
     }).bind(this);
 }
 Model.prototype = Object.create(EventDispatcher.prototype);
@@ -98,13 +86,36 @@ Model.prototype.isGameOver = function isGameOver() {
 
 Model.prototype.pause = function pause() {
     this.state = Model.STATE.PAUSED;
+    this.trigger('pause-game');
 };
 Model.prototype.unpause = function unpause() {
     this.state = Model.STATE.IN_PROGRESS;
+    this.trigger('unpause-game');
 };
 
 Model.prototype.startGame = function startGame() {
+    this.trigger('start-game');
+    this.lineCount = 0;
+    this.trigger('change:line-count', this.lineCount);
+    this.score = 0;
+    this.trigger('change:score', this.score);
+    this.level = 1;
+    this.trigger('change:level', this.level);
+    this.activePiece = null;
     this.queuedPiece = this._getPiece();
+    this.trigger('change:queued-piece', this.queuedPiece);
+    this.board = [];
+    for (var r = 0; r < this.ROWS; r++) {
+        this.board[r] = [];
+        for (var c = 0; c < this.COLS; c++) {
+            this.board[r][c] = BLACK;
+        }
+    }
+    this.trigger('change:board', this.board);
+    this.completeLines = [];
+    if (this.interval != null) {
+        clearInterval(this.interval);
+    }
     this.interval = setInterval(this._tick, this.tickDelta);
     this.state = Model.STATE.IN_PROGRESS;
     this._tick();
@@ -114,19 +125,11 @@ Model.prototype.gameOver = function gameOver() {
     clearInterval(this.interval);
     this.interval = null;
     this.activePiece = null;
+    this.trigger("game-over");
 };
 
 Model.prototype.isCellEmpty = function isCellEmpty(r, c) {
     return this.board[r][c] == BLACK;
-};
-Model.prototype.getCellColor = function getCellColor(r, c) {
-    if (this.state == Model.STATE.PAUSED) {
-        return BLACK;
-    }
-    if (this.activePiece != null && this.activePiece.isAt(r, c)) {
-        return this.activePiece.color;
-    }
-    return this.board[r][c];
 };
 
 Model.prototype.isPieceActive = function isPieceActive() {
@@ -145,19 +148,18 @@ Model.prototype.drop = function drop() {
         }
         this.addPoints('drop', dropDistance);
         this.lockActivePiece();
-        this.paintCallback();
     }
 };
 Model.prototype.rotate = function rotate() {
     if (this.isPieceActive() && this.activePiece.canRotate(1)) {
         this.activePiece.rotate(1);
-        this.paintCallback();
+        this.trigger('change:active-piece', this.activePiece);
     }
 };
 Model.prototype.move = function move(r, c) {
     if (this.isPieceActive() && this.activePiece.canMove(r, c)) {
         this.activePiece.move(r, c);
-        this.paintCallback();
+        this.trigger('change:active-piece', this.activePiece);
     }
 };
 Model.prototype.lockActivePiece = function lockActivePiece() {
@@ -165,6 +167,7 @@ Model.prototype.lockActivePiece = function lockActivePiece() {
     for (var i = 0; i < layout.length; i += 2) {
         this.board[layout[i]][layout[i + 1]] = this.activePiece.color;
     }
+    this.trigger('change:board', this.board);
     this.activePiece = null;
     this.addPoints('lock');
     this.processLines();
@@ -181,6 +184,7 @@ Model.prototype.addPoints = function addPoints(type) {
     var multiplier = Math.pow(this.SCORING.levelMultiplier, this.level - 1);
     p = Math.round(p * multiplier);
     this.score += p;
+    this.trigger('change:score', this.score);
 };
 Model.prototype.processLines = function processLines() {
     rowLoop:
@@ -193,8 +197,10 @@ Model.prototype.processLines = function processLines() {
         this.state = Model.STATE.LINE_CLEARING;
         this.lineCount += 1;
         this.completeLines.push(r);
+        this.trigger('row-completed', r);
     }
     if (this.completeLines.length) {
+        this.trigger('change:line-count', this.lineCount);
         this.addPoints('line', this.completeLines.length);
         var newLevel = Math.floor(this.lineCount / this.LINES_PER_LEVEL) + 1;
         if (this.level != newLevel) {

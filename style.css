@@ -2,6 +2,7 @@
     width: 520px; /* #board.width + 210 */
     margin: auto;
     position: relative;
+    display: none;
 }
 
 #sidebar {
