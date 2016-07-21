@@ -13,6 +13,13 @@ model = new Model({
     linesPerLevel: 10,
     initialTickDelta: 300,
     levelTickMultiplier: 0.94,
+    scoring: {
+        line: function(n) {
+            return 100 * Math.pow(2, n - 1)
+        },
+        drop: 2,
+        lock: 10
+    },
     templates: pieceLayoutTemplates
 });
 ui = {

@@ -6,6 +6,7 @@ function Model(config) {
     this.INITIAL_TICK_DELTA = config.initialTickDelta;
     this.LEVEL_TICK_MULTIPLIER = config.levelTickMultiplier;
     this.PIECE_TEMPLATES = config.templates;
+    this.SCORING = config.scoring;
 
     // variables
     this.tickDelta = this.INITIAL_TICK_DELTA;
@@ -128,7 +129,7 @@ Model.prototype.drop = function drop() {
     if (this.isPieceActive()) {
         while (this.activePiece.canMove(1, 0)) {
             this.activePiece.move(1, 0);
-            this.addPoints(2);
+            this.addPoints('drop');
         }
         this.lockActivePiece();
         this.paintCallback();
@@ -152,11 +153,18 @@ Model.prototype.lockActivePiece = function lockActivePiece() {
         this.board[layout[i]][layout[i + 1]] = this.activePiece.color;
     }
     this.activePiece = null;
-    this.addPoints(10);
+    this.addPoints('lock');
     this.processLines();
 };
 
-Model.prototype.addPoints = function addPoints(p) {
+Model.prototype.addPoints = function addPoints(type) {
+    var p = this.SCORING[type];
+    if (p == null) {
+        throw new Error("No scoring type '" + type + "' is known.");
+    }
+    if (typeof p == "function") {
+        p = p.apply(null, Array.prototype.splice.call(arguments, 1));
+    }
     this.score += p;
 };
 Model.prototype.processLines = function processLines() {
@@ -172,7 +180,7 @@ Model.prototype.processLines = function processLines() {
         this.completeLines.push(r);
     }
     if (this.completeLines.length) {
-        this.addPoints(100 * Math.pow(2, this.completeLines.length - 1));
+        this.addPoints('line', this.completeLines.length);
         var newLevel = Math.floor(this.lineCount / this.LINES_PER_LEVEL) + 1;
         if (this.level != newLevel) {
             this.level = newLevel;
