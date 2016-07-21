@@ -165,6 +165,8 @@ Model.prototype.addPoints = function addPoints(type) {
     if (typeof p == "function") {
         p = p.apply(null, Array.prototype.splice.call(arguments, 1));
     }
+    var multiplier = Math.pow(this.SCORING.levelMultiplier, this.level - 1);
+    p = Math.round(p * multiplier);
     this.score += p;
 };
 Model.prototype.processLines = function processLines() {

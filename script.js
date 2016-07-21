@@ -18,7 +18,8 @@ model = new Model({
             return 100 * Math.pow(2, n - 1)
         },
         drop: 2,
-        lock: 10
+        lock: 10,
+        levelMultiplier: 1.05
     },
     templates: pieceLayoutTemplates
 });
