@@ -7,7 +7,7 @@ Math.randBool = function randBool() {
     return Math.randN(2) == 0;
 };
 
-model = new Model();
+model = new Model(pieceLayoutTemplates);
 ui = {
     level: document.getElementById("level"),
     lineCount: document.getElementById("lineCount"),

@@ -1,4 +1,4 @@
-function Model() {
+function Model(templates) {
     this.tickDelta = Model.INITIAL_TICK_DELTA;
     this.state = Model.STATE.NOT_STARTED;
     this.lineCount = 0;
@@ -18,8 +18,8 @@ function Model() {
     this.paintCallback = function() {};
 
     this._getPiece = function _getPiece() {
-        var activeIndex = Math.randN(pieceLayoutTemplates.length);
-        var p = new Piece(activeIndex + 1, pieceLayoutTemplates[activeIndex]);
+        var activeIndex = Math.randN(templates.length);
+        var p = new Piece(activeIndex + 1, templates[activeIndex]);
         p.centerAndRaise();
         return p;
     };
