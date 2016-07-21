@@ -68,15 +68,6 @@ model.on('start-game', function() {
     ui.container.style.display = 'block';
     ui.status.className = "hide";
     document.addEventListener('keydown', inProgressKeyListener);
-    scoreInterval = setInterval(function() {
-        if (actualScore == null) {
-            return;
-        }
-        if (displayedScore < actualScore) {
-            displayedScore += Math.ceil((actualScore - displayedScore) / 4);
-        }
-        ui.score.innerHTML = displayedScore;
-    }, 100);
 });
 model.on('pause-game', function() {
     ui.status.innerHTML = "Paused";
@@ -95,9 +86,11 @@ model.on('game-over', function() {
     ui.status.innerHTML = "Game Over!";
     ui.status.className = "show";
     document.removeEventListener('keydown', inProgressKeyListener);
-    clearInterval(scoreInterval);
-    scoreInterval = null;
-    ui.score.innerHTML = actualScore;
+    if (scoreInterval != null) {
+        clearInterval(scoreInterval);
+        scoreInterval = null;
+        ui.score.innerHTML = model.score;
+    }
 });
 model.on('change:level', function(l) {
     ui.level.innerHTML = l;
@@ -107,8 +100,22 @@ model.on('change:line-count', function(lc) {
 });
 displayedScore = 0;
 actualScore = null;
+scoreInterval = null;
+function rollScore() {
+    displayedScore += Math.ceil((actualScore - displayedScore) / 5);
+    ui.score.innerHTML = displayedScore;
+    if (displayedScore >= actualScore) {
+        clearInterval(scoreInterval);
+        scoreInterval = null;
+    }
+}
 model.on('change:score', function(s) {
     actualScore = s;
+    if (scoreInterval != null) {
+        return;
+    }
+    scoreInterval = setInterval(rollScore, 100);
+    rollScore();
 });
 model.on('change:board', function() { drawBoard(); });
 model.on('change:active-piece', function() { drawBoard(); });
