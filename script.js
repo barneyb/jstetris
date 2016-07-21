@@ -8,21 +8,6 @@ Math.randBool = function randBool() {
 };
 
 model = new Model({
-    rows: 20,
-    cols: 10,
-    linesPerLevel: 10,
-    initialTickDelta: 300,
-    levelTickMultiplier: 0.94,
-    scoring: {
-        line: function(linesAtOnce) {
-            return 100 * Math.pow(2, linesAtOnce - 1)
-        },
-        drop: function(rowsDropped) {
-            return 2 * rowsDropped;
-        },
-        lock: 10,
-        levelMultiplier: 1.05
-    },
     templates: pieceLayoutTemplates
 });
 ui = {

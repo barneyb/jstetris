@@ -1,12 +1,20 @@
 function Model(config) {
     // "constants"
-    this.ROWS = config.rows;
-    this.COLS = config.cols;
-    this.LINES_PER_LEVEL = config.linesPerLevel;
-    this.INITIAL_TICK_DELTA = config.initialTickDelta;
-    this.LEVEL_TICK_MULTIPLIER = config.levelTickMultiplier;
+    if (config.templates == null) {
+        throw new Error("Model config MUST include templates. All other settings are optional.");
+    }
     this.PIECE_TEMPLATES = config.templates;
-    this.SCORING = config.scoring;
+    this.ROWS = config.rows || 20;
+    this.COLS = config.cols || 10;
+    this.LINES_PER_LEVEL = config.linesPerLevel || 10;
+    this.INITIAL_TICK_DELTA = config.initialTickDelta || 300;
+    this.LEVEL_TICK_MULTIPLIER = config.levelTickMultiplier || 0.94;
+    this.SCORING = config.scoring || {
+            line: function(n) { return 100 * Math.pow(2, n - 1); },
+            drop: function(n) { return n * 2 },
+            lock: 10,
+            levelMultiplier: 1.05
+        };
 
     // variables
     this.tickDelta = this.INITIAL_TICK_DELTA;
