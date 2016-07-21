@@ -14,10 +14,12 @@ model = new Model({
     initialTickDelta: 300,
     levelTickMultiplier: 0.94,
     scoring: {
-        line: function(n) {
-            return 100 * Math.pow(2, n - 1)
+        line: function(linesAtOnce) {
+            return 100 * Math.pow(2, linesAtOnce - 1)
         },
-        drop: 2,
+        drop: function(rowsDropped) {
+            return 2 * rowsDropped;
+        },
         lock: 10,
         levelMultiplier: 1.05
     },

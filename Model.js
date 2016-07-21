@@ -127,10 +127,12 @@ Model.prototype.isPieceQueued = function isPieceQueued() {
 
 Model.prototype.drop = function drop() {
     if (this.isPieceActive()) {
+        var dropDistance = 0;
         while (this.activePiece.canMove(1, 0)) {
             this.activePiece.move(1, 0);
-            this.addPoints('drop');
+            dropDistance += 1;
         }
+        this.addPoints('drop', dropDistance);
         this.lockActivePiece();
         this.paintCallback();
     }
