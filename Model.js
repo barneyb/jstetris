@@ -1,9 +1,10 @@
-function Model(templates) {
+function Model(config) {
     // "constants"
-    this.ROWS = 20;
-    this.COLS = 10;
-    this.LINES_PER_LEVEL = 10;
-    this.INITIAL_TICK_DELTA = 300;
+    this.ROWS = config.rows;
+    this.COLS = config.cols;
+    this.LINES_PER_LEVEL = config.linesPerLevel;
+    this.INITIAL_TICK_DELTA = config.initialTickDelta;
+    this.PIECE_TEMPLATES = config.templates;
 
     // variables
     this.tickDelta = this.INITIAL_TICK_DELTA;
@@ -25,8 +26,8 @@ function Model(templates) {
     this.paintCallback = function() {};
 
     this._getPiece = function _getPiece() {
-        var activeIndex = Math.randN(templates.length);
-        var p = new Piece(this, activeIndex + 1, templates[activeIndex]);
+        var activeIndex = Math.randN(this.PIECE_TEMPLATES.length);
+        var p = new Piece(this, activeIndex + 1, this.PIECE_TEMPLATES[activeIndex]);
         p.centerAndRaise();
         return p;
     };
