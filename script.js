@@ -12,6 +12,7 @@ model = new Model({
     cols: 10,
     linesPerLevel: 10,
     initialTickDelta: 300,
+    levelTickMultiplier: 0.94,
     templates: pieceLayoutTemplates
 });
 ui = {

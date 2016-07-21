@@ -4,6 +4,7 @@ function Model(config) {
     this.COLS = config.cols;
     this.LINES_PER_LEVEL = config.linesPerLevel;
     this.INITIAL_TICK_DELTA = config.initialTickDelta;
+    this.LEVEL_TICK_MULTIPLIER = config.levelTickMultiplier;
     this.PIECE_TEMPLATES = config.templates;
 
     // variables
@@ -170,7 +171,7 @@ Model.prototype.processLines = function processLines() {
         var newLevel = Math.floor(this.lineCount / this.LINES_PER_LEVEL) + 1;
         if (this.level != newLevel) {
             this.level = newLevel;
-            this.tickDelta = this.INITIAL_TICK_DELTA * Math.pow(0.94, this.level - 1);
+            this.tickDelta = this.INITIAL_TICK_DELTA * Math.pow(this.LEVEL_TICK_MULTIPLIER, this.level - 1);
             clearInterval(this.interval);
             this.interval = setInterval(this._tick, this.tickDelta);
         }
