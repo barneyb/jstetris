@@ -19,7 +19,7 @@ function Model(templates) {
 
     this._getPiece = function _getPiece() {
         var activeIndex = Math.randN(templates.length);
-        var p = new Piece(activeIndex + 1, templates[activeIndex]);
+        var p = new Piece(this, activeIndex + 1, templates[activeIndex]);
         p.centerAndRaise();
         return p;
     };

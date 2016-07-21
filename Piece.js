@@ -1,4 +1,5 @@
-function Piece(color, layoutTemplates) {
+function Piece(model, color, layoutTemplates) {
+    this.model = model;
     this.color = color;
     this.layouts = [];
     for (var i = 0; i < layoutTemplates.length; i++) {
@@ -79,7 +80,7 @@ Piece.prototype.canRotate = function canRotate(dr) {
                 if (r >= Model.ROWS) {
                     return false;
                 }
-                if (! model.isCellEmpty(r, c)) {
+                if (! this.model.isCellEmpty(r, c)) {
                     return false;
                 }
             }
@@ -108,7 +109,7 @@ Piece.prototype.canMove = function canMove(dr, dc) {
         if (r >= Model.ROWS) {
             return false;
         }
-        if (! model.isCellEmpty(r, c)) {
+        if (! this.model.isCellEmpty(r, c)) {
             return false;
         }
     }
