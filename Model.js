@@ -1,4 +1,5 @@
 function Model(config) {
+    EventDispatcher.call(this);
     // "constants"
     if (config.templates == null) {
         throw new Error("Model config MUST include templates. All other settings are optional.");
@@ -72,6 +73,8 @@ function Model(config) {
         this.paintCallback();
     }).bind(this);
 }
+Model.prototype = Object.create(EventDispatcher.prototype);
+Model.prototype.constructor = Model;
 Model.STATE = {
     NOT_STARTED: 0,
     IN_PROGRESS: 1,
