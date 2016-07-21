@@ -19,7 +19,7 @@ function Model(templates) {
 
     this._getPiece = function _getPiece() {
         var activeIndex = Math.randN(templates.length);
-        var p = new Piece(this, activeIndex + 1, templates[activeIndex]);
+        var p = new Piece(activeIndex + 1, templates[activeIndex]);
         p.centerAndRaise();
         return p;
     };
@@ -40,13 +40,13 @@ function Model(templates) {
             this.completeLines = [];
             this.state = Model.STATE.IN_PROGRESS
         } else if (! this.isPieceActive()) {
-            if (this.queuedPiece.canMove(0, 0)) {
+            if (this.queuedPiece.canMove(this, 0, 0)) {
                 this.activePiece = this.queuedPiece;
                 this.queuedPiece = this._getPiece();
             } else {
                 this.gameOver();
             }
-        } else  if (this.activePiece.canMove(1, 0)) {
+        } else  if (this.activePiece.canMove(this, 1, 0)) {
             this.activePiece.move(1, 0); // move
         } else {
             this.lockActivePiece();
@@ -120,7 +120,7 @@ Model.prototype.isPieceQueued = function isPieceQueued() {
 };
 Model.prototype.drop = function drop() {
     if (this.isPieceActive()) {
-        while (this.activePiece.canMove(1, 0)) {
+        while (this.activePiece.canMove(this, 1, 0)) {
             this.activePiece.move(1, 0);
             this.score += 2;
         }
@@ -129,13 +129,13 @@ Model.prototype.drop = function drop() {
     }
 };
 Model.prototype.rotate = function rotate() {
-    if (this.isPieceActive() && this.activePiece.canRotate(1)) {
+    if (this.isPieceActive() && this.activePiece.canRotate(this, 1)) {
         this.activePiece.rotate(1);
         this.paintCallback();
     }
 };
 Model.prototype.move = function move(r, c) {
-    if (this.isPieceActive() && this.activePiece.canMove(r, c)) {
+    if (this.isPieceActive() && this.activePiece.canMove(this, r, c)) {
         this.activePiece.move(r, c);
         this.paintCallback();
     }
