@@ -1,7 +1,12 @@
 function Model(templates) {
-    this.tickDelta = Model.INITIAL_TICK_DELTA;
+    // "constants"
     this.ROWS = 20;
     this.COLS = 10;
+    this.LINES_PER_LEVEL = 10;
+    this.INITIAL_TICK_DELTA = 300;
+
+    // variables
+    this.tickDelta = this.INITIAL_TICK_DELTA;
     this.state = Model.STATE.NOT_STARTED;
     this.lineCount = 0;
     this.score = 0;
@@ -63,8 +68,6 @@ Model.STATE = {
     PAUSED: 3,
     OVER: 4
 };
-Model.INITIAL_TICK_DELTA = 300;
-Model.LINES_PER_LEVEL = 10;
 
 Model.prototype.isGameInProgress = function isGameInProgress() {
     return model.state == Model.STATE.IN_PROGRESS;
@@ -163,10 +166,10 @@ Model.prototype.processLines = function processLines() {
     }
     if (this.completeLines.length) {
         this.score += 100 * Math.pow(2, this.completeLines.length - 1);
-        var newLevel = Math.floor(this.lineCount / Model.LINES_PER_LEVEL) + 1;
+        var newLevel = Math.floor(this.lineCount / this.LINES_PER_LEVEL) + 1;
         if (this.level != newLevel) {
             this.level = newLevel;
-            this.tickDelta = Model.INITIAL_TICK_DELTA * Math.pow(0.94, this.level - 1);
+            this.tickDelta = this.INITIAL_TICK_DELTA * Math.pow(0.94, this.level - 1);
             clearInterval(this.interval);
             this.interval = setInterval(this._tick, this.tickDelta);
         }
