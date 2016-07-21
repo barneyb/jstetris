@@ -15,6 +15,7 @@ model = new Model({
     templates: pieceLayoutTemplates
 });
 ui = {
+    container: document.getElementById("container"),
     level: document.getElementById("level"),
     lineCount: document.getElementById("lineCount"),
     score: document.getElementById("score"),
@@ -22,6 +23,10 @@ ui = {
     piecePreview: document.getElementById("piecePreview"),
     board: document.getElementById("board")
 };
+boardWidth = model.COLS * (4 + 22 + 4 + 1);
+ui.container.style.width = (boardWidth + 210) + "px";
+ui.board.style.width = boardWidth + "px";
+ui.piecePreview.style.width = ((model.COLS % 2 == 0 ? 4 : 5) * (20 + 1)) + "px";
 
 function paint() {
     var r, c;
@@ -51,10 +56,17 @@ function paint() {
     }
     if (model.isPieceQueued()) {
         var piece = model.queuedPiece;
+        var bounds = piece.getBounds();
+        var rows = Math.max(4, bounds.maxRow - bounds.minRow + 1);
+        var cols = Math.max(4, bounds.maxCol - bounds.minCol + 1);
+        if (model.COLS % 2 != cols % 2) {
+            cols += 1;
+        }
+        var firstCol = Math.floor((model.COLS - cols) / 2);
         content = "";
-        for (r = 0; r < 4; r++) {
+        for (r = 0; r < rows; r++) {
             content += '<div class="row">';
-            for (c = 3; c < 7; c++) {
+            for (c = firstCol; c < firstCol + cols; c++) {
                 content += '<div class="cell cell-' + (piece.isAt(r, c) ? piece.color : BLACK) + '"></div>';
             }
             content += "</div>";
