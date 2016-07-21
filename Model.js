@@ -1,6 +1,6 @@
 function Model() {
     this.tickDelta = Model.INITIAL_TICK_DELTA;
-    this.state = STATE.NOT_STARTED;
+    this.state = Model.STATE.NOT_STARTED;
     this.lineCount = 0;
     this.score = 0;
     this.level = 1;
@@ -38,7 +38,7 @@ function Model() {
                 }
             }
             this.completeLines = [];
-            this.state = STATE.IN_PROGRESS
+            this.state = Model.STATE.IN_PROGRESS
         } else if (! this.isPieceActive()) {
             if (this.queuedPiece.canMove(0, 0)) {
                 this.activePiece = this.queuedPiece;
@@ -54,39 +54,46 @@ function Model() {
         this.paintCallback();
     }).bind(this);
 }
+Model.STATE = {
+    NOT_STARTED: 0,
+    IN_PROGRESS: 1,
+    LINE_CLEARING: 2,
+    PAUSED: 3,
+    OVER: 4
+};
 Model.ROWS = 20;
 Model.COLS = 10;
 Model.INITIAL_TICK_DELTA = 300;
 Model.LINES_PER_LEVEL = 10;
 
 Model.prototype.isGameInProgress = function isGameInProgress() {
-    return model.state == STATE.IN_PROGRESS;
+    return model.state == Model.STATE.IN_PROGRESS;
 };
 Model.prototype.isLineClearing = function isLineClearing() {
-    return model.state == STATE.LINE_CLEARING;
+    return model.state == Model.STATE.LINE_CLEARING;
 };
 Model.prototype.isGamePaused = function isGamePaused() {
-    return model.state == STATE.PAUSED;
+    return model.state == Model.STATE.PAUSED;
 };
 Model.prototype.isGameOver = function isGameOver() {
-    return model.state == STATE.OVER;
+    return model.state == Model.STATE.OVER;
 };
 
 Model.prototype.pause = function pause() {
-    this.state = STATE.PAUSED;
+    this.state = Model.STATE.PAUSED;
 };
 Model.prototype.unpause = function unpause() {
-    this.state = STATE.IN_PROGRESS;
+    this.state = Model.STATE.IN_PROGRESS;
 };
 
 Model.prototype.startGame = function startGame() {
     this.queuedPiece = this._getPiece();
     this.interval = setInterval(this._tick, this.tickDelta);
-    this.state = STATE.IN_PROGRESS;
+    this.state = Model.STATE.IN_PROGRESS;
     this._tick();
 };
 Model.prototype.gameOver = function gameOver() {
-    this.state = STATE.OVER;
+    this.state = Model.STATE.OVER;
     clearInterval(this.interval);
     this.interval = null;
     this.activePiece = null;
@@ -96,7 +103,7 @@ Model.prototype.isCellEmpty = function isCellEmpty(r, c) {
     return this.board[r][c] == BLACK;
 };
 Model.prototype.getCellColor = function getCellColor(r, c) {
-    if (this.state == STATE.PAUSED) {
+    if (this.state == Model.STATE.PAUSED) {
         return BLACK;
     }
     if (this.activePiece != null && this.activePiece.isAt(r, c)) {
@@ -150,7 +157,7 @@ Model.prototype.processLines = function processLines() {
                 continue rowLoop;
             }
         }
-        this.state = STATE.LINE_CLEARING;
+        this.state = Model.STATE.LINE_CLEARING;
         this.lineCount += 1;
         this.completeLines.push(r);
     }

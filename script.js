@@ -1,11 +1,4 @@
 BLACK = 0;
-STATE = {
-    NOT_STARTED: 0,
-    IN_PROGRESS: 1,
-    LINE_CLEARING: 2,
-    PAUSED: 3,
-    OVER: 4
-};
 
 Math.randN = function randN(n) {
     return Math.floor(Math.random() * n);
