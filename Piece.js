@@ -35,7 +35,7 @@ Piece.prototype.centerAndRaise = function centerAndRaise() {
     var bounds = this.getBounds();
     var dr = -bounds.minRow;
     var dc = (this.model.COLS - (bounds.maxCol - bounds.minCol + 1)) / 2 - bounds.minCol;
-    if (Math.randBool()) {
+    if (window.getRandomBoolean != undefined ? getRandomBoolean() : Math.randBool()) {
         dc = Math.floor(dc);
     } else {
         dc = Math.ceil(dc);

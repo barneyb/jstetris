@@ -112,6 +112,35 @@ function getRandomInteger(n) {
 /*
  * Assignment #
  *
+ * There's one more bit of randomization involved with creating new pieces. If
+ * the new piece is two or four columns wide, it can be centered on the board.
+ * However, if it's one or three columns wide, it has to be one column left or
+ * right of center (since the board has an even number of columns). What we need
+ * is a function that will randomly return left or right for us. But that's
+ * really specific, and there is a built-in datatype that supports exactly two
+ * values already: boolean.
+ *
+ * instead, lets make a function that will return a boolean for whether we
+ * should pick left. That makes the function more reusable. To make it even more
+ * reusable, name it 'getRandomBoolean'. The implementation won't change (it's
+ * still returning a random boolean value), but it'll be easier to see what the
+ * function does compared to if it was named 'getRandomUseLeftSide'.
+ *
+ * Consider using 'getRandomInteger' to help implement the function.
+ */
+
+/**
+ * I return a random boolean value.
+ *
+ * @returns {boolean} A random boolean value.
+ */
+function getRandomBoolean() {
+    return getRandomInteger(2) == 0;
+}
+
+/*
+ * Assignment #
+ *
  * The box that indicates how many lines the player has completely needs to be
  * labeled. The label isn't always the same, though, because of pluralization
  * rules. Your job is to write a function that will provide the right label for
