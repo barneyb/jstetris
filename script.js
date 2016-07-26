@@ -96,7 +96,11 @@ model.on('change:level', function(l) {
     ui.level.innerHTML = l;
 });
 model.on('change:line-count', function(lc) {
-    ui.lineCount.innerHTML = lc;
+    if (window.labelLineCount == undefined) {
+        ui.lineCount.innerHTML = lc;
+    } else {
+        ui.lineCount.innerHTML = labelLineCount(lc);
+    }
 });
 displayedScore = 0;
 actualScore = null;
