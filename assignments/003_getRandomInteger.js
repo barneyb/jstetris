@@ -13,7 +13,7 @@
  * meaning we are explicitly indicating that we make no guarantees what will
  * happen if such a value is passed. The function might do something useful, it
  * might throw an error, it might cause an infinite loop, we make no promises.
- * it's up to the calling code to ensure they don't violate the rule(s) we set
+ * It's up to the calling code to ensure they don't violate the rule(s) we set
  * on valid values to pass to the function. Those rules are called
  * "constraints", and are an important part of creating flexible, reusable code.
  *

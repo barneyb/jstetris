@@ -9,16 +9,16 @@
  * about the size of the board or the size (or shape) of the pieces. Excepting
  * that new isAt method you wrote. :)
  *
- * This assignment is to reimplement isAt using a loop, so that it will
+ * This assignment is to reimplement Piece.isAt using a loop, so that it will
  * gracefully handle Pieces with any number of blocks in the layout array. Don't
  * go change last assignment though, start over below. There isn't a helper
- * console.log this time though, just a blank function.
+ * console.log this time, just a blank function, but you got this.
  *
- * Also, because JavaScript methods are added with the assignment operator, that
- * means you can change them by simply assigning a new function. That's what
- * will happening below when you uncomment. So even though your function from
- * the last assignment is still being set as the Piece.isAt method, this
- * assignment's function is replacing it, just as if you were to do this:
+ * Note: because JavaScript methods are added with the assignment operator, you
+ * can change them by simply assigning a new function. That's what will happen
+ * below when you uncomment. So even though your function from the last
+ * assignment is still being set as the Piece.isAt method, this assignment
+ * s function is replacing it, just as if you were to do this:
  *
  *    var x = 4; // set the value
  *    x = 5;     // replace it with another

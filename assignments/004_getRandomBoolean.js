@@ -7,7 +7,7 @@
  * really specific, and there is a built-in datatype that supports exactly two
  * values already: boolean.
  *
- * instead, lets make a function that will return a boolean for whether we
+ * Instead, lets make a function that will return a boolean for whether we
  * should pick left. That makes the function more reusable. To make it even more
  * reusable, name it 'getRandomBoolean'. The implementation won't change (it's
  * still returning a random boolean value), but it'll be easier to see what the
