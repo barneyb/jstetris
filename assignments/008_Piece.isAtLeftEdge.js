@@ -4,10 +4,8 @@
  * assignment is to implement the isAtLeftEdge method on Piece.
  *
  * This is another method that returns boolean, and thus the empty method will
- * be treated as returning false. This will end up causing the game to be over
- * immediately because of the way some of the internals are implemented. Once
- * the function doesn't always return a "false-y" value, the game will progress
- * again.
+ * be treated as returning false. Use the left arrow to slide the piece over
+ * four or five times and you should see an error in the console.
  */
 
 /**
