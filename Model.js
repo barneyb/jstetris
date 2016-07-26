@@ -22,7 +22,12 @@ function Model(config) {
     this.state = Model.STATE.NOT_STARTED;
 
     this._getPiece = function _getPiece() {
-        var activeIndex = Math.randN(this.PIECE_TEMPLATES.length);
+        var activeIndex;
+        if (window.getRandomPieceIndex == undefined || this.PIECE_TEMPLATES.length != 7) {
+            activeIndex = Math.randN(this.PIECE_TEMPLATES.length);
+        } else {
+            activeIndex = getRandomPieceIndex();
+        }
         var p = new Piece(this, activeIndex + 1, this.PIECE_TEMPLATES[activeIndex]);
         p.centerAndRaise();
         return p;
@@ -43,7 +48,7 @@ function Model(config) {
             this.state = Model.STATE.IN_PROGRESS;
             this.trigger('change:board', this.board);
         } else if (! this.isPieceActive()) {
-            if (this.queuedPiece.canMove(0, 0)) {
+            if (this.queuedPiece && this.queuedPiece.canMove(0, 0)) {
                 this.activePiece = this.queuedPiece;
                 this.trigger('change:active-piece', this.activePiece);
                 this.queuedPiece = this._getPiece();
