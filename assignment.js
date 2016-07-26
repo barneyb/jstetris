@@ -127,6 +127,14 @@ function getRandomInteger(n) {
  * function does compared to if it was named 'getRandomUseLeftSide'.
  *
  * Consider using 'getRandomInteger' to help implement the function.
+ *
+ * Note: when you uncomment and refresh, it will be tricky to see the "broken"
+ * behaviour. Because of JavaScript's concepts of "truth-y" and "false-y", the
+ * empty function will appear to always return 'false', thus placing every
+ * odd-width piece just right of center. This is because the return value is
+ * 'undefined', and when 'undefined' is used where a boolean is expected, it is
+ * treated as a 'false' value. Thus we say that 'undefined' is "false-y". The
+ * number zero and the empty string are also considered "false-y" in JavaScript.
  */
 
 /**
