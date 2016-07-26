@@ -5,7 +5,11 @@ function Piece(model, color, layoutTemplates) {
     for (var i = 0; i < layoutTemplates.length; i++) {
         this.layouts[i] = layoutTemplates[i].slice(0)
     }
-    this.rotation = Math.randN(this.layouts.length);
+    if (window.getRandomPieceOrientation == undefined || this.layouts.length != 4) {
+        this.rotation = Math.randN(this.layouts.length);
+    } else {
+        this.rotation = getRandomPieceOrientation();
+    }
     this.layout = this.layouts[this.rotation];
 }
 Piece.prototype.getBounds = function getBounds() {
