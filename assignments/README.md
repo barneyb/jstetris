@@ -21,5 +21,4 @@ changes by commenting out your function, without having to delete it.
 It will also be helpful to keep the developer tools open so you can see the
 console. That way you can see if there are any errors, but more importantly,
 you can use the `console.log` function to print out messages and/or variable
-to see what's going on. If you know how to use the debugger, you can do that
-instead, but don't worry if not. We'll get there later.
+to see what's going on.
