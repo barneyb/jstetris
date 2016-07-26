@@ -20,7 +20,7 @@
  * part of the piece is in column one (counting from zero!). In row one, the
  * blocks in both column zero and one are part of the piece. In row two, the
  * block in column one is part of the piece. No blocks in row four (nor in
- * columns two or three) are present in this orientation of the purple T.
+ * columns two or three) are present in this orientation of the purple "T".
  *
  * These four block can be expressed as four (row, column) pairs:
  *
