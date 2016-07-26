@@ -77,16 +77,16 @@ Model.STATE = {
 };
 
 Model.prototype.isGameInProgress = function isGameInProgress() {
-    return model.state == Model.STATE.IN_PROGRESS;
+    return this.state == Model.STATE.IN_PROGRESS;
 };
 Model.prototype.isLineClearing = function isLineClearing() {
-    return model.state == Model.STATE.LINE_CLEARING;
+    return this.state == Model.STATE.LINE_CLEARING;
 };
 Model.prototype.isGamePaused = function isGamePaused() {
-    return model.state == Model.STATE.PAUSED;
+    return this.state == Model.STATE.PAUSED;
 };
 Model.prototype.isGameOver = function isGameOver() {
-    return model.state == Model.STATE.OVER;
+    return this.state == Model.STATE.OVER;
 };
 
 Model.prototype.pause = function pause() {
