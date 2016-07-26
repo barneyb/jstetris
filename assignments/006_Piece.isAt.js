@@ -45,7 +45,8 @@
  *
  * So if 'this' means the current Piece, and Pieces have a 'layout' property
  * containing an eight-element array, then within a method, you can use
- * 'this.layout' as the name of that array.
+ * 'this.layout' as the name of that array. You're going to use this property
+ * a LOT over the rest of the assignments, so make sure you understand it.
  *
  * Usually when you deal with arrays, you use a loop. But in this case, since
  * you know the array is eight numbers long, and those numbers are really four
