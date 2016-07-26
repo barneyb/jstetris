@@ -121,6 +121,15 @@ Piece.prototype.canMove = function canMove(dr, dc) {
     }
     return true;
 };
+
+/**
+ * I return whether any of the piece's four blocks are at the passed row/column
+ * coordinates.
+ *
+ * @param r The row of the block in question
+ * @param c The column of the block in question
+ * @returns {boolean} Whether the piece is at the requested row and column.
+ */
 Piece.prototype.isAt = function isAt(r, c) {
     for (var i = 0; i < this.layout.length; i += 2) {
         if (this.layout[i] == r && this.layout[i + 1] == c) {
@@ -129,6 +138,7 @@ Piece.prototype.isAt = function isAt(r, c) {
     }
     return false;
 };
+
 Piece.prototype.getCurrentLayout = function getCurrentLayout() {
     return this.layout.slice(0);
 };
