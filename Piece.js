@@ -5,10 +5,12 @@ function Piece(model, color, layoutTemplates) {
     for (var i = 0; i < layoutTemplates.length; i++) {
         this.layouts[i] = layoutTemplates[i].slice(0)
     }
-    if (window.getRandomPieceOrientation == undefined || this.layouts.length != 4) {
-        this.rotation = Math.randN(this.layouts.length);
-    } else {
+    if (window.getRandomInteger != undefined) {
+        this.rotation = getRandomInteger(this.layouts.length);
+    } else if (window.getRandomPieceOrientation != undefined && this.layouts.length == 4) {
         this.rotation = getRandomPieceOrientation();
+    } else {
+        this.rotation = Math.randN(this.layouts.length);
     }
     this.layout = this.layouts[this.rotation];
 }

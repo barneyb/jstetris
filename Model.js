@@ -23,10 +23,12 @@ function Model(config) {
 
     this._getPiece = function _getPiece() {
         var activeIndex;
-        if (window.getRandomPieceIndex == undefined || this.PIECE_TEMPLATES.length != 7) {
-            activeIndex = Math.randN(this.PIECE_TEMPLATES.length);
-        } else {
+        if (window.getRandomInteger != undefined) {
+            activeIndex = getRandomInteger(this.PIECE_TEMPLATES.length);
+        } else if (window.getRandomPieceIndex != undefined && this.PIECE_TEMPLATES.length == 7) {
             activeIndex = getRandomPieceIndex();
+        } else {
+            activeIndex = Math.randN(this.PIECE_TEMPLATES.length);
         }
         var p = new Piece(this, activeIndex + 1, this.PIECE_TEMPLATES[activeIndex]);
         p.centerAndRaise();
