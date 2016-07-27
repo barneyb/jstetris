@@ -4,19 +4,25 @@
  * discussion about centering pieces on the board when they start to explain why
  * the function was needed.
  *
- * In order to center a piece on the board, you need two pieces of information,
- * along with whether to bias left or right (via getRandomBoolean) if it can't
- * be centered perfectly. What are they?
+ * In order to center a piece on the board, you need three pieces of
+ * information, in addition to whether to bias left or right (via
+ * getRandomBoolean) if it can't be centered perfectly. What are they?
  *
  * The first one is the width of the board, but you already know how to get that
  * information. It's present in Model.COLS, which we can access in any Piece
  * method via `this.model.COLS`.
  *
  * The second one is the width of the piece, in it's initial orientation. We
- * don't have access to this information yet. Or do we? We can certainly figure
- * it out based on the information in the "layout" property of Piece. This
- * assignment's task is to do exactly that, by implementing a getColumnBounds
- * method on Piece.
+ * don't have access to this information yet. Or do we?
+ *
+ * The third one is which columns the piece is currently in. Remember that our
+ * piece layouts are all with the piece jammed up in the top-left corner. When
+ * we place a piece we'll just put it up in the corner and the move it (using
+ * the move method) over. We don't have this information yet either. Right?
+ *
+ * We can certainly figure those two we don't know out based on the information
+ * in the "layout" property of Piece. This assignment's task is to do exactly
+ * that, by implementing a getColumnBounds method on Piece.
  *
  * The method should return a JavaScript object with two properties: `minCol`
  * and `maxCol`, which will contain the lowest and highest column index that the
@@ -36,7 +42,7 @@
  * For the "T" piece in this orientation, the lowest column it occupies is
  * column zero (with one block), and the highest column it occupies is column
  * one (with the other three blocks). Thus if this piece's getColumnBounds
- * method were called, it should return this array:
+ * method were called, it should return this object:
  *
  *    {
  *      minCol: 0,
