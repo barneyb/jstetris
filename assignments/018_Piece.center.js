@@ -24,5 +24,12 @@
  * I center the piece on the board from wherever it's currently located, which
  * is most likely jammed up in the top-left corner.
  */
-//Piece.prototype.center = function center() {
-//};
+Piece.prototype.center = function center() {
+    var dc = this.getColumnsToCenter(this.getColumnBounds());
+    if (getRandomBoolean()) {
+        dc = Math.floor(dc);
+    } else {
+        dc = Math.ceil(dc);
+    }
+    this.move(0, dc);
+};
