@@ -16,5 +16,6 @@
  *
  * @returns {number} The index of the next random piece.
  */
-//function getRandomPieceIndex() {
-//}
+function getRandomPieceIndex() {
+    return Math.floor(Math.random() * 7);
+}

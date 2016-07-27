@@ -44,5 +44,22 @@
  * @param columnDelta The number of columns to move. Can be negative.
  * @returns {boolean} Whether the piece can move in the requested direction.
  */
-//Piece.prototype.canMove = function canMove(rowDelta, columnDelta) {
-//};
+Piece.prototype.canMove = function canMove(rowDelta, columnDelta) {
+    for (var i = 0; i < this.layout.length; i += 2) {
+        var r = this.layout[i] + rowDelta,
+            c = this.layout[i + 1] + columnDelta;
+        if (c < 0 || c >= this.model.COLS) {
+            return false;
+        }
+        if (r < 0) {
+            continue; // allow rotating off the top of the board
+        }
+        if (r >= this.model.ROWS) {
+            return false;
+        }
+        if (! this.model.isCellEmpty(r, c)) {
+            return false;
+        }
+    }
+    return true;
+};

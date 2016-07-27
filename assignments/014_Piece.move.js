@@ -75,5 +75,11 @@
  * @param rowDelta The number of rows to move.
  * @param columnDelta The number of columns to move.
  */
-//Piece.prototype.move = function move(rowDelta, columnDelta) {
-//};
+Piece.prototype.move = function move(rowDelta, columnDelta) {
+    for (var i = 0; i < this.layouts.length; i++) {
+        var layout = this.layouts[i];
+        for (var j = 0; j < layout.length; j++) {
+            layout[j] += j % 2 ? columnDelta : rowDelta
+        }
+    }
+};

@@ -70,11 +70,15 @@
  * @param c The column of the block in question
  * @returns {boolean} Whether the piece is at the requested row and column.
  */
-//Piece.prototype.isAt = function isAt(r, c) {
-//    // this 'if' statement is here simply to assist in getting started by
-//    // logging the current layout to the console. You can safely delete it.
-//    if (r == 5 && c == 5) {
-//        console.log("isAt(" + r + ", " + c + ")", this.layout);
-//    }
-//    // end "getting started" if statement
-//};
+Piece.prototype.isAt = function isAt(r, c) {
+    // this 'if' statement is here simply to assist in getting started by
+    // logging the current layout to the console. You can safely delete it.
+    if (r == 5 && c == 5) {
+        console.log("isAt(" + r + ", " + c + ")", this.layout);
+    }
+    // end "getting started" if statement
+    return (this.layout[0] == r && this.layout[1] == c) ||
+        (this.layout[2] == r && this.layout[3] == c) ||
+        (this.layout[4] == r && this.layout[5] == c) ||
+        (this.layout[6] == r && this.layout[7] == c);
+};

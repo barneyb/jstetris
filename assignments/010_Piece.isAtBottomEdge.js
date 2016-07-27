@@ -18,5 +18,11 @@
  *
  * @returns {boolean} whether the piece is at the bottom edge.
  */
-//Piece.prototype.isAtBottomEdge = function isAtBottomEdge() {
-//};
+Piece.prototype.isAtBottomEdge = function isAtBottomEdge() {
+    for (var i = 0; i < this.layout.length; i += 2) {
+        if (this.layout[i] == this.model.ROWS - 1) {
+            return true;
+        }
+    }
+    return false
+};

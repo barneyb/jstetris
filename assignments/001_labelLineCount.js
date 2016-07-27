@@ -13,5 +13,6 @@
  * @param lineCount The line count to label.
  * @returns {string} The label to use for the line count.
  */
-//function labelLineCount(lineCount) {
-//}
+function labelLineCount(lineCount) {
+    return lineCount + " " + (lineCount == 1 ? "Line" : "Lines");
+}

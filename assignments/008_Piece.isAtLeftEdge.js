@@ -14,5 +14,11 @@
  *
  * @returns {boolean} whether the piece is at the left edge.
  */
-//Piece.prototype.isAtLeftEdge = function isAtLeftEdge() {
-//};
+Piece.prototype.isAtLeftEdge = function isAtLeftEdge() {
+    for (var i = 0; i < this.layout.length; i += 2) {
+        if (this.layout[i + 1] == 0) {
+            return true;
+        }
+    }
+    return false
+};
