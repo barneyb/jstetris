@@ -55,5 +55,15 @@
  *
  * @returns {{minCol: number maxCol: number}} An object with bounds information.
  */
-//Piece.prototype.getColumnBounds = function getColumnBounds() {
-//};
+Piece.prototype.getColumnBounds = function getColumnBounds() {
+    var bounds = {
+        minCol: this.model.COLS,
+        maxCol: 0
+    };
+    for (var i = 0; i < this.layout.length; i += 2) {
+        var c = this.layout[i + 1];
+        bounds.minCol = Math.min(bounds.minCol, c);
+        bounds.maxCol = Math.max(bounds.maxCol, c);
+    }
+    return bounds;
+};
