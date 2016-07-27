@@ -53,5 +53,20 @@
  * @returns {{minRow: number, maxRow: number, minCol: number, maxCol: number}}
  *    the row/col bounds expressed as a four-property object.
  */
-//Piece.prototype.getBounds = function getBounds() {
-//};
+Piece.prototype.getBounds = function getBounds() {
+    var bounds = {
+        minRow: this.model.ROWS,
+        maxRow: 0,
+        minCol: this.model.COLS,
+        maxCol: 0
+    };
+    for (var i = 0; i < this.layout.length; i += 2) {
+        var r = this.layout[i],
+            c = this.layout[i + 1];
+        bounds.minRow = Math.min(bounds.minRow, r);
+        bounds.maxRow = Math.max(bounds.maxRow, r);
+        bounds.minCol = Math.min(bounds.minCol, c);
+        bounds.maxCol = Math.max(bounds.maxCol, c);
+    }
+    return bounds;
+};
