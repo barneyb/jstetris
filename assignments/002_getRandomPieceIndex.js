@@ -6,7 +6,8 @@
  * Why 0-6 instead of 1-7?
  *
  * The Math.random() and Math.floor() functions will be helpful. Use Google to
- * find some documentation that explains what they do.
+ * find some documentation that explains what they do. (Try searching for
+ * "javascript math.random" or "javascript math.floor" if you're stuck.)
  */
 
 /**
