@@ -1,5 +1,5 @@
 /*
- * The box that indicates how many lines the player has completely needs to be
+ * The box that indicates how many lines the player has completed needs to be
  * labeled. The label isn't always the same, though, because of pluralization
  * rules. Your job is to write a function that will provide the right label for
  * the current line count.
