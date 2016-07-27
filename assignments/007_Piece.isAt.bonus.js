@@ -32,11 +32,5 @@
  * @param c The column of the block in question
  * @returns {boolean} Whether the piece is at the requested row and column.
  */
-Piece.prototype.isAt = function isAt(r, c) {
-    for (var i = 0; i < this.layout.length; i += 2) {
-        if (this.layout[i] == r && this.layout[i + 1] == c) {
-            return true;
-        }
-    }
-    return false;
-};
+//Piece.prototype.isAt = function isAt(r, c) {
+//};

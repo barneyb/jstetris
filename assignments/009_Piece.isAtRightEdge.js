@@ -21,11 +21,5 @@
  *
  * @returns {boolean} whether the piece is at the right edge.
  */
-Piece.prototype.isAtRightEdge = function isAtRightEdge() {
-    for (var i = 0; i < this.layout.length; i += 2) {
-        if (this.layout[i + 1] == this.model.COLS - 1) {
-            return true;
-        }
-    }
-    return false
-};
+//Piece.prototype.isAtRightEdge = function isAtRightEdge() {
+//};

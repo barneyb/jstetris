@@ -15,6 +15,5 @@
  *
  * @returns {number} The random orientation for a piece.
  */
-function getRandomPieceOrientation() {
-    return Math.floor(Math.random() * 4);
-}
+//function getRandomPieceOrientation() {
+//}

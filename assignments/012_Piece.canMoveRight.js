@@ -13,16 +13,5 @@
  *
  * @returns {boolean} whether the piece can move right.
  */
-Piece.prototype.canMoveRight = function canMoveRight() {
-    if (this.isAtRightEdge()) {
-        return false;
-    }
-    for (var i = 0; i < this.layout.length; i += 2) {
-        var r = this.layout[i],
-            c = this.layout[i + 1];
-        if (! model.isCellEmpty(r, c + 1)) {
-            return false;
-        }
-    }
-    return true;
-};
+//Piece.prototype.canMoveRight = function canMoveRight() {
+//};

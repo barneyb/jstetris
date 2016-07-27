@@ -32,6 +32,5 @@
  * @returns {number} A random number greater than or equal to zero and less than
  *  'n'.
  */
-function getRandomInteger(n) {
-    return Math.floor(Math.random() * n);
-}
+//function getRandomInteger(n) {
+//}

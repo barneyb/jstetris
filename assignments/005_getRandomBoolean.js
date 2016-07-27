@@ -29,6 +29,5 @@
  *
  * @returns {boolean} A random boolean value.
  */
-function getRandomBoolean() {
-    return getRandomInteger(2) == 0;
-}
+//function getRandomBoolean() {
+//}

@@ -41,6 +41,6 @@
  *
  * @returns {Array.<number>}
  */
-Piece.prototype.getCurrentLayout = function getCurrentLayout() {
-    return this.layout.slice(0);
-};
+//Piece.prototype.getCurrentLayout = function getCurrentLayout() {
+//    return this.layout.slice(0);
+//};
