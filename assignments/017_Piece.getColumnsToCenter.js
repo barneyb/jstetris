@@ -63,5 +63,6 @@
  * @returns {number} The number of columns to scoot the piece over so that it is
  *    centered on the board.
  */
-//Piece.prototype.getColumnsToCenter = function getColumnsToCenter(bounds) {
-//};
+Piece.prototype.getColumnsToCenter = function getColumnsToCenter(bounds) {
+    return (this.model.COLS - (bounds.maxCol - bounds.minCol + 1)) / 2 - bounds.minCol;
+};
