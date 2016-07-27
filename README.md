@@ -1,5 +1,15 @@
 # jstetris - build your own
 
+---
+
+## ANSWER KEY BRANCH
+
+This branch is "completed", with all the assignments finished and correct. It's
+the "answer key", more or less, though obviously there isn't necessarily a
+single correct answer for any of the assignments.
+
+---
+
 Super simple JS Tetris game, designed to be reconstructed in place by anyone
 with a little JavaScript familiarity. The game is fully implemented, with a
 series of "assignments" that slowly build up the same functionality, replacing
