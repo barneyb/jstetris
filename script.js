@@ -104,18 +104,25 @@ function rollScore() {
         scoreInterval = null;
     }
 }
-model.on('change:score', function(s) {
+new Promise(function(resolve, reject, update) {
+    model.on('change:score', function(s) {
+        update(s);
+    });
+    model.on('game-over', function() {
+        resolve(model.score);
+    });
+}).then(function(s) {
+    if (scoreInterval != null) {
+        clearInterval(scoreInterval);
+        scoreInterval = null;
+    }
+    ui.score.innerHTML = s;
+    return s;
+}, null, function(s) {
     actualScore = s;
     if (scoreInterval == null) {
         scoreInterval = setInterval(rollScore, 100);
         rollScore();
-    }
-});
-model.on('game-over', function() {
-    if (scoreInterval != null) {
-        clearInterval(scoreInterval);
-        scoreInterval = null;
-        ui.score.innerHTML = model.score;
     }
 });
 model.on('change:board', function() { drawBoard(); });
