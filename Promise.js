@@ -49,7 +49,7 @@ Promise = (function() {
             p[key + 'Handlers'].forEach(function(it, i) {
                 var val = value;
                 if (it != null) {
-                    val = it(val);
+                    val = it.call(undefined, val);
                 }
                 p.chain[i]['_' + key](val);
             })
