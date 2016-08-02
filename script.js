@@ -104,14 +104,14 @@ function rollScore() {
         scoreInterval = null;
     }
 }
-new Promise(function(resolve, reject, update) {
-    model.on('change:score', function(s) {
-        update(s);
-    });
-    model.on('game-over', function() {
-        resolve(model.score);
-    });
-}).then(function(s) {
+d = new Deferred();
+model.on('change:score', function(s) {
+    d.update(s);
+});
+model.on('game-over', function() {
+    d.resolve(model.score);
+});
+d.promise().then(function(s) {
     if (scoreInterval != null) {
         clearInterval(scoreInterval);
         scoreInterval = null;
