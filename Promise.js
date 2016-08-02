@@ -45,13 +45,15 @@ Promise = (function() {
         throw new Error("Promise.finally is not supported");
     };
     function doHandlers(p, key, value) {
-        p[key + 'Handlers'].forEach(function(it, i) {
-            var val = value;
-            if (it != null) {
-                val = it(val);
-            }
-            p.chain[i]['_' + key](val);
-        })
+        setTimeout(function() {
+            p[key + 'Handlers'].forEach(function(it, i) {
+                var val = value;
+                if (it != null) {
+                    val = it(val);
+                }
+                p.chain[i]['_' + key](val);
+            })
+        });
     }
     Promise.prototype._resolve = function _resolve(value) {
         if (this.state != PENDING) {
