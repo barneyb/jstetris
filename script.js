@@ -132,10 +132,10 @@ model.on('change:queued-piece', function(piece) {
         cols += 1;
     }
     var firstCol = Math.floor((model.COLS - cols) / 2);
-    content = "";
-    for (r = 0; r < rows; r++) {
+    var content = "";
+    for (var r = 0; r < rows; r++) {
         content += '<div class="row">';
-        for (c = firstCol; c < firstCol + cols; c++) {
+        for (var c = firstCol; c < firstCol + cols; c++) {
             content += '<div class="cell cell-' + (piece && piece.isAt(r, c) ? piece.color : BLACK) + '"></div>';
         }
         content += "</div>";
