@@ -1,0 +1,76 @@
+Promise = (function() {
+    function Promise(work) {
+        this.value = null;
+        this.state = 0;
+        this.chain = [];
+        this.resolveHandlers = [];
+        this.rejectHandlers = [];
+        this.updateHandlers = [];
+        work && work(this._resolve.bind(this), this._reject.bind(this), this._update.bind(this));
+    }
+    Promise.resolve = function resolve(value) {
+        return new Promise(function(r) { r(value); });
+    };
+    Promise.reject = function reject(reason) {
+        return new Promise(function(_, r) { r(reason); });
+    };
+    Promise.all = function all(promises) {
+        throw new Error("Promise.all is not supported");
+    };
+    Promise.race = function all(promises) {
+        throw new Error("Promise.race is not supported");
+    };
+    Promise.prototype.then = function then(onResolve, onReject, onUpdate) {
+        this.resolveHandlers.push(onResolve);
+        this.rejectHandlers.push(onReject);
+        this.updateHandlers.push(onUpdate);
+        var p = new Promise();
+        if (this.state == 1) {
+            p.value = onResolve == null ? this.value : onResolve(this.value);
+            p.state = 1;
+        } else if (this.state == 2) {
+            p.value = onReject == null ? this.value : onReject(this.value);
+            p.state = 2;
+        }
+        this.chain.push(p);
+        return p;
+    };
+    Promise.prototype.catch = function (onReject) {
+        throw new Error("Promise.catch is not supported");
+    };
+    Promise.prototype.finally = function (onSettle, onUpdate) {
+        throw new Error("Promise.finally is not supported");
+    };
+    function doHandlers(p, key, value) {
+        p[key + 'Handlers'].forEach(function(it, i) {
+            var val = value;
+            if (it != null) {
+                val = it(val);
+            }
+            p.chain[i]['_' + key](val);
+        })
+    }
+    Promise.prototype._resolve = function _resolve(value) {
+        if (this.state != 0) {
+            throw new Error("Only pending promises can be resolved.")
+        }
+        this.state = 1;
+        this.value = value;
+        doHandlers(this, 'resolve', this.value);
+    };
+    Promise.prototype._reject = function _reject(reason) {
+        if (this.state != 0) {
+            throw new Error("Only pending promises can be rejected.")
+        }
+        this.state = 2;
+        this.value = reason;
+        doHandlers(this, 'reject', this.value);
+    };
+    Promise.prototype._update = function _update(value) {
+        if (this.state != 0) {
+            throw new Error("Only pending promises can be updated.")
+        }
+        doHandlers(this, 'update', value);
+    };
+    return Promise;
+}());
