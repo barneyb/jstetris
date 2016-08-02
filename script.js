@@ -86,11 +86,6 @@ model.on('game-over', function() {
     ui.status.innerHTML = "Game Over!";
     ui.status.className = "show";
     document.removeEventListener('keydown', inProgressKeyListener);
-    if (scoreInterval != null) {
-        clearInterval(scoreInterval);
-        scoreInterval = null;
-        ui.score.innerHTML = model.score;
-    }
 });
 model.on('change:level', function(l) {
     ui.level.innerHTML = l;
@@ -111,11 +106,17 @@ function rollScore() {
 }
 model.on('change:score', function(s) {
     actualScore = s;
-    if (scoreInterval != null) {
-        return;
+    if (scoreInterval == null) {
+        scoreInterval = setInterval(rollScore, 100);
+        rollScore();
     }
-    scoreInterval = setInterval(rollScore, 100);
-    rollScore();
+});
+model.on('game-over', function() {
+    if (scoreInterval != null) {
+        clearInterval(scoreInterval);
+        scoreInterval = null;
+        ui.score.innerHTML = model.score;
+    }
 });
 model.on('change:board', function() { drawBoard(); });
 model.on('change:active-piece', function() { drawBoard(); });
