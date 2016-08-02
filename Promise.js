@@ -1,7 +1,10 @@
 Promise = (function() {
+    var PENDING = 'pending',
+        FULFILLED = 'fulfilled',
+        REJECTED = 'rejected';
     function Promise(work) {
         this.value = null;
-        this.state = 0;
+        this.state = PENDING;
         this.chain = [];
         this.resolveHandlers = [];
         this.rejectHandlers = [];
@@ -25,12 +28,12 @@ Promise = (function() {
         this.rejectHandlers.push(onReject);
         this.updateHandlers.push(onUpdate);
         var p = new Promise();
-        if (this.state == 1) {
+        if (this.state == FULFILLED) {
             p.value = onResolve == null ? this.value : onResolve(this.value);
-            p.state = 1;
-        } else if (this.state == 2) {
+            p.state = FULFILLED;
+        } else if (this.state == REJECTED) {
             p.value = onReject == null ? this.value : onReject(this.value);
-            p.state = 2;
+            p.state = REJECTED;
         }
         this.chain.push(p);
         return p;
@@ -51,23 +54,23 @@ Promise = (function() {
         })
     }
     Promise.prototype._resolve = function _resolve(value) {
-        if (this.state != 0) {
+        if (this.state != PENDING) {
             throw new Error("Only pending promises can be resolved.")
         }
-        this.state = 1;
+        this.state = FULFILLED;
         this.value = value;
         doHandlers(this, 'resolve', this.value);
     };
     Promise.prototype._reject = function _reject(reason) {
-        if (this.state != 0) {
+        if (this.state != PENDING) {
             throw new Error("Only pending promises can be rejected.")
         }
-        this.state = 2;
+        this.state = REJECTED;
         this.value = reason;
         doHandlers(this, 'reject', this.value);
     };
     Promise.prototype._update = function _update(value) {
-        if (this.state != 0) {
+        if (this.state != PENDING) {
             throw new Error("Only pending promises can be updated.")
         }
         doHandlers(this, 'update', value);
