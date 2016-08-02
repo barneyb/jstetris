@@ -61,10 +61,10 @@ fieldset {
 
 #piecePreview {
     margin: auto;
-    padding: 5px;
+    padding: 0;
     width: 84px; /* 4 * (20 + 1) */
     height: 84px;
-    background-color: #ccc;
+    background-color: #fff;
 }
 #piecePreview .row {
     height: 21px;
@@ -75,46 +75,46 @@ fieldset {
     border-style: none;
 }
 #piecePreview .cell-0 {
-    background-color: #ccc;
-    border-color: #ccc;
+    background-color: #fff;
+    border-color: #fff;
 }
 
 .cell-0 {
-    background-color: black;
-    border-color: black;
+    background-color: #000000;
+    border-color: #000000;
 }
 
 .cell-1 {
-    background-color: cyan;
-    border-color: cyan;
+    background-color: #00eeee;
+    border-color: #00ffff;
 }
 
 .cell-2 {
-    background-color: blue;
-    border-color: blue;
+    background-color: #0000ee;
+    border-color: #0000ff;
 }
 
 .cell-3 {
-    background-color: orange;
-    border-color: orange;
+    background-color: #ee9900;
+    border-color: #ffaa00;
 }
 
 .cell-4 {
-    background-color: yellow;
-    border-color: yellow;
+    background-color: #eeee00;
+    border-color: #ffff00;
 }
 
 .cell-5 {
-    background-color: lime;
-    border-color: lime;
+    border-color: #00ff00;
+    background-color: #00ee00;
 }
 
 .cell-6 {
-    background-color: #990099;
+    background-color: #880088;
     border-color: #990099;
 }
 
 .cell-7 {
-    background-color: red;
-    border-color: red;
+    background-color: #ee0000;
+    border-color: #ff0000;
 }
