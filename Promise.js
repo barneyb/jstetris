@@ -68,6 +68,10 @@ Promise = (function() {
         if (this === value) {
             throw new TypeError("Resolving a promise with itself is disallowed (")
         }
+        if (value instanceof Promise) {
+            value.then(this._resolve.bind(this), this._reject.bind(this));
+            return;
+        }
         this.state = FULFILLED;
         this.value = value;
         var self = this;
