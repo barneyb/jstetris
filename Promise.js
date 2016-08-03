@@ -47,10 +47,14 @@ Promise = (function() {
             this.updateHandlers.push(onUpdate);
         } else {
             setTimeout(function() {
-                if (this.state == FULFILLED) {
-                    p._resolve(onResolve == undefined ? this.value : onResolve(this.value));
-                } else if (this.state == REJECTED) {
-                    p._reject(onReject == undefined ? this.value : onReject(this.value));
+                try {
+                    if (this.state == FULFILLED) {
+                        p._resolve(onResolve == undefined ? this.value : onResolve(this.value))
+                    } else if (this.state == REJECTED) {
+                        p._reject(onReject == undefined ? this.value : onReject(this.value));
+                    }
+                } catch (e) {
+                    p._reject(e)
                 }
             }.bind(this));
         }
