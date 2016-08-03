@@ -72,10 +72,10 @@ Promise = (function() {
             }
             return;
         }
-        this.state = FULFILLED;
-        this.value = value;
         var self = this;
         setTimeout(function() {
+            self.state = FULFILLED;
+            self.value = value;
             self.resolveHandlers.forEach(function(it, i) {
                 var val = self.value;
                 var method = "_resolve";
@@ -90,18 +90,18 @@ Promise = (function() {
                 self.chain[i][method](val);
             });
             self.resolveHandlers = null;
+            self.rejectHandlers = null;
+            self.updateHandlers = null;
         });
-        self.rejectHandlers = null;
-        self.updateHandlers = null;
     };
     Promise.prototype._reject = function _reject(reason) {
         if (this.state != PENDING) {
             return;
         }
-        this.state = REJECTED;
-        this.value = reason;
         var self = this;
         setTimeout(function() {
+            self.state = REJECTED;
+            self.value = reason;
             self.rejectHandlers.forEach(function(it, i) {
                 var val = self.value;
                 if (it != undefined) {
@@ -113,10 +113,10 @@ Promise = (function() {
                 }
                 self.chain[i]._reject(val);
             });
+            self.resolveHandlers = null;
             self.rejectHandlers = null;
+            self.updateHandlers = null;
         });
-        self.resolveHandlers = null;
-        self.updateHandlers = null;
     };
     Promise.prototype._update = function _update(value) {
         if (this.state != PENDING) {
