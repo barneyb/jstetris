@@ -51,7 +51,11 @@ Promise = (function() {
                     if (this.state == FULFILLED) {
                         p._resolve(onResolve == undefined ? this.value : onResolve(this.value))
                     } else if (this.state == REJECTED) {
-                        p._reject(onReject == undefined ? this.value : onReject(this.value));
+                        if (onReject == undefined) {
+                            p._reject(this.value);
+                        } else {
+                            p._resolve(onReject(this.value));
+                        }
                     }
                 } catch (e) {
                     p._reject(e)
@@ -122,14 +126,16 @@ Promise = (function() {
             this.value = reason;
             this.rejectHandlers.forEach(function(it, i) {
                 var val = this.value;
+                var method = "_resolve";
                 if (it != undefined) {
                     try {
                         val = it.call(undefined, val);
                     } catch (e) {
                         val = e;
+                        method = "_reject";
                     }
                 }
-                this.chain[i]._reject(val);
+                this.chain[i][method](val);
             }.bind(this));
             this.resolveHandlers = null;
             this.rejectHandlers = null;
