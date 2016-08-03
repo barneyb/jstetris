@@ -24,37 +24,37 @@ Promise = (function() {
         p.state = REJECTED;
         return p;
     };
-    Promise.prototype.then = function then(onResolve, onReject, onUpdate) {
-        if (typeof onResolve != 'function') {
-            onResolve = undefined;
+    Promise.prototype.then = function then(onFulfilled, onRejected, onUpdated) {
+        if (typeof onFulfilled != 'function') {
+            onFulfilled = undefined;
         }
-        if (typeof onReject != 'function') {
-            onReject = undefined;
+        if (typeof onRejected != 'function') {
+            onRejected = undefined;
         }
-        if (typeof onUpdate != 'function') {
-            onUpdate = undefined;
+        if (typeof onUpdated != 'function') {
+            onUpdated = undefined;
         }
-        if (onResolve == undefined && onReject == undefined) {
-            if (onUpdate != undefined) {
-                this.updateHandlers.push(onUpdate);
+        if (onFulfilled == undefined && onRejected == undefined) {
+            if (onUpdated != undefined) {
+                this.updateHandlers.push(onUpdated);
             }
             return this;
         }
         var p = new Promise();
         if (this.state == PENDING) {
-            this.resolveHandlers.push(onResolve);
-            this.rejectHandlers.push(onReject);
-            this.updateHandlers.push(onUpdate);
+            this.resolveHandlers.push(onFulfilled);
+            this.rejectHandlers.push(onRejected);
+            this.updateHandlers.push(onUpdated);
         } else {
             setTimeout(function() {
                 try {
                     if (this.state == FULFILLED) {
-                        p._resolve(onResolve == undefined ? this.value : onResolve(this.value))
+                        p._resolve(onFulfilled == undefined ? this.value : onFulfilled(this.value))
                     } else if (this.state == REJECTED) {
-                        if (onReject == undefined) {
+                        if (onRejected == undefined) {
                             p._reject(this.value);
                         } else {
-                            p._resolve(onReject(this.value));
+                            p._resolve(onRejected(this.value));
                         }
                     }
                 } catch (e) {
