@@ -65,6 +65,9 @@ Promise = (function() {
         if (this.state != PENDING) {
             throw new Error("Only pending promises can be resolved.")
         }
+        if (this === value) {
+            throw new TypeError("Resolving a promise with itself is disallowed (")
+        }
         this.state = FULFILLED;
         this.value = value;
         var self = this;
