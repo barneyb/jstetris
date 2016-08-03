@@ -76,7 +76,7 @@ Promise = (function() {
             value.then(this._resolve.bind(this), this._reject.bind(this));
             return;
         }
-        if (typeof value == 'object' || typeof value == 'function') {
+        if (value != null && (typeof value == 'object' || typeof value == 'function')) {
             try {
                 var _then = value.then;
                 if (typeof _then == 'function') {
