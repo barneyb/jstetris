@@ -71,10 +71,16 @@ Promise = (function() {
         setTimeout(function() {
             self.resolveHandlers.forEach(function(it, i) {
                 var val = self.value;
+                var method = "_resolve";
                 if (it != undefined) {
-                    val = it.call(undefined, val);
+                    try {
+                        val = it.call(undefined, val);
+                    } catch (e) {
+                        val = e;
+                        method = "_reject";
+                    }
                 }
-                self.chain[i]._resolve(val);
+                self.chain[i][method](val);
             });
             self.resolveHandlers = null;
         });
@@ -92,7 +98,11 @@ Promise = (function() {
             self.rejectHandlers.forEach(function(it, i) {
                 var val = self.value;
                 if (it != undefined) {
-                    val = it.call(undefined, val);
+                    try {
+                        val = it.call(undefined, val);
+                    } catch (e) {
+                        val = e;
+                    }
                 }
                 self.chain[i]._reject(val);
             });
