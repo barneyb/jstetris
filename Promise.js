@@ -24,6 +24,12 @@ Promise = (function() {
         throw new Error("Promise.race is not supported");
     };
     Promise.prototype.then = function then(onResolve, onReject, onUpdate) {
+        if (onResolve == null && onReject == null) {
+            if (onUpdate != null) {
+                this.updateHandlers.push(onUpdate);
+            }
+            return this;
+        }
         this.resolveHandlers.push(onResolve);
         this.rejectHandlers.push(onReject);
         this.updateHandlers.push(onUpdate);
