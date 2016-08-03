@@ -18,12 +18,6 @@ Promise = (function() {
     Promise.reject = function reject(reason) {
         return new Promise(function(_, r) { r(reason); });
     };
-    Promise.all = function all(promises) {
-        throw new Error("Promise.all is not supported");
-    };
-    Promise.race = function all(promises) {
-        throw new Error("Promise.race is not supported");
-    };
     Promise.prototype.then = function then(onResolve, onReject, onUpdate) {
         if (typeof onResolve != 'function') {
             onResolve = undefined;
@@ -54,12 +48,6 @@ Promise = (function() {
         }
         this.chain.push(p);
         return p;
-    };
-    Promise.prototype.catch = function (onReject) {
-        throw new Error("Promise.catch is not supported");
-    };
-    Promise.prototype.finally = function (onSettle, onUpdate) {
-        throw new Error("Promise.finally is not supported");
     };
     Promise.prototype._resolve = function _resolve(value) {
         if (this.state != PENDING) {
