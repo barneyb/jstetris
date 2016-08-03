@@ -65,22 +65,22 @@ Promise = (function() {
         this.chain.push(p);
         return p;
     };
-    Promise.prototype._resolve = function _resolve(value) {
+    Promise.prototype._resolve = function _resolve(x) {
         if (this.state != PENDING) {
             return;
         }
-        if (this === value) {
+        if (this === x) {
             throw new TypeError("Resolving a promise with itself is disallowed")
         }
-        if (value instanceof Promise) {
-            value.then(this._resolve.bind(this), this._reject.bind(this));
+        if (x instanceof Promise) {
+            x.then(this._resolve.bind(this), this._reject.bind(this));
             return;
         }
-        if (value != null && (typeof value == 'object' || typeof value == 'function')) {
+        if (x != null && (typeof x == 'object' || typeof x == 'function')) {
             try {
-                var _then = value.then;
+                var _then = x.then;
                 if (typeof _then == 'function') {
-                    _then.call(value, this._resolve.bind(this), this._reject.bind(this));
+                    _then.call(x, this._resolve.bind(this), this._reject.bind(this));
                     return;
                 }
             } catch (e) {
@@ -95,7 +95,7 @@ Promise = (function() {
                 return;
             }
             this.state = FULFILLED;
-            this.value = value;
+            this.value = x;
             this.resolveHandlers.forEach(function(it, i) {
                 var val = this.value;
                 var method = "_resolve";
