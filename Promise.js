@@ -3,7 +3,7 @@ Promise = (function() {
         FULFILLED = 'fulfilled',
         REJECTED = 'rejected';
     function Promise(work) {
-        this.value = null;
+        this.value = undefined;
         this.state = PENDING;
         // four parallel arrays. Ick.
         this.chain = [];
@@ -71,7 +71,7 @@ Promise = (function() {
         setTimeout(function() {
             self.resolveHandlers.forEach(function(it, i) {
                 var val = self.value;
-                if (it != null) {
+                if (it != undefined) {
                     val = it.call(undefined, val);
                 }
                 self.chain[i]._resolve(val);
@@ -91,7 +91,7 @@ Promise = (function() {
         setTimeout(function() {
             self.rejectHandlers.forEach(function(it, i) {
                 var val = self.value;
-                if (it != null) {
+                if (it != undefined) {
                     val = it.call(undefined, val);
                 }
                 self.chain[i]._reject(val);
@@ -109,7 +109,7 @@ Promise = (function() {
         setTimeout(function() {
             self.updateHandlers.forEach(function(it, i) {
                 var val = value;
-                if (it != null) {
+                if (it != undefined) {
                     try {
                         val = it.call(undefined, val);
                     } catch (e) {
