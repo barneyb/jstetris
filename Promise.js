@@ -72,10 +72,6 @@ Promise = (function() {
         if (this === x) {
             throw new TypeError("Resolving a promise with itself is disallowed")
         }
-        if (x instanceof Promise) {
-            x.then(this._resolve.bind(this), this._reject.bind(this));
-            return;
-        }
         if (x != null && (typeof x == 'object' || typeof x == 'function')) {
             try {
                 var _then = x.then;
