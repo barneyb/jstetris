@@ -111,9 +111,6 @@ Promise = (function() {
         }.bind(this));
     };
     Promise.prototype._reject = function _reject(r) {
-        if (this.state != PENDING) {
-            return;
-        }
         setTimeout(function() {
             if (this.state != PENDING) {
                 return;
