@@ -68,17 +68,19 @@ Promise = (function() {
             value.then(this._resolve.bind(this), this._reject.bind(this));
             return;
         }
-        try {
-            var _then = value.then;
-            if (typeof _then == 'function') {
-                _then.call(value, this._resolve.bind(this), this._reject.bind(this));
+        if (typeof value == 'object' || typeof value == 'function') {
+            try {
+                var _then = value.then;
+                if (typeof _then == 'function') {
+                    _then.call(value, this._resolve.bind(this), this._reject.bind(this));
+                    return;
+                }
+            } catch (e) {
+                if (this.state == PENDING) {
+                    this._reject(e);
+                }
                 return;
             }
-        } catch (e) {
-            if (this.state == PENDING) {
-                this._reject(e);
-            }
-            return;
         }
         setTimeout(function() {
             if (this.state != PENDING) {
