@@ -41,16 +41,18 @@ Promise = (function() {
             return this;
         }
         var p = new Promise();
-        if (this.state == FULFILLED) {
-            p.value = onResolve == undefined ? this.value : onResolve(this.value);
-            p.state = FULFILLED;
-        } else if (this.state == REJECTED) {
-            p.value = onReject == undefined ? this.value : onReject(this.value);
-            p.state = REJECTED;
-        } else {
+        if (this.state == PENDING) {
             this.resolveHandlers.push(onResolve);
             this.rejectHandlers.push(onReject);
             this.updateHandlers.push(onUpdate);
+        } else {
+            setTimeout(function() {
+                if (this.state == FULFILLED) {
+                    p._resolve(onResolve == undefined ? this.value : onResolve(this.value));
+                } else if (this.state == REJECTED) {
+                    p._reject(onReject == undefined ? this.value : onReject(this.value));
+                }
+            }.bind(this));
         }
         this.chain.push(p);
         return p;
