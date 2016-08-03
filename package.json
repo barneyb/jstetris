@@ -3,6 +3,6 @@
         "promises-aplus-tests": "*"
     },
     "scripts": {
-        "test": "promises-aplus-tests test/promise-aplus-adapter"
+        "test": "promises-aplus-tests test/promise-aplus-adapter --bail"
     }
 }
