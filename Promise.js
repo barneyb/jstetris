@@ -114,7 +114,7 @@ Promise = (function() {
             this.updateHandlers = null;
         }.bind(this));
     };
-    Promise.prototype._reject = function _reject(reason) {
+    Promise.prototype._reject = function _reject(r) {
         if (this.state != PENDING) {
             return;
         }
@@ -123,7 +123,7 @@ Promise = (function() {
                 return;
             }
             this.state = REJECTED;
-            this.value = reason;
+            this.value = r;
             this.rejectHandlers.forEach(function(it, i) {
                 var val = this.value;
                 var method = "_resolve";
