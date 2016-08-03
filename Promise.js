@@ -99,7 +99,11 @@ Promise = (function() {
             self.updateHandlers.forEach(function(it, i) {
                 var val = value;
                 if (it != null) {
-                    val = it.call(undefined, val);
+                    try {
+                        val = it.call(undefined, val);
+                    } catch (e) {
+                        return;
+                    }
                 }
                 self.chain[i]._update(val);
             })
