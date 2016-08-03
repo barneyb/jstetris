@@ -44,24 +44,22 @@ Promise = (function() {
     Promise.prototype.finally = function (onSettle, onUpdate) {
         throw new Error("Promise.finally is not supported");
     };
-    function doHandlers(p, key, value) {
-        setTimeout(function() {
-            p[key + 'Handlers'].forEach(function(it, i) {
-                var val = value;
-                if (it != null) {
-                    val = it.call(undefined, val);
-                }
-                p.chain[i]['_' + key](val);
-            })
-        });
-    }
     Promise.prototype._resolve = function _resolve(value) {
         if (this.state != PENDING) {
             throw new Error("Only pending promises can be resolved.")
         }
         this.state = FULFILLED;
         this.value = value;
-        doHandlers(this, 'resolve', this.value);
+        var self = this;
+        setTimeout(function() {
+            self.resolveHandlers.forEach(function(it, i) {
+                var val = self.value;
+                if (it != null) {
+                    val = it.call(undefined, val);
+                }
+                self.chain[i]._resolve(val);
+            })
+        });
     };
     Promise.prototype._reject = function _reject(reason) {
         if (this.state != PENDING) {
@@ -69,13 +67,31 @@ Promise = (function() {
         }
         this.state = REJECTED;
         this.value = reason;
-        doHandlers(this, 'reject', this.value);
+        var self = this;
+        setTimeout(function() {
+            self.rejectHandlers.forEach(function(it, i) {
+                var val = self.value;
+                if (it != null) {
+                    val = it.call(undefined, val);
+                }
+                self.chain[i]._reject(val);
+            })
+        });
     };
     Promise.prototype._update = function _update(value) {
         if (this.state != PENDING) {
             throw new Error("Only pending promises can be updated.")
         }
-        doHandlers(this, 'update', value);
+        var self = this;
+        setTimeout(function() {
+            self.updateHandlers.forEach(function(it, i) {
+                var val = value;
+                if (it != null) {
+                    val = it.call(undefined, val);
+                }
+                self.chain[i]._update(val);
+            })
+        });
     };
     return Promise;
 }());
