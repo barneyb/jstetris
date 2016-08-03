@@ -12,10 +12,10 @@ Promise = (function() {
         this.updateHandlers = [];
         work && work(this._resolve.bind(this), this._reject.bind(this), this._update.bind(this));
     }
-    Promise.resolve = function resolve(value) {
+    Promise.resolved = function resolved(value) {
         return new Promise(function(r) { r(value); });
     };
-    Promise.reject = function reject(reason) {
+    Promise.rejected = function rejected(reason) {
         return new Promise(function(_, r) { r(reason); });
     };
     Promise.prototype.then = function then(onResolve, onReject, onUpdate) {

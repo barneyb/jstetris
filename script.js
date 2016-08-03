@@ -111,7 +111,7 @@ model.on('change:score', function(s) {
 model.on('game-over', function() {
     d.resolve(model.score);
 });
-d.promise().then(function(s) {
+d.promise.then(function(s) {
     if (scoreInterval != null) {
         clearInterval(scoreInterval);
         scoreInterval = null;
