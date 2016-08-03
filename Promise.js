@@ -5,6 +5,7 @@ Promise = (function() {
     function Promise(work) {
         this.value = null;
         this.state = PENDING;
+        // four parallel arrays. Ick.
         this.chain = [];
         this.resolveHandlers = [];
         this.rejectHandlers = [];
@@ -39,9 +40,6 @@ Promise = (function() {
             }
             return this;
         }
-        this.resolveHandlers.push(onResolve);
-        this.rejectHandlers.push(onReject);
-        this.updateHandlers.push(onUpdate);
         var p = new Promise();
         if (this.state == FULFILLED) {
             p.value = onResolve == undefined ? this.value : onResolve(this.value);
@@ -49,6 +47,10 @@ Promise = (function() {
         } else if (this.state == REJECTED) {
             p.value = onReject == undefined ? this.value : onReject(this.value);
             p.state = REJECTED;
+        } else {
+            this.resolveHandlers.push(onResolve);
+            this.rejectHandlers.push(onReject);
+            this.updateHandlers.push(onUpdate);
         }
         this.chain.push(p);
         return p;
