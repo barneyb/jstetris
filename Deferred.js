@@ -16,3 +16,7 @@ Deferred.prototype.update = function update(value) {
     this._promise._update(value);
     return this;
 };
+
+if (typeof module != 'undefined' && module && module.exports) {
+    module.exports = Deferred;
+}

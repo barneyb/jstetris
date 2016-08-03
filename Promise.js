@@ -139,3 +139,7 @@ Promise = (function() {
     };
     return Promise;
 }());
+
+if (typeof module != 'undefined' && module.exports) {
+    module.exports = Promise;
+}
