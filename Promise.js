@@ -13,10 +13,16 @@ Promise = (function() {
         work && work(this._resolve.bind(this), this._reject.bind(this), this._update.bind(this));
     }
     Promise.resolved = function resolved(value) {
-        return new Promise(function(r) { r(value); });
+        var p = new Promise();
+        p.value = value;
+        p.state = FULFILLED;
+        return p;
     };
     Promise.rejected = function rejected(reason) {
-        return new Promise(function(_, r) { r(reason); });
+        var p = new Promise();
+        p.value = reason;
+        p.state = REJECTED;
+        return p;
     };
     Promise.prototype.then = function then(onResolve, onReject, onUpdate) {
         if (typeof onResolve != 'function') {
