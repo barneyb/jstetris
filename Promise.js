@@ -24,8 +24,17 @@ Promise = (function() {
         throw new Error("Promise.race is not supported");
     };
     Promise.prototype.then = function then(onResolve, onReject, onUpdate) {
-        if (onResolve == null && onReject == null) {
-            if (onUpdate != null) {
+        if (typeof onResolve != 'function') {
+            onResolve = undefined;
+        }
+        if (typeof onReject != 'function') {
+            onReject = undefined;
+        }
+        if (typeof onUpdate != 'function') {
+            onUpdate = undefined;
+        }
+        if (onResolve == undefined && onReject == undefined) {
+            if (onUpdate != undefined) {
                 this.updateHandlers.push(onUpdate);
             }
             return this;
@@ -35,10 +44,10 @@ Promise = (function() {
         this.updateHandlers.push(onUpdate);
         var p = new Promise();
         if (this.state == FULFILLED) {
-            p.value = onResolve == null ? this.value : onResolve(this.value);
+            p.value = onResolve == undefined ? this.value : onResolve(this.value);
             p.state = FULFILLED;
         } else if (this.state == REJECTED) {
-            p.value = onReject == null ? this.value : onReject(this.value);
+            p.value = onReject == undefined ? this.value : onReject(this.value);
             p.state = REJECTED;
         }
         this.chain.push(p);
