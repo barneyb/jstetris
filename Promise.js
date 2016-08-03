@@ -74,6 +74,9 @@ Promise = (function() {
         }
         var self = this;
         setTimeout(function() {
+            if (self.state != PENDING) {
+                return;
+            }
             self.state = FULFILLED;
             self.value = value;
             self.resolveHandlers.forEach(function(it, i) {
@@ -100,6 +103,9 @@ Promise = (function() {
         }
         var self = this;
         setTimeout(function() {
+            if (self.state != PENDING) {
+                return;
+            }
             self.state = REJECTED;
             self.value = reason;
             self.rejectHandlers.forEach(function(it, i) {
@@ -124,6 +130,9 @@ Promise = (function() {
         }
         var self = this;
         setTimeout(function() {
+            if (self.state != PENDING) {
+                return;
+            }
             self.updateHandlers.forEach(function(it, i) {
                 var val = value;
                 if (it != undefined) {
