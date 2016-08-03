@@ -80,15 +80,14 @@ Promise = (function() {
             }
             return;
         }
-        var self = this;
         setTimeout(function() {
-            if (self.state != PENDING) {
+            if (this.state != PENDING) {
                 return;
             }
-            self.state = FULFILLED;
-            self.value = value;
-            self.resolveHandlers.forEach(function(it, i) {
-                var val = self.value;
+            this.state = FULFILLED;
+            this.value = value;
+            this.resolveHandlers.forEach(function(it, i) {
+                var val = this.value;
                 var method = "_resolve";
                 if (it != undefined) {
                     try {
@@ -98,26 +97,25 @@ Promise = (function() {
                         method = "_reject";
                     }
                 }
-                self.chain[i][method](val);
-            });
-            self.resolveHandlers = null;
-            self.rejectHandlers = null;
-            self.updateHandlers = null;
-        });
+                this.chain[i][method](val);
+            }.bind(this));
+            this.resolveHandlers = null;
+            this.rejectHandlers = null;
+            this.updateHandlers = null;
+        }.bind(this));
     };
     Promise.prototype._reject = function _reject(reason) {
         if (this.state != PENDING) {
             return;
         }
-        var self = this;
         setTimeout(function() {
-            if (self.state != PENDING) {
+            if (this.state != PENDING) {
                 return;
             }
-            self.state = REJECTED;
-            self.value = reason;
-            self.rejectHandlers.forEach(function(it, i) {
-                var val = self.value;
+            this.state = REJECTED;
+            this.value = reason;
+            this.rejectHandlers.forEach(function(it, i) {
+                var val = this.value;
                 if (it != undefined) {
                     try {
                         val = it.call(undefined, val);
@@ -125,23 +123,22 @@ Promise = (function() {
                         val = e;
                     }
                 }
-                self.chain[i]._reject(val);
-            });
-            self.resolveHandlers = null;
-            self.rejectHandlers = null;
-            self.updateHandlers = null;
-        });
+                this.chain[i]._reject(val);
+            }.bind(this));
+            this.resolveHandlers = null;
+            this.rejectHandlers = null;
+            this.updateHandlers = null;
+        }.bind(this));
     };
     Promise.prototype._update = function _update(value) {
         if (this.state != PENDING) {
             throw new Error("Only pending promises can be updated.");
         }
-        var self = this;
         setTimeout(function() {
-            if (self.state != PENDING) {
+            if (this.state != PENDING) {
                 return;
             }
-            self.updateHandlers.forEach(function(it, i) {
+            this.updateHandlers.forEach(function(it, i) {
                 var val = value;
                 if (it != undefined) {
                     try {
@@ -150,9 +147,9 @@ Promise = (function() {
                         return;
                     }
                 }
-                self.chain[i]._update(val);
-            })
-        });
+                this.chain[i]._update(val);
+            }.bind(this))
+        }.bind(this));
     };
     return Promise;
 }());
