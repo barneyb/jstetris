@@ -64,8 +64,11 @@ Promise = (function() {
                     val = it.call(undefined, val);
                 }
                 self.chain[i]._resolve(val);
-            })
+            });
+            self.resolveHandlers = null;
         });
+        self.rejectHandlers = null;
+        self.updateHandlers = null;
     };
     Promise.prototype._reject = function _reject(reason) {
         if (this.state != PENDING) {
@@ -81,8 +84,11 @@ Promise = (function() {
                     val = it.call(undefined, val);
                 }
                 self.chain[i]._reject(val);
-            })
+            });
+            self.rejectHandlers = null;
         });
+        self.resolveHandlers = null;
+        self.updateHandlers = null;
     };
     Promise.prototype._update = function _update(value) {
         if (this.state != PENDING) {
