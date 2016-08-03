@@ -63,7 +63,7 @@ Promise = (function() {
     };
     Promise.prototype._resolve = function _resolve(value) {
         if (this.state != PENDING) {
-            throw new Error("Only pending promises can be resolved.")
+            return;
         }
         if (this === value) {
             throw new TypeError("Resolving a promise with itself is disallowed (")
@@ -108,7 +108,7 @@ Promise = (function() {
     };
     Promise.prototype._reject = function _reject(reason) {
         if (this.state != PENDING) {
-            throw new Error("Only pending promises can be rejected.")
+            return;
         }
         this.state = REJECTED;
         this.value = reason;
@@ -132,7 +132,7 @@ Promise = (function() {
     };
     Promise.prototype._update = function _update(value) {
         if (this.state != PENDING) {
-            throw new Error("Only pending promises can be updated.")
+            throw new Error("Only pending promises can be updated.");
         }
         var self = this;
         setTimeout(function() {
