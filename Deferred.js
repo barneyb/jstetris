@@ -9,7 +9,7 @@ Deferred.prototype.resolve = function resolve(value) {
     return this;
 };
 Deferred.prototype.reject = function reject(reason) {
-    this._promise._reject(value);
+    this._promise._reject(reason);
     return this;
 };
 Deferred.prototype.update = function update(value) {
